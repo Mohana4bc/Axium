@@ -110,16 +110,16 @@ sap.ui.define([
 			var oWH = oRef.getView().byId("warehouseWarehouseScreenId");
 
 			oMat.clearSelection();
-			oStoragetype.clearSelection();
+			// oStoragetype.clearSelection();
 			oStoragebin.clearSelection();
 			oWH.clearSelection();
 		},
 
-		getMaterialNumber: function (oEvent) {
-			sap.ui.getCore().matNum = this.getView().byId("materialWarehouseScreenId").getSelectedItem().getAdditionalText();
-			console.log(sap.ui.getCore().matNum);
-			this.selectStorageBin();
-		},
+		// getMaterialNumber: function (oEvent) {
+		// 	sap.ui.getCore().matNum = this.getView().byId("materialWarehouseScreenId").getSelectedItem().getAdditionalText();
+		// 	console.log(sap.ui.getCore().matNum);
+		// 	this.selectStorageBin();
+		// },
 
 		/**
 		 * Similar to onAfterRendering, but this hook is invoked before the controller's View is re-rendered
@@ -169,63 +169,102 @@ sap.ui.define([
 			}
 		},
 
-		selectStorageType: function (oEvent) {
+		// selectStorageType: function (oEvent) {
+		// 	var warehouseno = this.getView().byId("warehouseWarehouseScreenId").getSelectedItem().getText();
+		// 	var that = this;
+		// 	// MaterialsSet ? $filter = WareHouseNumber eq 'A01'
+		// 	// and StorageTyp eq 'ZA2'
+		// 	// var storagetype = "";
+		// 	this.odataService.read("/StorageTypeSet?$filter=WareHouseNumber eq '" + warehouseno + "'", null, null, false, function (response) {
+		// 		if (that.getView().byId("storageTypeWarehouseScreenId") !== undefined) {
+		// 			that.getView().byId("storageTypeWarehouseScreenId").destroyItems();
+		// 		}
+		// 		console.log(response);
+		// 		for (var i = 0; i < response.results.length; i++) {
+		// 			that.getView().byId("storageTypeWarehouseScreenId").addItem(
+		// 				new sap.ui.core.ListItem({
+		// 					text: response.results[i].StorageTyp,
+		// 					key: response.results[i].StorageTyp,
+		// 					additionalText: response.results[i].StrTypDesc
+		// 				}));
+		// 		}
+		// 	});
+
+		// },
+
+		// selectMaterial: function (oEvent) {
+		// 	var warehouseno = this.getView().byId("warehouseWarehouseScreenId").getValue();
+		// 	var storagetype = this.getView().byId("storageTypeWarehouseScreenId").getSelectedItem().getText();
+		// 	var that = this;
+		// 	this.odataService.read("/MaterialsSet?$filter=WareHouseNumber eq '" + warehouseno + "' and StorageTyp eq '" + storagetype + "'",
+		// 		null, null, false,
+		// 		function (response) {
+		// 			if (that.getView().byId("materialWarehouseScreenId") !== undefined) {
+		// 				that.getView().byId("materialWarehouseScreenId").destroyItems();
+		// 			}
+		// 			for (var i = 0; i < response.results.length; i++) {
+		// 				that.getView().byId("materialWarehouseScreenId").addItem(
+		// 					new sap.ui.core.ListItem({
+		// 						// text: response.results[i].Material,
+		// 						// key: response.results[i].Material,
+		// 						// additionalText: response.results[i].MaterialDesc
+
+		// 						text: response.results[i].MaterialDesc,
+		// 						key: response.results[i].MaterialDesc,
+		// 						additionalText: response.results[i].Material
+
+		// 					}));
+		// 			}
+		// 		});
+
+		// },
+
+		// selectStorageBin: function (oEvent) {
+
+		// 	var warehouseno = this.getView().byId("warehouseWarehouseScreenId").getValue();
+		// 	var storagetypenumber = this.getView().byId("storageTypeWarehouseScreenId").getValue();
+		// 	sap.ui.getCore().matNum = this.getView().byId("materialWarehouseScreenId").getSelectedItem().getAdditionalText();
+		// 	// var materialnumber = this.getView().byId("materialWarehouseScreenId").getValue();
+		// 	// var materialnumber = "";
+		// 	var that = this;
+		// 	setTimeout(function () {
+		// 		that.odataService.read("/StorageBinsSet?$filter=WareHouseNumber eq '" + warehouseno + "' and StorageTyp eq '" +
+		// 			storagetypenumber +
+		// 			"' and Material eq '" + sap.ui.getCore().matNum + "'", null, null, false,
+		// 			function (response) {
+		// 				if (that.getView().byId("storageBinWarehouseScreenId") !== undefined) {
+		// 					that.getView().byId("storageBinWarehouseScreenId").destroyItems();
+		// 				}
+		// 				for (var i = 0; i < response.results.length; i++) {
+		// 					that.getView().byId("storageBinWarehouseScreenId").addItem(
+		// 						new sap.ui.core.ListItem({
+		// 							text: response.results[i].StorageBin,
+		// 							key: response.results[i].StorageBin
+		// 						}));
+		// 				}
+		// 			});
+		// 	}, 1000);
+
+		// 	// this.odataService.read("/PlantsSet", null, null, false, function (response) {
+		// 	// 	if (that.getView().byId("plantWarehouseScreenId") !== undefined) {
+		// 	// 		that.getView().byId("plantWarehouseScreenId").destroyItems();
+		// 	// 	}
+		// 	// 	for (var i = 0; i < response.results.length; i++) {
+		// 	// 		that.getView().byId("plantWarehouseScreenId").addItem(
+		// 	// 			new sap.ui.core.ListItem({
+		// 	// 				text: response.results[i].Plant,
+		// 	// 				key: response.results[i].Plant,
+		// 	// 				additionalText: response.results[i].PlantDesc
+		// 	// 			}));
+		// 	// 	}
+		// 	// });
+
+		// },
+
+		selectStorageBin: function () {
 			var warehouseno = this.getView().byId("warehouseWarehouseScreenId").getSelectedItem().getText();
-			var that = this;
-			// MaterialsSet ? $filter = WareHouseNumber eq 'A01'
-			// and StorageTyp eq 'ZA2'
-			// var storagetype = "";
-			this.odataService.read("/StorageTypeSet?$filter=WareHouseNumber eq '" + warehouseno + "'", null, null, false, function (response) {
-				if (that.getView().byId("storageTypeWarehouseScreenId") !== undefined) {
-					that.getView().byId("storageTypeWarehouseScreenId").destroyItems();
-				}
-				console.log(response);
-				for (var i = 0; i < response.results.length; i++) {
-					that.getView().byId("storageTypeWarehouseScreenId").addItem(
-						new sap.ui.core.ListItem({
-							text: response.results[i].StorageTyp,
-							key: response.results[i].StorageTyp,
-							additionalText: response.results[i].StrTypDesc
-						}));
-				}
-			});
-
-		},
-
-		selectMaterial: function (oEvent) {
-			var warehouseno = this.getView().byId("warehouseWarehouseScreenId").getValue();
-			var storagetype = this.getView().byId("storageTypeWarehouseScreenId").getSelectedItem().getText();
-			var that = this;
-			this.odataService.read("/MaterialsSet?$filter=WareHouseNumber eq '" + warehouseno + "' and StorageTyp eq '" + storagetype + "'",
-				null, null, false,
-				function (response) {
-					if (that.getView().byId("materialWarehouseScreenId") !== undefined) {
-						that.getView().byId("materialWarehouseScreenId").destroyItems();
-					}
-					for (var i = 0; i < response.results.length; i++) {
-						that.getView().byId("materialWarehouseScreenId").addItem(
-							new sap.ui.core.ListItem({
-								// text: response.results[i].Material,
-								// key: response.results[i].Material,
-								// additionalText: response.results[i].MaterialDesc
-
-								text: response.results[i].MaterialDesc,
-								key: response.results[i].MaterialDesc,
-								additionalText: response.results[i].Material
-
-							}));
-					}
-				});
-
-		},
-
-		selectStorageBin: function (oEvent) {
-
-			var warehouseno = this.getView().byId("warehouseWarehouseScreenId").getValue();
-			var storagetypenumber = this.getView().byId("storageTypeWarehouseScreenId").getValue();
-			sap.ui.getCore().matNum = this.getView().byId("materialWarehouseScreenId").getSelectedItem().getAdditionalText();
-			// var materialnumber = this.getView().byId("materialWarehouseScreenId").getValue();
-			// var materialnumber = "";
+			var storagetypenumber = "";
+			sap.ui.getCore().matNum = "";
 			var that = this;
 			setTimeout(function () {
 				that.odataService.read("/StorageBinsSet?$filter=WareHouseNumber eq '" + warehouseno + "' and StorageTyp eq '" +
@@ -244,21 +283,57 @@ sap.ui.define([
 						}
 					});
 			}, 1000);
+		},
+		SelectStorageType: function () {
+			var warehouseNumber = this.getView().byId("warehouseWarehouseScreenId").getValue();
+			var storageBin = this.getView().byId("storageBinWarehouseScreenId").getSelectedItem().getText();
 
-			// this.odataService.read("/PlantsSet", null, null, false, function (response) {
-			// 	if (that.getView().byId("plantWarehouseScreenId") !== undefined) {
-			// 		that.getView().byId("plantWarehouseScreenId").destroyItems();
-			// 	}
-			// 	for (var i = 0; i < response.results.length; i++) {
-			// 		that.getView().byId("plantWarehouseScreenId").addItem(
-			// 			new sap.ui.core.ListItem({
-			// 				text: response.results[i].Plant,
-			// 				key: response.results[i].Plant,
-			// 				additionalText: response.results[i].PlantDesc
-			// 			}));
-			// 	}
-			// });
+			var that = this;
+			setTimeout(function () {
+				that.odataService.read("/AutoStorageTypeSet?$filter=BinNumber eq '" + storageBin + "' and WareHouseNumber eq '" +
+					warehouseNumber +
+					"'", null, null, false,
+					function (response) {
+						var strType = response.results[0].StorageType;
+						that.getView().byId("storageTypeWarehouseScreenId").setValue(strType);
+						that.odataService.read("/MaterialsSet?$filter=WareHouseNumber eq '" + warehouseNumber + "' and StorageTyp eq '" + strType +
+							"'",
+							null, null, false,
+							function (response) {
+								if (that.getView().byId("materialWarehouseScreenId") !== undefined) {
+									that.getView().byId("materialWarehouseScreenId").destroyItems();
+								}
+								for (var i = 0; i < response.results.length; i++) {
+									that.getView().byId("materialWarehouseScreenId").addItem(
+										new sap.ui.core.ListItem({
+											// text: response.results[i].Material,
+											// key: response.results[i].Material,
+											// additionalText: response.results[i].MaterialDesc
 
+											text: response.results[i].MaterialDesc,
+											key: response.results[i].MaterialDesc,
+											additionalText: response.results[i].Material
+
+										}));
+								}
+							});
+
+						// if (that.getView().byId("storageBinWarehouseScreenId") !== undefined) {
+						// 	that.getView().byId("storageBinWarehouseScreenId").destroyItems();
+						// }
+						// for (var i = 0; i < response.results.length; i++) {
+						// 	that.getView().byId("storageBinWarehouseScreenId").addItem(
+						// 		new sap.ui.core.ListItem({
+						// 			text: response.results[i].StorageBin,
+						// 			key: response.results[i].StorageBin
+						// 		}));
+						// }
+					});
+			}, 1000);
+			// that.SelectMaterial();
+		},
+		SelectMaterial: function () {
+			sap.ui.getCore().matNum = this.getView().byId("materialWarehouseScreenId").getSelectedItem().getAdditionalText();
 		},
 
 		onSubmitWarehouseScreen: function () {

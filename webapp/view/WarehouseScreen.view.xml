@@ -8,17 +8,17 @@
 					<f:SimpleForm columnsL="7" columnsM="7" editable="false" emptySpanL="1" emptySpanM="1" labelSpanL="4" labelSpanM="4"
 						layout="ResponsiveGridLayout" maxContainerCols="2" minWidth="1024">
 						<f:content>
-							<Label text="Warehouse Number" required="true" class="sapUiSmallMarginTop"></Label>
-							<ComboBox id="warehouseWarehouseScreenId" filterSecondaryValues="true" showSecondaryValues="true" placeholder="Select Warehouse Number"
-								selectionChange="selectStorageType"></ComboBox>
-							<Label text="Storage Bin" class="sapUiSmallMarginTop"></Label>
-							<ComboBox id="storageBinWarehouseScreenId" filterSecondaryValues="true" showSecondaryValues="true" placeholder="Select Storage Bin"></ComboBox>
-							<Label text="Storage Type" class="sapUiSmallMarginTop"></Label>
-							<ComboBox id="storageTypeWarehouseScreenId" filterSecondaryValues="true" showSecondaryValues="true" placeholder="Select Storage Type"
-								selectionChange="selectMaterial"></ComboBox>
-							<Label text="Material" class="sapUiSmallMarginTop"></Label>
-							<ComboBox id="materialWarehouseScreenId" filterSecondaryValues="true" showSecondaryValues="true" selectionChange="selectStorageBin"
-								placeholder="Select Material"></ComboBox>
+							<!--<Label text="Warehouse Number" required="true" class="sapUiSmallMarginTop"></Label>-->
+							<!--<ComboBox id="warehouseWarehouseScreenId" filterSecondaryValues="true" showSecondaryValues="true" placeholder="Select Warehouse Number"-->
+							<!--	selectionChange="selectStorageType"></ComboBox>-->
+							<!--<Label text="Storage Bin" class="sapUiSmallMarginTop"></Label>-->
+							<!--<ComboBox id="storageBinWarehouseScreenId" filterSecondaryValues="true" showSecondaryValues="true" placeholder="Select Storage Bin"></ComboBox>-->
+							<!--<Label text="Storage Type" class="sapUiSmallMarginTop"></Label>-->
+							<!--<ComboBox id="storageTypeWarehouseScreenId" filterSecondaryValues="true" showSecondaryValues="true" placeholder="Select Storage Type"-->
+							<!--	selectionChange="selectMaterial"></ComboBox>-->
+							<!--<Label text="Material" class="sapUiSmallMarginTop"></Label>-->
+							<!--<ComboBox id="materialWarehouseScreenId" filterSecondaryValues="true" showSecondaryValues="true" selectionChange="selectStorageBin"-->
+							<!--	placeholder="Select Material"></ComboBox>-->
 							<!--items="{ 
 											path: '/material',
 											sorter: { path: '' }
@@ -46,6 +46,18 @@
 										}">
 								<core:ListItem key="{key}" text="{text}" additionalText="{key}"/>
 							</ComboBox>-->
+							<Label text="Warehouse Number" required="true" class="sapUiSmallMarginTop"></Label>
+							<ComboBox id="warehouseWarehouseScreenId" filterSecondaryValues="true" showSecondaryValues="true" placeholder="Select Warehouse Number"
+								selectionChange="selectStorageBin"></ComboBox>
+							<Label text="Storage Bin" class="sapUiSmallMarginTop"></Label>
+							<ComboBox id="storageBinWarehouseScreenId" filterSecondaryValues="true" showSecondaryValues="true" selectionChange="SelectStorageType"
+								placeholder="Select Storage Bin"></ComboBox>
+							<Label text="Storage Type" class="sapUiSmallMarginTop"></Label>
+							<Input value="" id="storageTypeWarehouseScreenId" enabled="false"></Input>
+							<!--<ComboBox id="storageTypeWarehouseScreenId" filterSecondaryValues="true" showSecondaryValues="true" placeholder="Select Storage Type"></ComboBox>-->
+							<Label text="Material" class="sapUiSmallMarginTop"></Label>
+							<ComboBox id="materialWarehouseScreenId" filterSecondaryValues="true" showSecondaryValues="true" placeholder="Select Material"
+								selectionChange="SelectMaterial"></ComboBox>
 						</f:content>
 					</f:SimpleForm>
 				</content>

@@ -26,9 +26,17 @@
 						<!--		<SearchField width="50%" search="onFilter"></SearchField>-->
 						<!--	</Toolbar>-->
 						<!--</headerToolbar>-->
+						<!--numberState="{= ${WarehouseScreenOutputModel>AvailableStock} > 0.000 ? 'Success' : 'Error' }"-->
+						<!--number="{ parts:[{path:'Price'},{path:'CurrencyCode'}], type: 'sap.ui.model.type.Currency', formatOptions: {showMeasure: false} }"-->
+						<!--{WarehouseScreenOutputModel>AvailableStock}-->
+						<!--numberUnit="{WarehouseScreenOutputModel>BaseUnitMeasure}"-->
+						<!--number="{ parts:[{path:'WarehouseScreenOutputModel>AvailableStock'}], formatOptions: {showMeasure: false} }"-->
+						<!--		numberUnit="{WarehouseScreenOutputModel>BaseUnitMeasure}"-->
+						<!--		numberState="{= ${WarehouseScreenOutputModel>AvailableStock} > 0.000 ? 'Success' : 'Error' }"-->
 						<items>
 							<ObjectListItem intro="{WarehouseScreenOutputModel>MaterialDesc}" title="{WarehouseScreenOutputModel>Material}"
-								number="{WarehouseScreenOutputModel>AvailableStock}" numberUnit="{WarehouseScreenOutputModel>BaseUnitMeasure}"
+								number="{ parts:[{path:'WarehouseScreenOutputModel>AvailableStock'}], formatOptions: {showMeasure: false} }"
+								numberUnit="{WarehouseScreenOutputModel>BaseUnitMeasure}"
 								numberState="{= ${WarehouseScreenOutputModel>AvailableStock} > 0.000 ? 'Success' : 'Error' }">
 								<attributes>
 									<ObjectAttribute title="Batch Number" text="{WarehouseScreenOutputModel>Batch}"/>
@@ -37,10 +45,10 @@
 								<!--<firstStatus>-->
 								<!--	<ObjectStatus text="{WarehouseScreenOutputModel>AvailableStock} {WarehouseScreenOutputModel>BaseUnitMeasure}"/>-->
 								<!--</firstStatus>-->
-								<secondStatus>
-									<ObjectStatus
-										text="{ parts: [ {path: 'WarehouseScreenOutputModel>BaseUnitMeasure'}, {path: 'WarehouseScreenOutputModel>AvailableStock'} ], formatter: '.formatter.calculateInventory' }"></ObjectStatus>
-								</secondStatus>
+								<!--<secondStatus>-->
+								<!--<ObjectStatus-->
+								<!--text="{ parts: [ {path: 'WarehouseScreenOutputModel>BaseUnitMeasure'}, {path: 'WarehouseScreenOutputModel>AvailableStock'} ], formatter: '.formatter.calculateInventory' }"></ObjectStatus>-->
+								<!--</secondStatus>-->
 							</ObjectListItem>
 						</items>
 					</List>

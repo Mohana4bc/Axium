@@ -555,6 +555,11 @@ sap.ui.define([
 					// 	}
 					// });
 					// errorDetails
+					if (errorDetails.startsWith("RFC")) {
+						errorDetails = "All the HU 's are now scanned. Contact CSR for further postings";
+					} else {
+						errorDetails = errorDetails;
+					}
 
 					MessageBox.error(errorDetails, {
 						title: "Error",
