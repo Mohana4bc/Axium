@@ -575,19 +575,19 @@ sap.ui.define([
 						return batchFlag;
 					} else {
 						oRef.binGet();
-						oRef.aData.push({
-							ExternalHU: data.results[0].ExternalHU,
-							BatchNo: data.results[0].BatchNo,
-							ScannedQnty: data.results[0].ScannedQnty
-						});
+						// oRef.aData.push({
+						// 	ExternalHU: data.results[0].ExternalHU,
+						// 	BatchNo: data.results[0].BatchNo,
+						// 	ScannedQnty: data.results[0].ScannedQnty
+						// });
 
-						var oModel = new sap.ui.model.json.JSONModel();
+						// var oModel = new sap.ui.model.json.JSONModel();
 
-						oModel.setData({
-							HUSet: oRef.aData
-						});
-						oRef.getOwnerComponent().setModel(oModel, "oListHU");
-						oRef.onItemPress();
+						// oModel.setData({
+						// 	HUSet: oRef.aData
+						// });
+						// oRef.getOwnerComponent().setModel(oModel, "oListHU");
+						// oRef.onItemPress();
 
 					}
 				}

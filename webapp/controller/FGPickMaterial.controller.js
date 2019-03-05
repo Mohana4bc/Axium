@@ -67,6 +67,26 @@ sap.ui.define([
 			sap.ui.getCore().listFlag = "false";
 			sap.ui.getCore().doorFlag = this.getView().byId("doorid");
 			sap.ui.getCore().doorFlag.setEnabled(false);
+			var oTableData = oRef.getOwnerComponent().getModel("oDeliveryNo").getData();
+			sap.ui.getCore().reqSumFlag = 0;
+			sap.ui.getCore().scanSumFlag = 0;
+
+			$.each(oTableData, function (index, item) {
+
+				var i;
+				for (i = 0; i < item.length; i++) {
+					var temp = {};
+					temp.Quantity = parseFloat(item[i].Quantity);
+					temp.ScannedQuantity = parseFloat(item[i].ScannedQuantity);
+					sap.ui.getCore().reqSumFlag = sap.ui.getCore().reqSumFlag + temp.Quantity;
+					sap.ui.getCore().scanSumFlag = sap.ui.getCore().scanSumFlag + temp.ScannedQuantity;
+				}
+			});
+			if (sap.ui.getCore().scanSumFlag === sap.ui.getCore().reqSumFlag) {
+				sap.ui.getCore().doorFlag.setEnabled(true);
+			} else {
+				sap.ui.getCore().doorFlag.setEnabled(false);
+			}
 			// var doorEnable = oRef.getView().byId("doorid");
 			// doorEnable.setEnabled(false);
 		},
@@ -82,6 +102,23 @@ sap.ui.define([
 			var oTable = oRef.getView().byId("FGPickMaterials");
 			oTable.setMode("SingleSelectMaster");
 			oTable.removeSelections("true");
+			var oTableData = this.getView().getModel("oDeliveryNo").getData();
+			$.each(oTableData, function (index, item) {
+
+				var i;
+				for (i = 0; i < item.length; i++) {
+					var temp = {};
+					temp.Quantity = parseFloat(item[i].Quantity);
+					temp.ScannedQuantity = parseFloat(item[i].ScannedQuantity);
+					sap.ui.getCore().reqSumFlag = sap.ui.getCore().reqSumFlag + temp.Quantity;
+					sap.ui.getCore().scanSumFlag = sap.ui.getCore().scanSumFlag + temp.ScannedQuantity;
+				}
+			});
+			if (sap.ui.getCore().scanSumFlag === sap.ui.getCore().reqSumFlag) {
+				sap.ui.getCore().doorFlag.setEnabled(true);
+			} else {
+				sap.ui.getCore().doorFlag.setEnabled(false);
+			}
 			// var oTableData = this.getView().getModel("oDeliveryNo").getData();
 			// $.each(oTableData, function (index, item) {
 
@@ -155,6 +192,7 @@ sap.ui.define([
 							rtn = true;
 							return rtn;
 						} else {
+							sap.ui.getCore().doorFlag.setEnabled(false);
 							sap.ui.getCore().listFlag = true;
 							var oDelNum = sap.ui.getCore().delNum;
 							this.odataService.remove("/DeleteFGPickDeliverySet(DeliveryNo='" + oDelNum + "')", null, null, false, function (
