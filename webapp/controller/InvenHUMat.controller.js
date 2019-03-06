@@ -15,6 +15,7 @@ sap.ui.define([
 		onInit: function () {
 			this.odataService = new sap.ui.model.odata.ODataModel("/sap/opu/odata/sap/ZWM_GW_RFSCREENS_SRV/", true);
 			this.aData = [];
+			this.oList = this.getView().byId("idList");
 			this.getView().addEventDelegate({
 				onBeforeShow: jQuery.proxy(function (evt) {
 					this.onBeforeShow(evt);
@@ -29,13 +30,56 @@ sap.ui.define([
 			oRef.getView().getModel("InvenHUBin").setData(oRef.aData);
 			var oHU = oRef.getView().byId("idHUNum");
 			var oMatNum = oRef.getView().byId("idMatNum");
+			var oBatchNum = oRef.getView().byId("idBatchNum");
+			var oQty = oRef.getView().byId("idQty");
+			var oAddButton = oRef.getView().byId("idAdd");
+
 			if (sap.ui.getCore().InvenStrLocFlag === true) {
 				oMatNum.setVisible(false);
+				oBatchNum.setVisible(false);
+				oQty.setVisible(false);
+				oAddButton.setVisible(false);
 				oHU.setVisible(true);
 			} else {
 				if (sap.ui.getCore().InvenStrLocFlag === false) {
+					// oRef.odataService.read("/MaterialsSet?$filter=WareHouseNumber eq '" + sap.ui.getCore().WareHouseNum + "'",
+					// 	null, null, false,
+					// 	function (oData, oResponse) {
+					// 		if (oRef.getView().byId("idMatNum") !== undefined) {
+					// 			oRef.getView().byId("idMatNum").destroyItems();
+					// 		}
+					// 		for (var i = 0; i < oData.results.length; i++) {
+					// 			oRef.getView().byId("idMatNum").addItem(
+					// 				new sap.ui.core.ListItem({
+					// 					text: oData.results[i].MaterialDesc,
+					// 					//key: response.results[i].Material,
+					// 					additionalText: oData.results[i].Material
+					// 				}));
+					// 		}
+					// 	});
+					oRef.odataService.read("/MaterialsSet", null, null, false, function (response) {
+						if (oRef.getView().byId("idMatNum") !== undefined) {
+							oRef.getView().byId("idMatNum").destroyItems();
+						}
+						for (var i = 0; i < response.results.length; i++) {
+							oRef.getView().byId("idMatNum").addItem(
+								new sap.ui.core.ListItem({
+									// text: response.results[i].Material,
+									// key: response.results[i].Material,
+									// additionalText: response.results[i].MaterialDesc
+
+									text: response.results[i].MaterialDesc,
+									key: response.results[i].MaterialDesc,
+									additionalText: response.results[i].Material
+
+								}));
+						}
+					});
 					oHU.setVisible(false);
 					oMatNum.setVisible(true);
+					oBatchNum.setVisible(true);
+					oQty.setVisible(true);
+					oAddButton.setVisible(true);
 				}
 			}
 		},
@@ -69,16 +113,17 @@ sap.ui.define([
 			function cSuccess(data) {
 
 				if (data.Message === "Valid HU") {
-					oRef.aData.push({
-						ExternalHU: data.ExternalHU,
-					});
-					var oModel = new sap.ui.model.json.JSONModel();
+					oRef.getHUDetails();
+					// oRef.aData.push({
+					// 	ExternalHU: data.ExternalHU,
+					// });
+					// var oModel = new sap.ui.model.json.JSONModel();
 
-					oModel.setData({
-						HUBinSet: oRef.aData
-					});
-					oRef.getOwnerComponent().setModel(oModel, "InvenHUBin");
-					oRef.getView().byId("idHUNum").setValue("");
+					// oModel.setData({
+					// 	HUBinSet: oRef.aData
+					// });
+					// oRef.getOwnerComponent().setModel(oModel, "InvenHUBin");
+					// oRef.getView().byId("idHUNum").setValue("");
 
 				} else if (huNumber === "") {
 
@@ -94,6 +139,77 @@ sap.ui.define([
 			}
 
 		},
+		getHUDetails: function () {
+			var oRef = this;
+			var huNumber = oRef.getView().byId("idHUNum").getValue();
+			var tempMat = "";
+			this.odataService.read("/HUQtyDetailsSet?$filter=ExternalHU eq '" + huNumber + "' and Material eq '" + tempMat + "'", {
+				// this.odataService.read("/HUQtyDetailsSet?$filter=ExternalHU eq '00000000002000057331' and Material eq '000000003000000724' and ScannedQnty eq '0' and RequirementQnty eq '41600.000' and BinNumber eq 'U_ZONE'", {
+				success: cSuccess,
+				failed: cFailed
+			});
+
+			function cSuccess(data) {
+				var huBatch = data.results[0].BatchNo;
+				var hu = data.results[0].ExternalHU;
+				var ScannedQty = data.results[0].ScannedQnty;
+				var Material = data.results[0].Material;
+				var MatDesc = data.results[0].MaterialDesc;
+				// oRef.getView().byId("idBatchNum").setValue
+				// idQty
+				oRef.aData.push({
+					ExternalHU: hu,
+					Material: Material,
+					MatDesc: MatDesc,
+					StorageLocation: sap.ui.getCore().StorageLocation,
+					Plant: sap.ui.getCore().PlantNumber,
+					BatchNumber: huBatch,
+					Quantity: ScannedQty
+				});
+				var oModel = new sap.ui.model.json.JSONModel();
+
+				oModel.setData({
+					HUBinSet: oRef.aData
+				});
+				oRef.getOwnerComponent().setModel(oModel, "InvenHUBin");
+				oRef.getView().byId("idHUNum").setValue("");
+
+			}
+
+			function cFailed() {
+
+			}
+
+		},
+		selectMaterial: function (oEvent) {
+			sap.ui.getCore().globalMat = this.getView().byId("idMatNum").getSelectedItem().getAdditionalText();
+		},
+		onAddMaterial: function () {
+			var oRef = this;
+			var oMat = sap.ui.getCore().globalMat;
+			var oBatchNo = oRef.getView().byId("idBatchNum").getValue();
+			var oQty = oRef.getView().byId("idQty").getValue();
+			var oMat = oRef.getView().byId("idMatNum").getValue();
+			oRef.aData.push({
+				ExternalHU: "",
+				StorageLocation: sap.ui.getCore().StorageLocation,
+				Plant: sap.ui.getCore().PlantNumber,
+				BatchNumber: oBatchNo,
+				Quantity: oQty,
+				Material: sap.ui.getCore().globalMat,
+				MatDesc: oMat
+			});
+			var oModel = new sap.ui.model.json.JSONModel();
+
+			oModel.setData({
+				HUBinSet: oRef.aData
+			});
+			oRef.getOwnerComponent().setModel(oModel, "InvenHUBin");
+			oRef.getView().byId("idMatNum").setValue("");
+			oRef.getView().byId("idBatchNum").setValue("");
+			oRef.getView().byId("idQty").setValue("");
+
+		},
 		onPressBack: function () {
 			var oRef = this;
 			var oHU = oRef.getView().byId("idHUNum");
@@ -102,6 +218,29 @@ sap.ui.define([
 			sRouter.navTo("InventoryPlntStrloc", true);
 			oHU.setVisible(true);
 			oMatNum.setVisible(true);
+		},
+		onInvenSubmit: function () {
+			var data = {};
+			data.NavReconHeadItems = [];
+			var result = this.oList.getModel("InvenHUBin").getData();
+			var oRef = this;
+			data.Plant = sap.ui.getCore().PlantNumber;
+			data.StorageLocation = sap.ui.getCore().StorageLocation;
+			$.each(result.HUBinSet, function (index, item) {
+				var temp = {};
+				temp.Plant = sap.ui.getCore().PlantNumber;
+				temp.StorageLoc = sap.ui.getCore().StorageLocation;
+				temp.Batch = item.BatchNumber;
+				temp.Scannedqty = item.Quantity;
+				temp.Material = item.Material;
+				temp.Handlingunit = item.ExternalHU;
+				data.NavReconHeadItems.push(temp);
+			});
+			this.odataService.create("/ReconAppHeaderSet", data, null, function (odata, response) {
+				MessageBox.success("Data Saved");
+			}, function () {
+				MessageBox.error("Error Saving Data");
+			});
 		}
 
 		/**

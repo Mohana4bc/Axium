@@ -36,10 +36,11 @@
 								<!--<firstStatus>-->
 								<!--	<ObjectStatus text="{PlantScreenOutputModel>labst} {PlantScreenOutputModel>meins}"/>-->
 								<!--</firstStatus>-->
-								<!--<secondStatus>-->
-								<!--<ObjectStatus-->
-								<!--text="{ parts: [ {path: 'PlantScreenOutputModel>meins'}, {path: 'PlantScreenOutputModel>labst'} ], formatter: '.formatter.calculateInventory' }"></ObjectStatus>-->
-								<!--</secondStatus>-->
+								<secondStatus>
+									<!--<ObjectStatus-->
+									<!--	text="{ parts: [ {path: 'PlantScreenOutputModel>meins'}, {path: 'PlantScreenOutputModel>labst'} ], formatter: '.formatter.calculateInventory' }"></ObjectStatus>-->
+									<ObjectStatus text="{PlantScreenOutputModel>OutputEach} EA"></ObjectStatus>
+								</secondStatus>
 							</ObjectListItem>
 						</items>
 					</List>

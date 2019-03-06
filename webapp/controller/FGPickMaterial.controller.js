@@ -582,7 +582,8 @@ sap.ui.define([
 					console.log(response);
 					// var errorResponse = JSON.parse(odata.response.body);
 					var errorResponse = JSON.parse(odata.response.body);
-					var errorDetails = errorResponse.error.message.value;
+					var errorDetailsRFC = errorResponse.error.message.value;
+					var error1 = errorResponse.error.innererror.errordetails[0].message;
 					// var errorDetails = errorResponse.error.innererror.errordetails;
 					// var errorString = "";
 
@@ -593,19 +594,37 @@ sap.ui.define([
 					// 	}
 					// });
 					// errorDetails
-					if (errorDetails.startsWith("RFC")) {
-						errorDetails = "All the HU 's are now scanned. Contact CSR for further postings";
-					} else {
-						errorDetails = errorDetails;
-					}
+					if (errorDetailsRFC.startsWith("RFC")) {
+						errorDetailsRFC = "All the HU 's are now scanned. Contact CSR for further postings";
+						MessageBox.error(errorDetailsRFC, {
+							title: "Error",
+							Action: "OK",
+							onClose: function (oAction) {
+								if (oAction === "OK") {
+									var sHistory = History.getInstance();
+									var sPreviousHash = sHistory.getPreviousHash();
+									if (sPreviousHash !== undefined) {
+										window.history.go(-1);
+									} else {
+										var sRouter = sap.ui.core.UIComponent.getRouterFor(this);
+										sRouter.navTo("ScanDelNo", true);
+									}
+								}
+							},
+							styleClass: "",
+							initialFocus: null,
+							textDirection: sap.ui.core.TextDirection.Inherit
+						});
 
-					MessageBox.error(errorDetails, {
-						title: "Error",
-						onClose: null,
-						styleClass: "",
-						initialFocus: null,
-						textDirection: sap.ui.core.TextDirection.Inherit
-					});
+					} else {
+						MessageBox.error(error1, {
+							title: "Error",
+							onClose: null,
+							styleClass: "",
+							initialFocus: null,
+							textDirection: sap.ui.core.TextDirection.Inherit
+						});
+					}
 
 				});
 			this.getView().byId("doorid").setValue("");

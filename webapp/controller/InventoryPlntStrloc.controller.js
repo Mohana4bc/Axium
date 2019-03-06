@@ -55,7 +55,7 @@ sap.ui.define([
 			strLoc.setValue("");
 			plant.clearSelection();
 			strLoc.clearSelection();
-			sap.ui.getCore().InvenStrLocFlag="";
+			sap.ui.getCore().InvenStrLocFlag = "";
 		},
 		setEmpty: function (oEvent) {
 			var oRef = this;
@@ -85,12 +85,17 @@ sap.ui.define([
 					});
 			}, 1000);
 		},
+		onPressBack: function () {
+			var sRouter = sap.ui.core.UIComponent.getRouterFor(this);
+			sRouter.navTo("Home", true);
+		},
 		onInvenPlntStrLocSearch: function () {
-			var strLoc = this.getView().byId("storageLocationPlantScreenId").getValue();
-			if (strLoc === "FP01") {
+			sap.ui.getCore().StorageLocation = this.getView().byId("storageLocationPlantScreenId").getValue();
+			sap.ui.getCore().PlantNumber = this.getView().byId("plantPlantScreenId").getValue();
+			if (sap.ui.getCore().StorageLocation === "FP01") {
 				sap.ui.getCore().InvenStrLocFlag = true;
 			} else {
-				if (strLoc === "RM01") {
+				if (sap.ui.getCore().StorageLocation === "RM01") {
 					sap.ui.getCore().InvenStrLocFlag = false;
 				}
 			}
