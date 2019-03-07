@@ -10,7 +10,7 @@
 							<Label text="Plant" required="true" class="sapUiSmallMarginTop"></Label>
 							<ComboBox id="plantPlantScreenId" filterSecondaryValues="true" showSecondaryValues="true" placeholder="Select Plant"
 								selectionChange="selectStorageLocation" loadItems="plantLoad"></ComboBox>
-							<Label text="Storage Location" class="sapUiSmallMarginTop"></Label>
+							<Label text="Storage Location" required="true" class="sapUiSmallMarginTop"></Label>
 							<ComboBox id="storageLocationPlantScreenId" filterSecondaryValues="true" showSecondaryValues="true" placeholder="Select Storage Location"></ComboBox>
 						</f:content>
 					</f:SimpleForm>

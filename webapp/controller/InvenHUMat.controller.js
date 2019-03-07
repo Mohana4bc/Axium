@@ -87,55 +87,135 @@ sap.ui.define([
 			var oRef = this;
 			var huNumber = oRef.getView().byId("idHUNum").getValue();
 			var aData = oRef.getView().getModel("InvenHUBin");
-			if (aData !== undefined) {
-				var aData = oRef.getOwnerComponent().getModel("InvenHUBin").getData();
-				var extFlag = true;
-				$.each(aData.HUBinSet, function (index, item) {
-
-					if (item.ExternalHU === huNumber) {
-						extFlag = false;
-						oRef.getView().byId("idHUNum").setValue("");
-						sap.m.MessageBox.alert("HU Number is already scanned", {
-							title: "Information"
-						});
-					}
-				});
+			var hFlag = false;
+			// var huNumber = oRef.getView().byId("id1").getValue();
+			// var materialNumber = oRef.getView().byId("id2").getValue();
+			var bool = huNumber.startsWith("(");
+			if (bool) {
+				huNumber = huNumber.replace(/[^A-Z0-9]+/ig, "");
+			} else {
+				huNumber = huNumber;
 			}
-			if (extFlag) {
+			var regExp = /^0[0-9].*$/;
+			var test = regExp.test(huNumber);
+			if (test || bool) {
+				if (huNumber.length >= 20) {
+					setTimeout(function () {
+						var aData = oRef.getOwnerComponent().getModel("InvenHUBin");
+						if (aData !== undefined) {
+							var aData = oRef.getOwnerComponent().getModel("InvenHUBin").getData();
+							var extFlag = true;
+							$.each(aData.HUBinSet, function (index, item) {
 
-				oRef.odataService.read("/ScannedHU?ExternalHU='" + huNumber + "'", {
-					success: cSuccess,
-					failed: cFailed
-				});
+								if (item.ExternalHU === huNumber) {
+									extFlag = false;
+									oRef.getView().byId("idHUNum").setValue("");
+									sap.m.MessageBox.alert("HU Number is already scanned", {
+										title: "Information"
+									});
+								}
+							});
+						}
+						if (extFlag) {
 
-			}
+							oRef.odataService.read("/ScannedHU?ExternalHU='" + huNumber + "'", {
+								success: cSuccess,
+								failed: cFailed
+							});
 
-			function cSuccess(data) {
+						}
 
-				if (data.Message === "Valid HU") {
-					oRef.getHUDetails();
-					// oRef.aData.push({
-					// 	ExternalHU: data.ExternalHU,
-					// });
-					// var oModel = new sap.ui.model.json.JSONModel();
+						function cSuccess(data) {
 
-					// oModel.setData({
-					// 	HUBinSet: oRef.aData
-					// });
-					// oRef.getOwnerComponent().setModel(oModel, "InvenHUBin");
-					// oRef.getView().byId("idHUNum").setValue("");
+							if (data.Message === "Valid HU") {
+								oRef.getHUDetails();
+								// oRef.aData.push({
+								// 	ExternalHU: data.ExternalHU,
+								// });
+								// var oModel = new sap.ui.model.json.JSONModel();
 
-				} else if (huNumber === "") {
+								// oModel.setData({
+								// 	HUBinSet: oRef.aData
+								// });
+								// oRef.getOwnerComponent().setModel(oModel, "InvenHUBin");
+								// oRef.getView().byId("idHUNum").setValue("");
 
+							} else if (huNumber === "") {
+
+							} else {
+								MessageBox.error("Invalid HU");
+								oRef.getView().byId("idHUNum").setValue("");
+							}
+
+						}
+
+						function cFailed() {
+							MessageBox.error("HU Number Scan Failed");
+						}
+					}, 1000);
 				} else {
-					MessageBox.error("Invalid HU");
-					oRef.getView().byId("idHUNum").setValue("");
+					hFlag = true;
+					return hFlag;
 				}
+			} else {
+				if (huNumber.length >= 18) {
+					setTimeout(function () {
+						var aData = oRef.getView().getModel("InvenHUBin");
+						if (aData !== undefined) {
+							var aData = oRef.getOwnerComponent().getModel("InvenHUBin").getData();
+							var extFlag = true;
+							$.each(aData.HUBinSet, function (index, item) {
 
-			}
+								if (item.ExternalHU === huNumber) {
+									extFlag = false;
+									oRef.getView().byId("idHUNum").setValue("");
+									sap.m.MessageBox.alert("HU Number is already scanned", {
+										title: "Information"
+									});
+								}
+							});
+						}
+						if (extFlag) {
 
-			function cFailed() {
-				MessageBox.error("HU Number Scan Failed");
+							oRef.odataService.read("/ScannedHU?ExternalHU='" + huNumber + "'", {
+								success: cSuccess,
+								failed: cFailed
+							});
+
+						}
+
+						function cSuccess(data) {
+
+							if (data.Message === "Valid HU") {
+								oRef.getHUDetails();
+								// oRef.aData.push({
+								// 	ExternalHU: data.ExternalHU,
+								// });
+								// var oModel = new sap.ui.model.json.JSONModel();
+
+								// oModel.setData({
+								// 	HUBinSet: oRef.aData
+								// });
+								// oRef.getOwnerComponent().setModel(oModel, "InvenHUBin");
+								// oRef.getView().byId("idHUNum").setValue("");
+
+							} else if (huNumber === "") {
+
+							} else {
+								MessageBox.error("Invalid HU");
+								oRef.getView().byId("idHUNum").setValue("");
+							}
+
+						}
+
+						function cFailed() {
+							MessageBox.error("HU Number Scan Failed");
+						}
+					}, 1000);
+				} else {
+					hFlag = true;
+					return hFlag;
+				}
 			}
 
 		},
@@ -237,7 +317,24 @@ sap.ui.define([
 				data.NavReconHeadItems.push(temp);
 			});
 			this.odataService.create("/ReconAppHeaderSet", data, null, function (odata, response) {
-				MessageBox.success("Data Saved");
+				// MessageBox.success("Data Saved");
+				MessageBox.success("Data Successfully Saved", {
+					title: "Success",
+					Action: "OK",
+					onClose: function (oAction) {
+						if (oAction === sap.m.MessageBox.Action.OK) {
+							// oRef.getView().byId("idList").destroyItems();
+							var sHistory = History.getInstance();
+							var sPreviousHash = sHistory.getPreviousHash();
+							if (sPreviousHash !== undefined) {
+								window.history.go(-1);
+							}
+						}
+					}.bind(oRef),
+					styleClass: "",
+					initialFocus: null,
+					textDirection: sap.ui.core.TextDirection.Inherit
+				});
 			}, function () {
 				MessageBox.error("Error Saving Data");
 			});

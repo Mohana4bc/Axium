@@ -92,16 +92,20 @@ sap.ui.define([
 		onInvenPlntStrLocSearch: function () {
 			sap.ui.getCore().StorageLocation = this.getView().byId("storageLocationPlantScreenId").getValue();
 			sap.ui.getCore().PlantNumber = this.getView().byId("plantPlantScreenId").getValue();
-			if (sap.ui.getCore().StorageLocation === "FP01") {
-				sap.ui.getCore().InvenStrLocFlag = true;
+			if (sap.ui.getCore().PlantNumber === "" || sap.ui.getCore().StorageLocation === "") {
+				MessageBox.error("Please Select All Mandatory Fields");
 			} else {
-				if (sap.ui.getCore().StorageLocation === "RM01") {
-					sap.ui.getCore().InvenStrLocFlag = false;
+				if (sap.ui.getCore().StorageLocation === "FP01") {
+					sap.ui.getCore().InvenStrLocFlag = true;
+				} else {
+					if (sap.ui.getCore().StorageLocation === "RM01") {
+						sap.ui.getCore().InvenStrLocFlag = false;
+					}
 				}
+				var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+				oRouter.navTo("InvenHUMat", {});
+				this.setEmpty();
 			}
-			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-			oRouter.navTo("InvenHUMat", {});
-			this.setEmpty();
 		}
 
 		/**
