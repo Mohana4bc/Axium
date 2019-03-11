@@ -144,7 +144,8 @@ sap.ui.define([
 			if (flag === true) {
 				// var listData = that.getOwnerComponent().getModel("oListHU").getData();
 				this.aData.push({
-					bin: sap.ui.getCore().bin
+					bin: sap.ui.getCore().bin,
+					status:sap.ui.getCore().Status               
 				});
 
 				var listData = that.getOwnerComponent().getModel("oListHU");

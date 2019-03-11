@@ -1,6 +1,7 @@
 sap.ui.define([
-	"sap/ui/core/mvc/Controller"
-], function (Controller) {
+	"sap/ui/core/mvc/Controller",
+	"sap/m/MessageBox"
+], function (Controller, MessageBox) {
 	"use strict";
 
 	return Controller.extend("com.axium.Axium.controller.CountPI", {
@@ -102,11 +103,32 @@ sap.ui.define([
 			data.CountItemsSet.push(temp);
 			this.odataService.create("/CountHeaderSet", data, null, function (odata, response) {
 				console.log(response);
+				sap.ui.getCore().Status = "COUNTED";
 				that.getView().getModel("PhysicalInventory").refresh(true);
-				var sRouter = sap.ui.core.UIComponent.getRouterFor(that);
-				sRouter.navTo("MaterialDetPI", true);
+				MessageBox.success("Data Successfully Saved", {
+					title: "Success",
+					Action: "OK",
+					onClose: function (oAction) {
+						if (oAction === sap.m.MessageBox.Action.OK) {
+							// oRef.getView().byId("idList").destroyItems();
+							// var sHistory = History.getInstance();
+							// var sPreviousHash = sHistory.getPreviousHash();
+							// if (sPreviousHash !== undefined) {
+							// 	window.history.go(-1);
+							// } else {
+							var sRouter = sap.ui.core.UIComponent.getRouterFor(that);
+							sRouter.navTo("MaterialDetPI", true);
+							// }
+						}
+					}.bind(that),
+					styleClass: "",
+					initialFocus: null,
+					textDirection: sap.ui.core.TextDirection.Inherit
+				});
+
 			}, function (odata, response) {
 				console.log(response);
+				MessageBox.error("Data Not Saved");
 			});
 			that.getView().byId("box").setValue("");
 			that.getView().byId("pallet").setValue("");

@@ -157,33 +157,55 @@ sap.ui.define([
 		},
 		onSubmit: function () {
 			var data = {};
-			data.NavInvHeadInvItem = [];
-			data.Plant = sap.ui.getCore().plnt;
-			data.StorageLoc = sap.ui.getCore().stgloc;
-			var myModel = this.getView().getModel("oListHU").getData();
-			$.each(myModel.BinSet, function (index, item) {
-				var temp = {};
-				temp.BinNumber = item.bin;
-				data.NavInvHeadInvItem.push(temp);
-			});
-			this.odataService.create("/InventoryHeaderSet", data, null, function (odata, response) {
-					var msg;
-					var bin;
-					var msg1;
-					$.each(response.data.NavInvHeadInvItem.results, function (index, item) {
-						// if (index != response.data.NavInvHeadInvItem.results.length - 1) {
-							msg = response.data.NavInvHeadInvItem.results[item].Matnr;
-							bin = response.data.NavInvHeadInvItem.results[item].BinNumber;
+			var that = this;
+			var myModel = that.getView().getModel("oListHU").getData();
+			// that.getView().getModel("oListHU").getData().BinSet.length
+			if (that.getView().getModel("oListHU").getData().BinSet.length <= 0) {
+				MessageBox.error("error");
+			} else {
+				data.NavInvHeadInvItem = [];
+				data.Plant = sap.ui.getCore().plnt;
+				data.StorageLoc = sap.ui.getCore().stgloc;
+
+				var sdata = that.getView().getModel("oListHU").getData(that.result);
+				that.olist = that.byId("idList");
+				var sItems = that.olist.getSelectedItems();
+				var len = sItems.length;
+				if (len <= 0) {
+					$.each(myModel.BinSet, function (index, item) {
+						var temp = {};
+						temp.BinNumber = item.bin;
+						data.NavInvHeadInvItem.push(temp);
+					});
+				} else {
+					for (var i = sItems.length - 1; i >= 0; i--) {
+						var path = sItems[i].getBindingContext("oListHU").getPath();
+						var idx = parseInt(path.substring(path.lastIndexOf('/') + 1));
+						var datas = {};
+						datas.BinNumber = sdata.BinSet[idx].bin;
+						data.NavInvHeadInvItem.push(datas);
+					}
+				}
+
+				this.odataService.create("/InventoryHeaderSet", data, null, function (odata, response) {
+						var msg;
+						var bin;
+						var msg1;
+						$.each(response.data.NavInvHeadInvItem.results, function (index, item) {
+							// if (index != response.data.NavInvHeadInvItem.results.length - 1) {
+							msg = response.data.NavInvHeadInvItem.results[index].Matnr;
+							bin = response.data.NavInvHeadInvItem.results[index].BinNumber;
 							msg1 = "Physical Inventory" + msg + " for Bin number " + bin;
 
-						// }
-					});
-					MessageBox.success(msg1);
-				},
-				function (odata, response) {
-					MessageBox.error("Data not saved");
-				}
-			);
+							// }
+						});
+						MessageBox.success(msg1);
+					},
+					function (odata, response) {
+						MessageBox.error("Data not saved");
+					}
+				);
+			}
 		}
 
 	});

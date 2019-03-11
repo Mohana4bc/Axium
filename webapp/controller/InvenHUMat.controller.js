@@ -326,45 +326,97 @@ sap.ui.define([
 			}
 			that.oList.removeSelections();
 		},
-		onInvenSubmit: function () {
-			var data = {};
-			data.NavReconHeadItems = [];
-			var result = this.oList.getModel("InvenHUBin").getData();
+		binNumberValidation: function () {
 			var oRef = this;
-			data.Plant = sap.ui.getCore().PlantNumber;
-			data.StorageLocation = sap.ui.getCore().StorageLocation;
-			$.each(result.HUBinSet, function (index, item) {
-				var temp = {};
-				temp.Plant = sap.ui.getCore().PlantNumber;
-				temp.StorageLoc = sap.ui.getCore().StorageLocation;
-				temp.Batch = item.BatchNumber;
-				temp.Scannedqty = item.Quantity;
-				temp.Material = item.Material;
-				temp.Handlingunit = item.ExternalHU;
-				data.NavReconHeadItems.push(temp);
-			});
-			this.odataService.create("/ReconAppHeaderSet", data, null, function (odata, response) {
-				// MessageBox.success("Data Saved");
-				MessageBox.success("Data Successfully Saved", {
-					title: "Success",
-					Action: "OK",
-					onClose: function (oAction) {
-						if (oAction === sap.m.MessageBox.Action.OK) {
-							// oRef.getView().byId("idList").destroyItems();
-							var sHistory = History.getInstance();
-							var sPreviousHash = sHistory.getPreviousHash();
-							if (sPreviousHash !== undefined) {
-								window.history.go(-1);
-							}
+			var oInvenbinFlag = false;
+			var tempVar = oRef.getView().byId("binId").getValue();
+			oRef.getView().byId("binId").setValue(tempVar);
+			if (tempVar.length >= 5) {
+				setTimeout(function () {
+
+					oRef.odataService.read("/ScannedBinNumber?BinNumber='" + tempVar + "'", {
+
+						success: cSuccess,
+						failed: cFailed
+					});
+
+					function cSuccess(data) {
+
+						if (data.Message === "valid Bin") {
+
+						} else if (tempVar === "") {
+							MessageBox.error("Please Scan Valid Bin Number");
+							oRef.getView().byId("binId").setValue("");
+						} else {
+							MessageBox.error("Invalid Bin");
+							oRef.getView().byId("binId").setValue("");
 						}
-					}.bind(oRef),
-					styleClass: "",
-					initialFocus: null,
-					textDirection: sap.ui.core.TextDirection.Inherit
+
+					}
+
+					function cFailed() {
+						MessageBox.error("Bin Number Scan failed");
+						oRef.getView().byId("binId").setValue("");
+
+					}
+				}, 1000);
+
+			} else {
+				// setTimeout(function () {
+				// 	MessageBox.error("Please Scan Valid Bin Number");
+				// 	oRef.getView().byId("idBin").setValue("");
+				// }, 1500);
+				oInvenbinFlag = true;
+				return oInvenbinFlag;
+			}
+
+		},
+		onInvenSubmit: function () {
+			var oBinNumber = this.getView().byId("binId").getValue();
+			if (oBinNumber === "") {
+				MessageBox.error("Please Scan Bin Number");
+			} else {
+				var data = {};
+				data.NavReconHeadItems = [];
+				var result = this.oList.getModel("InvenHUBin").getData();
+				var oRef = this;
+				data.Plant = sap.ui.getCore().PlantNumber;
+				data.StorageLocation = sap.ui.getCore().StorageLocation;
+				$.each(result.HUBinSet, function (index, item) {
+					var temp = {};
+					temp.Plant = sap.ui.getCore().PlantNumber;
+					temp.StorageLoc = sap.ui.getCore().StorageLocation;
+					temp.Batch = item.BatchNumber;
+					temp.Scannedqty = item.Quantity;
+					temp.Material = item.Material;
+					temp.Handlingunit = item.ExternalHU;
+					temp.BinNumber = oBinNumber;
+					data.NavReconHeadItems.push(temp);
 				});
-			}, function () {
-				MessageBox.error("Error Saving Data");
-			});
+				this.odataService.create("/ReconAppHeaderSet", data, null, function (odata, response) {
+					// MessageBox.success("Data Saved");
+					MessageBox.success("Data Successfully Saved", {
+						title: "Success",
+						Action: "OK",
+						onClose: function (oAction) {
+							if (oAction === sap.m.MessageBox.Action.OK) {
+								// oRef.getView().byId("idList").destroyItems();
+								var sHistory = History.getInstance();
+								var sPreviousHash = sHistory.getPreviousHash();
+								if (sPreviousHash !== undefined) {
+									oRef.getView().byId("binId").setValue("");
+									window.history.go(-1);
+								}
+							}
+						}.bind(oRef),
+						styleClass: "",
+						initialFocus: null,
+						textDirection: sap.ui.core.TextDirection.Inherit
+					});
+				}, function () {
+					MessageBox.error("Error Saving Data");
+				});
+			}
 		}
 
 		/**
