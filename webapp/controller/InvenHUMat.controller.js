@@ -101,6 +101,8 @@ sap.ui.define([
 			if (test || bool) {
 				if (huNumber.length >= 20) {
 					setTimeout(function () {
+						huNumber = huNumber.replace(/[^A-Z0-9]+/ig, "");
+						oRef.getView().byId("idHUNum").setValue(huNumber);
 						var aData = oRef.getOwnerComponent().getModel("InvenHUBin");
 						if (aData !== undefined) {
 							var aData = oRef.getOwnerComponent().getModel("InvenHUBin").getData();
@@ -128,7 +130,7 @@ sap.ui.define([
 						function cSuccess(data) {
 
 							if (data.Message === "Valid HU") {
-								oRef.getHUDetails();
+								oRef.getHUDetails(huNumber);
 								// oRef.aData.push({
 								// 	ExternalHU: data.ExternalHU,
 								// });
@@ -160,6 +162,8 @@ sap.ui.define([
 			} else {
 				if (huNumber.length >= 18) {
 					setTimeout(function () {
+						huNumber = huNumber.replace(/[^A-Z0-9]+/ig, "");
+						oRef.getView().byId("idHUNum").setValue(huNumber);
 						var aData = oRef.getView().getModel("InvenHUBin");
 						if (aData !== undefined) {
 							var aData = oRef.getOwnerComponent().getModel("InvenHUBin").getData();
@@ -187,7 +191,7 @@ sap.ui.define([
 						function cSuccess(data) {
 
 							if (data.Message === "Valid HU") {
-								oRef.getHUDetails();
+								oRef.getHUDetails(huNumber);
 								// oRef.aData.push({
 								// 	ExternalHU: data.ExternalHU,
 								// });
@@ -219,11 +223,11 @@ sap.ui.define([
 			}
 
 		},
-		getHUDetails: function () {
+		getHUDetails: function (huNumber) {
 			var oRef = this;
-			var huNumber = oRef.getView().byId("idHUNum").getValue();
+			var fnNumber = huNumber;
 			var tempMat = "";
-			this.odataService.read("/HUQtyDetailsSet?$filter=ExternalHU eq '" + huNumber + "' and Material eq '" + tempMat + "'", {
+			this.odataService.read("/HUQtyDetailsSet?$filter=ExternalHU eq '" + fnNumber + "' and Material eq '" + tempMat + "'", {
 				// this.odataService.read("/HUQtyDetailsSet?$filter=ExternalHU eq '00000000002000057331' and Material eq '000000003000000724' and ScannedQnty eq '0' and RequirementQnty eq '41600.000' and BinNumber eq 'U_ZONE'", {
 				success: cSuccess,
 				failed: cFailed
@@ -298,6 +302,29 @@ sap.ui.define([
 			sRouter.navTo("InventoryPlntStrloc", true);
 			oHU.setVisible(true);
 			oMatNum.setVisible(true);
+		},
+		onDelete: function () {
+			var that = this;
+			that.oModel = that.getView().getModel("InvenHUBin");
+			var data = that.getView().getModel("InvenHUBin").getData(that.result);
+
+			that.oList = that.byId("idList");
+
+			var sItems = that.oList.getSelectedItems();
+
+			if (sItems.length === 0) {
+				MessageBox.information("Please Select a row to Delete");
+				return;
+			} else {
+
+				for (var i = sItems.length - 1; i >= 0; i--) {
+					var path = sItems[i].getBindingContextPath();
+					var idx = parseInt(path.substring(path.lastIndexOf('/') + 1));
+					data.HUBinSet.splice(idx, 1);
+				}
+				that.getView().getModel("InvenHUBin").refresh(true);
+			}
+			that.oList.removeSelections();
 		},
 		onInvenSubmit: function () {
 			var data = {};

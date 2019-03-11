@@ -93,7 +93,8 @@ sap.ui.define([
 			sap.ui.getCore().StorageLocation = this.getView().byId("storageLocationPlantScreenId").getValue();
 			sap.ui.getCore().PlantNumber = this.getView().byId("plantPlantScreenId").getValue();
 			if (sap.ui.getCore().PlantNumber === "" || sap.ui.getCore().StorageLocation === "") {
-				MessageBox.error("Please Select All Mandatory Fields");
+				// MessageBox.error("Please Select All Mandatory Fields");
+				sap.m.MessageBox.error("Please Select All Mandatory Fields");
 			} else {
 				if (sap.ui.getCore().StorageLocation === "FP01") {
 					sap.ui.getCore().InvenStrLocFlag = true;

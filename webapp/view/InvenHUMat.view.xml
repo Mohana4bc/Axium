@@ -21,7 +21,7 @@
 							<Button id="idAdd" text="Add Material" type="Emphasized" press="onAddMaterial"></Button>
 						</f:content>
 					</f:SimpleForm>
-					<List items="{InvenHUBin>/HUBinSet}" headerText="Materials" id="idList">
+					<List items="{InvenHUBin>/HUBinSet}" headerText="Materials" mode="MultiSelect" id="idList">
 						<items>
 							<ObjectListItem title="{InvenHUBin>ExternalHU}" id="id6">
 								<attributes>
@@ -39,7 +39,9 @@
 				<footer>
 					<Bar>
 						<contentRight>
-							<Button text="Submit" press="onInvenSubmit" type="Accept"/>
+							<!--<Button text="Submit" press="onInvenSubmit" type="Accept"/>-->
+							<Button text="Save" type="Accept" icon="sap-icon://save" press="onInvenSubmit"/>
+							<Button text="Delete" type="Reject" icon="sap-icon://delete" press="onDelete"/>
 						</contentRight>
 					</Bar>
 				</footer>
