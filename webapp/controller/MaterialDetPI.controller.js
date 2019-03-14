@@ -145,7 +145,7 @@ sap.ui.define([
 				// var listData = that.getOwnerComponent().getModel("oListHU").getData();
 				this.aData.push({
 					bin: sap.ui.getCore().bin,
-					status:sap.ui.getCore().Status               
+					status: sap.ui.getCore().Status
 				});
 
 				var listData = that.getOwnerComponent().getModel("oListHU");
@@ -161,7 +161,7 @@ sap.ui.define([
 				var sRouter = sap.ui.core.UIComponent.getRouterFor(that);
 				sRouter.navTo("BinScanPI", true);
 			} else {
-				MessageBox.information("pls");
+				MessageBox.information("Please Enter Quantity For All Materials");
 			}
 
 		},

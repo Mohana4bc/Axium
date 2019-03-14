@@ -333,32 +333,33 @@ sap.ui.define([
 			oRef.getView().byId("binId").setValue(tempVar);
 			if (tempVar.length >= 5) {
 				setTimeout(function () {
+					oRef.getView().byId("binId").setValue(tempVar);
 
-					oRef.odataService.read("/ScannedBinNumber?BinNumber='" + tempVar + "'", {
+					// oRef.odataService.read("/ScannedBinNumber?BinNumber='" + tempVar + "'", {
 
-						success: cSuccess,
-						failed: cFailed
-					});
+					// 	success: cSuccess,
+					// 	failed: cFailed
+					// });
 
-					function cSuccess(data) {
+					// function cSuccess(data) {
 
-						if (data.Message === "valid Bin") {
+					// 	if (data.Message === "valid Bin") {
 
-						} else if (tempVar === "") {
-							MessageBox.error("Please Scan Valid Bin Number");
-							oRef.getView().byId("binId").setValue("");
-						} else {
-							MessageBox.error("Invalid Bin");
-							oRef.getView().byId("binId").setValue("");
-						}
+					// 	} else if (tempVar === "") {
+					// 		MessageBox.error("Please Scan Valid Bin Number");
+					// 		oRef.getView().byId("binId").setValue("");
+					// 	} else {
+					// 		MessageBox.error("Invalid Bin");
+					// 		oRef.getView().byId("binId").setValue("");
+					// 	}
 
-					}
+					// }
 
-					function cFailed() {
-						MessageBox.error("Bin Number Scan failed");
-						oRef.getView().byId("binId").setValue("");
+					// function cFailed() {
+					// 	MessageBox.error("Bin Number Scan failed");
+					// 	oRef.getView().byId("binId").setValue("");
 
-					}
+					// }
 				}, 1000);
 
 			} else {

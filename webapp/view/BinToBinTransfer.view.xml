@@ -19,10 +19,10 @@
 						<f:content>
 							<Label text="WareHouse Number" required="true" class="sapUiSmallMarginTop"></Label>
 							<ComboBox id="warehouseId" showSecondaryValues="true" filterSecondaryValues="true" placeholder="Enter Warehouse Number"></ComboBox>
-							<Label text="Source Storage Type" class="sapUiSmallMarginTop"></Label>
-							<SearchField id="sourceStorage" showSearchButton="false" placeholder="Enter Source Storage Type"></SearchField>
 							<Label text="Source Bin" required="true" class="sapUiSmallMarginTop"></Label>
 							<SearchField id="sourceBin" showSearchButton="false" liveChange="AutoStorageType" placeholder="Enter Source Bin"></SearchField>
+							<Label text="Source Storage Type" class="sapUiSmallMarginTop"></Label>
+							<SearchField id="sourceStorage" showSearchButton="false" placeholder="Enter Source Storage Type"></SearchField>
 						</f:content>
 					</f:SimpleForm>
 				</content>
