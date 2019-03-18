@@ -20,7 +20,7 @@
 					<Bar>
 						<contentRight>
 							<!--<Button text="Return" press="onPressBack" type="Emphasized"></Button>-->
-							<Button text="Submit" type="Accept" press="onSubmit"/>
+							<Button text="Submit" id="idSubmit" type="Accept" press="onSubmit"/>
 							<Button text="Delete" type="Reject" press="onDelete"/>
 						</contentRight>
 					</Bar>

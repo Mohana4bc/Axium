@@ -33,6 +33,8 @@
 							<Input value="" id="idBatchNum" enabled="true" textAlign="Left" width="100%"/>
 							<Label design="Bold" text="Qty " class="sapUiSmallMarginTop"></Label>
 							<Input value="" id="idQty" enabled="true" textAlign="Left" width="100%"/>
+							<Label design="Bold" text="Count " class="sapUiSmallMarginTop"></Label>
+							<Input value="" id="idHUMatCount" enabled="false" textAlign="Left" width="100%"/>
 							<Button id="idAdd" text="Add Material" type="Emphasized" press="onAddMaterial"></Button>
 						</f:content>
 					</f:SimpleForm>

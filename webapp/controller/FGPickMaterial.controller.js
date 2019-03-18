@@ -222,6 +222,7 @@ sap.ui.define([
 				});
 			} else {
 				sap.ui.getCore().doorFlag.setEnabled(false);
+				sap.ui.getCore().listFlag = true;
 				var sHistory = History.getInstance();
 				var sPreviousHash = sHistory.getPreviousHash();
 				if (sPreviousHash !== undefined) {
@@ -570,6 +571,7 @@ sap.ui.define([
 						onClose: function (oAction) {
 							if (oAction === sap.m.MessageBox.Action.OK) {
 								oRef.getView().byId("doorid").setValue("");
+								sap.ui.getCore().doorFlag.setEnabled(false);
 								var sRouter = sap.ui.core.UIComponent.getRouterFor(oRef);
 								sRouter.navTo("ScanDelNo", true);
 							}
@@ -616,8 +618,12 @@ sap.ui.define([
 									var sHistory = History.getInstance();
 									var sPreviousHash = sHistory.getPreviousHash();
 									if (sPreviousHash !== undefined) {
+										sap.ui.getCore().doorFlag.setEnabled(false);
+										sap.ui.getCore().listFlag = true;
 										window.history.go(-1);
 									} else {
+										sap.ui.getCore().doorFlag.setEnabled(false);
+										sap.ui.getCore().listFlag = true;
 										var sRouter = sap.ui.core.UIComponent.getRouterFor(this);
 										sRouter.navTo("ScanDelNo", true);
 									}
@@ -629,6 +635,7 @@ sap.ui.define([
 						});
 
 					} else {
+						// sap.ui.getCore().doorFlag.setEnabled(false);
 						MessageBox.error(error1, {
 							title: "Error",
 							onClose: null,

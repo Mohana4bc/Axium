@@ -190,16 +190,44 @@ sap.ui.define([
 				this.odataService.create("/InventoryHeaderSet", data, null, function (odata, response) {
 						var msg;
 						var bin;
-						var msg1;
+						var msg1 = "";
+						// var strMsg = {};
+						// strMsg.strAry = [];
+						var sMsg = [];
 						$.each(response.data.NavInvHeadInvItem.results, function (index, item) {
-							// if (index != response.data.NavInvHeadInvItem.results.length - 1) {
-							msg = response.data.NavInvHeadInvItem.results[index].Matnr;
-							bin = response.data.NavInvHeadInvItem.results[index].BinNumber;
-							msg1 = "Physical Inventory" + msg + " for Bin number " + bin;
+							// var tempObj = {};
+							if (index != response.data.NavInvHeadInvItem.results.length - 1) {
+								msg = response.data.NavInvHeadInvItem.results[index].Matnr;
+								bin = response.data.NavInvHeadInvItem.results[index].BinNumber;
+								msg1 = "Physical Inventory " + msg + " for Bin number " + bin + "\n";
+								sMsg.push(msg1);
+								// tempObj.msg = msg1;
+								// strMsg.strAry.push(tempObj);
+							}
 
-							// }
 						});
-						MessageBox.success(msg1);
+						var msgLen = sMsg.length;
+						var actualMsg = "";
+						for (var i = 0; i < msgLen; i++) {
+							actualMsg = actualMsg + sMsg[i].slice(0, 250);
+						}
+						MessageBox.success(actualMsg, {
+							title: "Success",
+							Action: "OK",
+							onClose: function (oAction) {
+								if (oAction === sap.m.MessageBox.Action.OK) {
+									// oRef.getView().byId("idList").destroyItems();
+									var sHistory = History.getInstance();
+									var sPreviousHash = sHistory.getPreviousHash();
+									if (sPreviousHash !== undefined) {
+										window.history.go(-1);
+									}
+								}
+							}.bind(this),
+							styleClass: "",
+							initialFocus: null,
+							textDirection: sap.ui.core.TextDirection.Inherit
+						});
 					},
 					function (odata, response) {
 						MessageBox.error("Data not saved");

@@ -21,6 +21,8 @@ sap.ui.define([
 					this.onBeforeShow(evt);
 				}, this)
 			});
+			this.getView().byId("idSubmit").setEnabled(false);
+			sap.ui.getCore().FGPutAwaySubmit = false;
 		},
 		// 	onBeforeShow: function() {
 
@@ -34,6 +36,11 @@ sap.ui.define([
 				var oInput = oRef.getView().byId("id1");
 				oInput.focus();
 			}, 1000);
+			if (sap.ui.getCore().FGPutAwaySubmit === true) {
+				oRef.getView().byId("idSubmit").setEnabled(true);
+			} else {
+				oRef.getView().byId("idSubmit").setEnabled(false);
+			}
 		},
 
 		onBeforeRendering: function () {
@@ -270,6 +277,7 @@ sap.ui.define([
 					sap.ui.getCore().batchNum = data.results[0].BatchNo;
 					sap.ui.getCore().MatDesc = data.results[0].MaterialDesc;
 					sap.ui.getCore().MatNum = data.results[0].Material;
+					sap.ui.getCore().FGPutAwayWH = data.results[0].WareHouse;
 
 					var oRouter = oRef.getOwnerComponent().getRouter();
 					oRouter.navTo("BinScan", {
@@ -342,6 +350,8 @@ sap.ui.define([
 						initialFocus: null,
 						textDirection: sap.ui.core.TextDirection.Inherit
 					});
+					oRef.getView().byId("idSubmit").setEnabled(false);
+					sap.ui.getCore().FGPutAwaySubmit = false;
 					// var data = oRef.getView().getModel("oListHU").getData();
 					// oRef.data = [];
 					// oRef.getView().getModel("oListHU").setData(oRef.data);
@@ -425,6 +435,7 @@ sap.ui.define([
 				oRef.getView().byId("idList").destroyItems();
 				this.getView().byId("id1").setValue("");
 			}
+			sap.ui.getCore().FGPutAwaySubmit = false;
 			var sRouter = sap.ui.core.UIComponent.getRouterFor(this);
 			sRouter.navTo("Home", true);
 		},

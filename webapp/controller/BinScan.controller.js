@@ -71,7 +71,8 @@ sap.ui.define([
 			//var tempobj = that.selectedHU;
 			var oRouter = sap.ui.core.UIComponent.getRouterFor(that);
 			oRouter.navTo("AvailableBins", {});
-			this.odataService.read("/AvailableBinsFGRMSet?$filter=WareHouse eq 'A01' and Flag eq 'X' and Material eq '" + data1 + "'", null,
+			this.odataService.read("/AvailableBinsFGRMSet?$filter=WareHouse eq '" + sap.ui.getCore().FGPutAwayWH +
+				"' and Flag eq 'X' and Material eq '" + data1 + "'", null,
 				null, false,
 				function (response) {
 					// console.log(response);
@@ -104,7 +105,8 @@ sap.ui.define([
 
 						} else {
 							if (response.Message === "valid Bin") {
-								that.odataService.read("/AvailableBinsFGRMSet?$filter=WareHouse eq 'A01' and Flag eq 'X' and Material eq '" + data1 + "'",
+								that.odataService.read("/AvailableBinsFGRMSet?$filter=WareHouse eq '" + sap.ui.getCore().FGPutAwayWH +
+									"' and Flag eq 'X' and Material eq '" + data1 + "'",
 									null, null, false,
 									function (response) {
 										console.log(response);
@@ -114,6 +116,7 @@ sap.ui.define([
 										for (var z = 0; z < temp.results.length; z++) {
 											if (oModelData.binNo === temp.results[z].StorageBin) {
 												sap.ui.getCore().flag = true;
+												sap.ui.getCore().FGPutAwaySubmit = true;
 												return sap.ui.getCore().flag;
 												// window.history.go(-1);
 												// MessageBox.error("Please select bins from availble bins only");
@@ -188,6 +191,7 @@ sap.ui.define([
 
 			var sRouter = sap.ui.core.UIComponent.getRouterFor(this);
 			sRouter.navTo("ScanHU", true);
+			sap.ui.getCore().FGPutAwaySubmit = false;
 
 		}
 

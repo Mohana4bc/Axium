@@ -21,9 +21,12 @@ sap.ui.define([
 					this.onBeforeShow(evt);
 				}, this)
 			});
+			sap.ui.getCore().initialCount = 0;
+			this.getView().byId("idHUMatCount").setValue(sap.ui.getCore().initialCount);
 
 		},
 		onBeforeShow: function () {
+			this.getView().byId("idHUMatCount").setValue("0")
 			var oRef = this;
 			var aData = oRef.getView().getModel("InvenHUBin").getData();
 			oRef.aData = [];
@@ -257,6 +260,9 @@ sap.ui.define([
 				});
 				oRef.getOwnerComponent().setModel(oModel, "InvenHUBin");
 				oRef.getView().byId("idHUNum").setValue("");
+				var huMatCount = oRef.getView().byId("idHUMatCount").getValue();
+				sap.ui.getCore().initialCount = parseFloat(huMatCount) + 1;
+				oRef.getView().byId("idHUMatCount").setValue(sap.ui.getCore().initialCount);
 
 			}
 
@@ -292,12 +298,16 @@ sap.ui.define([
 			oRef.getView().byId("idMatNum").setValue("");
 			oRef.getView().byId("idBatchNum").setValue("");
 			oRef.getView().byId("idQty").setValue("");
+			var huMatCount = oRef.getView().byId("idHUMatCount").getValue();
+			sap.ui.getCore().initialCount = parseFloat(huMatCount) + 1;
+			oRef.getView().byId("idHUMatCount").setValue(sap.ui.getCore().initialCount);
 
 		},
 		onPressBack: function () {
 			var oRef = this;
 			var oHU = oRef.getView().byId("idHUNum");
 			var oMatNum = oRef.getView().byId("idMatNum");
+			oRef.getView().byId("idHUMatCount").setValue("");
 			var sRouter = sap.ui.core.UIComponent.getRouterFor(this);
 			sRouter.navTo("InventoryPlntStrloc", true);
 			oHU.setVisible(true);
@@ -323,6 +333,9 @@ sap.ui.define([
 					data.HUBinSet.splice(idx, 1);
 				}
 				that.getView().getModel("InvenHUBin").refresh(true);
+				var huMatCount = that.getView().byId("idHUMatCount").getValue();
+				sap.ui.getCore().initialCount = parseFloat(huMatCount) - 1;
+				that.getView().byId("idHUMatCount").setValue(sap.ui.getCore().initialCount);
 			}
 			that.oList.removeSelections();
 		},
@@ -334,6 +347,7 @@ sap.ui.define([
 			if (tempVar.length >= 5) {
 				setTimeout(function () {
 					oRef.getView().byId("binId").setValue(tempVar);
+					console.log(tempVar);
 
 					// oRef.odataService.read("/ScannedBinNumber?BinNumber='" + tempVar + "'", {
 
@@ -406,6 +420,7 @@ sap.ui.define([
 								var sPreviousHash = sHistory.getPreviousHash();
 								if (sPreviousHash !== undefined) {
 									oRef.getView().byId("binId").setValue("");
+									oRef.getView().byId("idHUMatCount").setValue("");
 									window.history.go(-1);
 								}
 							}
@@ -415,7 +430,24 @@ sap.ui.define([
 						textDirection: sap.ui.core.TextDirection.Inherit
 					});
 				}, function () {
-					MessageBox.error("Error Saving Data");
+					MessageBox.error("HU's Scanned Are Already Saved", {
+						title: "Error",
+						Action: "Close",
+						onClose: function (oAction) {
+							if (oAction === "CLOSE") {
+								var sHistory = History.getInstance();
+								var sPreviousHash = sHistory.getPreviousHash();
+								if (sPreviousHash !== undefined) {
+									oRef.getView().byId("binId").setValue("");
+									oRef.getView().byId("idHUMatCount").setValue("");
+									window.history.go(-1);
+								}
+							}
+						}.bind(oRef),
+						styleClass: "",
+						initialFocus: null,
+						textDirection: sap.ui.core.TextDirection.Inherit
+					});
 				});
 			}
 		}
@@ -445,7 +477,6 @@ sap.ui.define([
 		//	onExit: function() {
 		//
 		//	}
-
 	});
 
 });
