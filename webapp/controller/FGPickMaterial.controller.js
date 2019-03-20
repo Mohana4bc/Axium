@@ -102,24 +102,24 @@ sap.ui.define([
 			var oTable = oRef.getView().byId("FGPickMaterials");
 			oTable.setMode("SingleSelectMaster");
 			oTable.removeSelections("true");
-			// var oTableData = this.getView().getModel("oDeliveryNo").getData();
-			// $.each(oTableData, function (index, item) {
+			var oTableData = this.getView().getModel("oDeliveryNo").getData();
+			$.each(oTableData, function (index, item) {
 
-			// 	var i;
-			// 	for (i = 0; i < item.length; i++) {
-			// 		var temp = {};
-			// 		temp.Quantity = parseFloat(item[i].Quantity);
-			// 		temp.ScannedQuantity = parseFloat(item[i].ScannedQuantity);
-			// 		sap.ui.getCore().reqSumFlag = sap.ui.getCore().reqSumFlag + temp.Quantity;
-			// 		sap.ui.getCore().scanSumFlag = sap.ui.getCore().scanSumFlag + temp.ScannedQuantity;
-			// 	}
-			// });
+				var i;
+				for (i = 0; i < item.length; i++) {
+					var temp = {};
+					temp.Quantity = parseFloat(item[i].Quantity);
+					temp.ScannedQuantity = parseFloat(item[i].ScannedQuantity);
+					sap.ui.getCore().reqSumFlag = sap.ui.getCore().reqSumFlag + temp.Quantity;
+					sap.ui.getCore().scanSumFlag = sap.ui.getCore().scanSumFlag + temp.ScannedQuantity;
+				}
+			});
 			// if (sap.ui.getCore().scanSumFlag === sap.ui.getCore().reqSumFlag) {
 			// 	sap.ui.getCore().doorFlag.setEnabled(true);
 			// } else {
 			// 	sap.ui.getCore().doorFlag.setEnabled(false);
 			// }
-			if (sap.ui.getCore().doorFlag.getEnabled() === true) {
+			if (sap.ui.getCore().doorFlag.getEnabled() === true || sap.ui.getCore().scanSumFlag === sap.ui.getCore().reqSumFlag) {
 				sap.ui.getCore().doorFlag.setEnabled(true);
 			} else {
 				sap.ui.getCore().doorFlag.setEnabled(false);
