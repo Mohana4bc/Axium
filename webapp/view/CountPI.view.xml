@@ -33,8 +33,8 @@
 							<Label text="Number of Boxes" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" required="true"
 								class="sapUiSmallMarginTop"></Label>
 							<Input id="box" value="{Count>/Boxes}" placeholder="No of Boxes" fieldWidth="20%"/>
-							<Label text="Quantity" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" class="sapUiSmallMarginTop"></Label>
-							<Input id="count" value="{Count>/Count}" placeholder="Enter Count" fieldWidth="20%"/>
+							<Label text="Enter Count" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" class="sapUiSmallMarginTop"></Label>
+							<Input id="count" value="{Count>/Count}" placeholder="Please Enter Count" fieldWidth="20%"/>
 						</f:content>
 					</f:SimpleForm>
 				</content>

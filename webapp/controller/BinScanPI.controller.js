@@ -195,14 +195,18 @@ sap.ui.define([
 						// strMsg.strAry = [];
 						var sMsg = [];
 						$.each(response.data.NavInvHeadInvItem.results, function (index, item) {
-							// var tempObj = {};
-							if (index != response.data.NavInvHeadInvItem.results.length - 1) {
+							if (response.data.NavInvHeadInvItem.results.length === 1) {
 								msg = response.data.NavInvHeadInvItem.results[index].Matnr;
 								bin = response.data.NavInvHeadInvItem.results[index].BinNumber;
 								msg1 = "Physical Inventory " + msg + " for Bin number " + bin + "\n";
 								sMsg.push(msg1);
-								// tempObj.msg = msg1;
-								// strMsg.strAry.push(tempObj);
+							}
+							// if (index != response.data.NavInvHeadInvItem.results.length - 1) 
+							else {
+								msg = response.data.NavInvHeadInvItem.results[index].Matnr;
+								bin = response.data.NavInvHeadInvItem.results[index].BinNumber;
+								msg1 = "Physical Inventory " + msg + " for Bin number " + bin + "\n";
+								sMsg.push(msg1);
 							}
 
 						});
@@ -217,11 +221,13 @@ sap.ui.define([
 							onClose: function (oAction) {
 								if (oAction === sap.m.MessageBox.Action.OK) {
 									// oRef.getView().byId("idList").destroyItems();
-									var sHistory = History.getInstance();
-									var sPreviousHash = sHistory.getPreviousHash();
-									if (sPreviousHash !== undefined) {
-										window.history.go(-1);
-									}
+									// var sHistory = History.getInstance();
+									// var sPreviousHash = sHistory.getPreviousHash();
+									// if (sPreviousHash !== undefined) {
+									// 	window.history.go(-1);
+									// }
+									var sRouter = sap.ui.core.UIComponent.getRouterFor(that);
+									sRouter.navTo("PlantStorageLoc", true);
 								}
 							}.bind(this),
 							styleClass: "",

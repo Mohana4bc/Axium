@@ -10,7 +10,7 @@
 							<Button id="back" icon="sap-icon://nav-back" press="onPressBack"/>
 						</contentLeft>
 						<contentMiddle>
-							<Text text="Initial Screen"></Text>
+							<Text text="Physical Inventory"></Text>
 						</contentMiddle>
 					</Bar>
 				</customHeader>

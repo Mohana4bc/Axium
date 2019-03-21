@@ -385,46 +385,46 @@ sap.ui.define([
 
 								} else {
 									if (response.Message === "valid Bin") {
-										that.odataService.read("/AvailableBinsFGRMSet?$filter=WareHouse eq '" + oWH +
-											"' and Flag eq 'X' and Material eq '" + sap.ui.getCore().MatNum + "'",
-											null, null, false,
-											function (response) {
-												console.log(response);
-												that.result.items.push(response);
-												that.getView().getModel("oAvailableBins").setData(response);
-												var temp = that.getView().getModel("oAvailableBins").getData();
-												for (var z = 0; z < temp.results.length; z++) {
-													if (binNo === temp.results[z].StorageBin) {
-														sap.ui.getCore().flag = true;
-														// sap.ui.getCore().FGPutAwaySubmit = true;
-														return sap.ui.getCore().flag;
-														// window.history.go(-1);
-														// MessageBox.error("Please select bins from availble bins only");
-													}
+										// that.odataService.read("/AvailableBinsFGRMSet?$filter=WareHouse eq '" + oWH +
+										// 	"' and Flag eq 'X' and Material eq '" + sap.ui.getCore().MatNum + "'",
+										// 	null, null, false,
+										// 	function (response) {
+										// 		console.log(response);
+										// 		that.result.items.push(response);
+										// 		that.getView().getModel("oAvailableBins").setData(response);
+										// 		var temp = that.getView().getModel("oAvailableBins").getData();
+										// 		for (var z = 0; z < temp.results.length; z++) {
+										// 			if (binNo === temp.results[z].StorageBin) {
+										// 				sap.ui.getCore().flag = true;
+										// 				// sap.ui.getCore().FGPutAwaySubmit = true;
+										// 				return sap.ui.getCore().flag;
+										// 				// window.history.go(-1);
+										// 				// MessageBox.error("Please select bins from availble bins only");
+										// 			}
 
-												}
-												if (sap.ui.getCore().flag === false) {
-													MessageBox.error("Please select bins from available bins only", {
-														title: "Error",
-														Action: "CLOSE",
-														onClose: function (oAction) {
+										// 		}
+										// 		if (sap.ui.getCore().flag === false) {
+										// 			MessageBox.error("Please select bins from available bins only", {
+										// 				title: "Error",
+										// 				Action: "CLOSE",
+										// 				onClose: function (oAction) {
 
-															if (oAction === sap.m.MessageBox.Action.CLOSE) {
-																that.getView().byId("id2").setValue("");
-															}
+										// 					if (oAction === sap.m.MessageBox.Action.CLOSE) {
+										// 						that.getView().byId("id2").setValue("");
+										// 					}
 
-														}.bind(that),
+										// 				}.bind(that),
 
-														styleClass: "",
-														initialFocus: null,
-														textDirection: sap.ui.core.TextDirection.Inherit
-													});
-													// MessageBox.Information("Please select bins from availble bins only");
-												}
+										// 				styleClass: "",
+										// 				initialFocus: null,
+										// 				textDirection: sap.ui.core.TextDirection.Inherit
+										// 			});
+										// 			// MessageBox.Information("Please select bins from availble bins only");
+										// 		}
 
-											});
+										// 	});
 
-										var aData = that.getView().getModel("oListHU");
+										// var aData = that.getView().getModel("oListHU");
 
 										// for (var i = aData.oData.HUSet.length - 1; i >= 0; i--) {
 										// 	if (aData.oData.HUSet[i].ExternalHU === sap.ui.getCore().EXHU) {
@@ -435,9 +435,9 @@ sap.ui.define([
 										// }
 
 									}
-									if (sap.ui.getCore().flag === true) {
-										// window.history.go(-1);
-									}
+									// if (sap.ui.getCore().flag === true) {
+									// 	// window.history.go(-1);
+									// }
 
 								}
 
@@ -449,7 +449,7 @@ sap.ui.define([
 										initialFocus: null,
 										textDirection: sap.ui.core.TextDirection.Inherit
 									});
-									that.getView().byId("id2").setValue("");
+									that.getView().byId("fgPutAwayBinId").setValue("");
 
 								}
 

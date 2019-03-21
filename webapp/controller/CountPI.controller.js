@@ -142,7 +142,6 @@ sap.ui.define([
 			that.getView().byId("pallet").setValue("");
 
 		}
-
 	});
 
 });

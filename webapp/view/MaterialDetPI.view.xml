@@ -1,8 +1,9 @@
 <mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" controllerName="com.axium.Axium.controller.MaterialDetPI"
-	xmlns:html="http://www.w3.org/1999/xhtml">
+	xmlns:html="http://www.w3.org/1999/xhtml" xmlns:tnt="sap.tnt">
 	<App>
 		<pages>
 			<Page >
+				<tnt:InfoLabel text="SELECT MATERIAL TO SCAN QUANTITY BEFORE PRESSING NEXT BUTTON" colorScheme="3" renderMode="Narrow"></tnt:InfoLabel>
 				<customHeader>
 					<Bar>
 						<contentLeft>
