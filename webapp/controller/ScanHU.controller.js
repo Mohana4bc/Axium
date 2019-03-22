@@ -162,7 +162,7 @@ sap.ui.define([
 							}
 							//} 
 							else if (data.Indicator === "X") {
-								MessageBox.error("HU Already Transferred");
+								MessageBox.error("This HU Is Already Transferred");
 								oRef.getView().byId("id1").setValue("");
 							} else if (tempVar === "") {
 
@@ -248,7 +248,7 @@ sap.ui.define([
 							}
 							//} 
 							else if (data.Indicator === "X") {
-								MessageBox.error("HU Already Transferred");
+								MessageBox.error("This HU Is Already Transferred");
 								oRef.getView().byId("id1").setValue("");
 							} else if (tempVar === "") {
 
