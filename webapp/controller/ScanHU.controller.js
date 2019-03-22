@@ -136,7 +136,7 @@ sap.ui.define([
 							// oModel.setData(null);
 							// var aData = oRef.getOwnerComponent().getModel("oListHU").getData();
 							//	if (tempVar.length === 20) {
-							if (data.Message === "Valid HU") {
+							if (data.Message === "Valid HU" && data.Indicator === "") {
 								oRef.HUdetails(tempVar);
 
 								// oRef.aData.push({
@@ -161,7 +161,10 @@ sap.ui.define([
 								// oRef.onBeforeShow(oEvent);
 							}
 							//} 
-							else if (tempVar === "") {
+							else if (data.Indicator === "X") {
+								MessageBox.error("HU Already Transferred");
+								oRef.getView().byId("id1").setValue("");
+							} else if (tempVar === "") {
 
 							} else {
 								MessageBox.error("Invalid HU");
@@ -219,7 +222,7 @@ sap.ui.define([
 							// oModel.setData(null);
 							// var aData = oRef.getOwnerComponent().getModel("oListHU").getData();
 							//	if (tempVar.length === 20) {
-							if (data.Message === "Valid HU") {
+							if (data.Message === "Valid HU" && data.Indicator === "") {
 								oRef.HUdetails(tempVar);
 
 								// oRef.aData.push({
@@ -244,7 +247,10 @@ sap.ui.define([
 								// oRef.onBeforeShow(oEvent);
 							}
 							//} 
-							else if (tempVar === "") {
+							else if (data.Indicator === "X") {
+								MessageBox.error("HU Already Transferred");
+								oRef.getView().byId("id1").setValue("");
+							} else if (tempVar === "") {
 
 							} else {
 								MessageBox.error("Invalid HU");
