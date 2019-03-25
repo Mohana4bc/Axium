@@ -136,40 +136,15 @@ sap.ui.define([
 							// oModel.setData(null);
 							// var aData = oRef.getOwnerComponent().getModel("oListHU").getData();
 							//	if (tempVar.length === 20) {
-							if (data.Message === "Valid HU" && data.Indicator === "") {
+							if (data.Message === "Valid HU") {
 								oRef.HUdetails(tempVar);
 
-								// oRef.aData.push({
-								// 	ExternalHU: data.ExternalHU,
-								// 	binNo: data.binNo
-								// });
-
-								// var oModel = new sap.ui.model.json.JSONModel();
-
-								// oModel.setData({
-								// 	HUSet: oRef.aData
-								// });
-
-								// var oModelCpy = new sap.ui.model.json.JSONModel();
-								// oModelCpy.setData({
-								// 	HUSet: oRef.aData
-								// });
-
-								// oRef.getOwnerComponent().setModel(oModel, "oListHU");
-								// oRef.getOwnerComponent().setModel(oModelCpy, "oListHUCpy");
-								// oRef.getView().byId("id1").setValue("");
-								// oRef.onBeforeShow(oEvent);
 							}
 							//} 
-							else if (data.Indicator === "X") {
-								MessageBox.error("This HU Is Already Transferred");
+							else {
+								MessageBox.error(data.Message);
 								oRef.getView().byId("id1").setValue("");
-							} else if (tempVar === "") {
-
-							} else {
-								MessageBox.error("Invalid HU");
-								oRef.getView().byId("id1").setValue("");
-
+								oRef.getView().byId("fgPutAwayBinId").setValue("");
 							}
 
 						}
@@ -222,7 +197,7 @@ sap.ui.define([
 							// oModel.setData(null);
 							// var aData = oRef.getOwnerComponent().getModel("oListHU").getData();
 							//	if (tempVar.length === 20) {
-							if (data.Message === "Valid HU" && data.Indicator === "") {
+							if (data.Message === "Valid HU") {
 								oRef.HUdetails(tempVar);
 
 								// oRef.aData.push({
@@ -247,15 +222,10 @@ sap.ui.define([
 								// oRef.onBeforeShow(oEvent);
 							}
 							//} 
-							else if (data.Indicator === "X") {
-								MessageBox.error("This HU Is Already Transferred");
+							else {
+								MessageBox.error(data.Message);
 								oRef.getView().byId("id1").setValue("");
-							} else if (tempVar === "") {
-
-							} else {
-								MessageBox.error("Invalid HU");
-								oRef.getView().byId("id1").setValue("");
-
+								oRef.getView().byId("fgPutAwayBinId").setValue("");
 							}
 
 						}
