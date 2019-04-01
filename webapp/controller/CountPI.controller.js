@@ -69,7 +69,7 @@ sap.ui.define([
 				model.matDet[sap.ui.selectedIndex].Pallets = sap.ui.getCore().pallet;
 				model.matDet[sap.ui.selectedIndex].Boxes = sap.ui.getCore().box;
 				model.matDet[sap.ui.selectedIndex].Count = sap.ui.getCore().totalQuantity;
-				// that.getView().getModel("PhysicalInventory").refresh(true);
+				that.getView().getModel("PhysicalInventory").refresh(true);
 			}
 
 			if (sap.ui.getCore().box === "" && sap.ui.getCore().pallet !== "") {
@@ -79,7 +79,7 @@ sap.ui.define([
 				// model.matDet[sap.ui.selectedIndex].Boxes = "0.000";
 				model.matDet[sap.ui.selectedIndex].Boxes = sap.ui.getCore().box;
 				model.matDet[sap.ui.selectedIndex].Count = sap.ui.getCore().totalQuantity;
-				// that.getView().getModel("PhysicalInventory").refresh(true);
+				that.getView().getModel("PhysicalInventory").refresh(true);
 			}
 
 			if (sap.ui.getCore().box !== "" && sap.ui.getCore().pallet === "") {
@@ -89,21 +89,25 @@ sap.ui.define([
 				// model.matDet[sap.ui.selectedIndex].Boxes = calculatedBox;
 				model.matDet[sap.ui.selectedIndex].Pallets = sap.ui.getCore().pallet;
 				model.matDet[sap.ui.selectedIndex].Count = sap.ui.getCore().totalQuantity;
-				// that.getView().getModel("PhysicalInventory").refresh(true);
+				that.getView().getModel("PhysicalInventory").refresh(true);
 			} else {
-				sap.ui.getCore().totalQuantity = sap.ui.getCore().count + parseFloat(count);
-				model.matDet[sap.ui.selectedIndex].Count = sap.ui.getCore().totalQuantity;
+				if (sap.ui.getCore().box === "" && sap.ui.getCore().pallet === "") {
+					sap.ui.getCore().totalQuantity = sap.ui.getCore().count + parseFloat(count);
+					model.matDet[sap.ui.selectedIndex].Count = sap.ui.getCore().totalQuantity;
+					that.getView().getModel("PhysicalInventory").refresh(true);
+				}
 			}
-			// that.getView().getModel("PhysicalInventory").refresh(true);
+
 			var data = {};
 			data.CountItemsSet = [];
 			data.BinNumber = Bin;
+			// data.Status = "COUNTED";
 			var temp = {};
 			temp.BinNumber = Bin;
 			temp.Material = materialNumber;
 			temp.Batch = sap.ui.getCore().batch;
 			temp.UOM = uom;
-			temp.Status = "";
+			temp.Status = sap.ui.getCore.phyInvenStatus;
 			temp.Boxes = calculatedBox;
 			temp.Plant = sap.ui.getCore().plnt;
 			temp.StrLoc = sap.ui.getCore().stgloc;

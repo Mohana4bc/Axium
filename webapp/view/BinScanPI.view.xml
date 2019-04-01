@@ -23,10 +23,10 @@
 					</f:SimpleForm>
 					<List items="{oListHU>/BinSet}" headerText="Bins" mode="MultiSelect" id="idList">
 						<items>
-							<ObjectListItem type="Navigation" title="{oListHU>bin}" press="onBinPress">
+							<ObjectListItem type="Navigation" intro="{oListHU>bin}" title="{oListHU>status}" press="onBinPress">
 								<attributes>
 									<!--<ObjectAttribute text="{oListHU>bin}" title="Bin Number"/>-->
-									<ObjectAttribute text="{oListHU>status}" title="Status"/>
+									<!--<ObjectAttribute text="{oListHU>status}" title="Status"/>-->
 								</attributes>
 							</ObjectListItem>
 						</items>

@@ -15,6 +15,7 @@ sap.ui.define([
 			var data = [];
 			oRef.odataService = new sap.ui.model.odata.ODataModel("/sap/opu/odata/sap/ZWM_GW_RFSCREENS_SRV/", true);
 			this.aData = [];
+			this.oList = this.getView().byId("idList");
 			oRef.odataService.read("/CountItemsSet", null, null, false, function (response) {
 				for (var i = 0; i < response.results.length; i++) {
 					data.push({
@@ -57,6 +58,8 @@ sap.ui.define([
 			var oRef = this;
 			var bin = oRef.getView().byId("bin").getValue();
 			sap.ui.getCore().bin = bin;
+			sap.ui.getCore.phyInvenStatus = "COUNTED";
+
 			oRef.odataService.read("/ScannedBinNumber?BinNumber='" + bin + "'", null,
 				null, false,
 				function (data) {
@@ -64,37 +67,50 @@ sap.ui.define([
 						MessageBox.error("Please Scan Bin");
 					} else if (data.Message === "valid Bin") {
 						var data = [];
-						// oRef.odataService = new sap.ui.model.odata.ODataModel("/sap/opu/odata/sap/ZWM_GW_RFSCREENS_SRV/", true);
 						oRef.aData = [];
-						oRef.odataService.read("/BinMaterialSet?$filter=BinNumber eq '" + sap.ui.getCore().bin + "'and StrLoc eq'" + sap.ui.getCore().stgloc +
-							"'and Plant eq'" + sap.ui.getCore().plnt + "'", null, null, false,
-							function (response) {
+						var binStatusFlag;
+						var result = oRef.oList.getModel("oListHU").getData();
+						$.each(result.BinSet, function (index, item) {
+							if (item.bin === sap.ui.getCore().bin) {
+								binStatusFlag = true;
+							} else {
+								binStatusFlag = false;
+							}
 
-								for (var i = 0; i < response.results.length; i++) {
-									data.push({
-										Material: response.results[i].Material,
-										MaterialDesc: response.results[i].MaterialDesc,
-										BatchNo: response.results[i].BatchNo,
-										Count: response.results[i].Count,
-										UOM: response.results[i].UOM,
-										Boxes: response.results[i].Boxes,
-										PerBoxQty: response.results[i].PerBoxQty,
-										PerPalQty: response.results[i].PerPalQty,
-										Indicator: response.results[i].Indicator,
-										Pallets: response.results[i].Pallets
+						});
+						if (binStatusFlag === false) {
+							oRef.odataService.read("/BinMaterialSet?$filter=BinNumber eq '" + sap.ui.getCore().bin + "'and StrLoc eq'" + sap.ui.getCore().stgloc +
+								"'and Plant eq'" + sap.ui.getCore().plnt + "'", null, null, false,
+								function (response) {
+
+									for (var i = 0; i < response.results.length; i++) {
+										data.push({
+											Material: response.results[i].Material,
+											MaterialDesc: response.results[i].MaterialDesc,
+											BatchNo: response.results[i].BatchNo,
+											Count: response.results[i].Count,
+											UOM: response.results[i].UOM,
+											Boxes: response.results[i].Boxes,
+											PerBoxQty: response.results[i].PerBoxQty,
+											PerPalQty: response.results[i].PerPalQty,
+											Indicator: response.results[i].Indicator,
+											Pallets: response.results[i].Pallets
+										});
+									}
+
+									var oModel = new sap.ui.model.json.JSONModel();
+									oModel.setData({
+										matDet: data
 									});
-								}
+									oRef.getOwnerComponent().setModel(oModel, "PhysicalInventory");
 
-								var oModel = new sap.ui.model.json.JSONModel();
-								oModel.setData({
-									matDet: data
 								});
-								oRef.getOwnerComponent().setModel(oModel, "PhysicalInventory");
-
-							});
-						var sRouter = sap.ui.core.UIComponent.getRouterFor(oRef);
-						sRouter.navTo("MaterialDetPI", true);
-						sap.ui.getCore().bin = oRef.getView().byId("bin").getValue();
+							var sRouter = sap.ui.core.UIComponent.getRouterFor(oRef);
+							sRouter.navTo("MaterialDetPI", true);
+							sap.ui.getCore().bin = oRef.getView().byId("bin").getValue();
+						} else {
+							MessageBox.error("Bin Number Already Scanned,Please Check The List Below");
+						}
 
 					} else {
 						sap.m.MessageBox.alert(data.Message, {
@@ -111,10 +127,11 @@ sap.ui.define([
 			oRef.getView().byId("bin").setValue("");
 		},
 		onBinPress: function (oEvent) {
-			var bin = oEvent.getSource().getTitle();
+			var bin = oEvent.getSource().getIntro();
+			sap.ui.getCore.phyInvenStatus = oEvent.getSource().getTitle();
 			var oRef = this;
 			var data = [];
-			oRef.odataService.read("/BinMaterialSet?$filter=BinNumber eq '" + sap.ui.getCore().bin + "'and StrLoc eq'" + sap.ui.getCore().stgloc +
+			oRef.odataService.read("/BinMaterialSet?$filter=BinNumber eq '" + bin + "'and StrLoc eq'" + sap.ui.getCore().stgloc +
 				"'and Plant eq'" + sap.ui.getCore().plnt + "'", null, null, false,
 				function (response) {
 
