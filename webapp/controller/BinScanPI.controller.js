@@ -191,7 +191,7 @@ sap.ui.define([
 			var myModel = that.getView().getModel("oListHU").getData();
 			// that.getView().getModel("oListHU").getData().BinSet.length
 			if (that.getView().getModel("oListHU").getData().BinSet.length <= 0) {
-				MessageBox.error("error");
+				MessageBox.error("Bin Numberl list is empty to submit");
 			} else {
 				data.NavInvHeadInvItem = [];
 				data.Plant = sap.ui.getCore().plnt;

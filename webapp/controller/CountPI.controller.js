@@ -111,6 +111,8 @@ sap.ui.define([
 			temp.Boxes = calculatedBox;
 			temp.Plant = sap.ui.getCore().plnt;
 			temp.StrLoc = sap.ui.getCore().stgloc;
+			// temp.Pallets = sap.ui.getCore().pallet;
+			// temp.Boxes = sap.ui.getCore().box;
 			temp.Quantity = sap.ui.getCore().totalQuantity.toFixed(3);
 			data.CountItemsSet.push(temp);
 			this.odataService.create("/CountHeaderSet", data, null, function (odata, response) {

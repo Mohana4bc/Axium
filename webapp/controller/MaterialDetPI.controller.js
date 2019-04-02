@@ -143,11 +143,39 @@ sap.ui.define([
 
 			if (flag === true) {
 				if (sap.ui.getCore().binList === false) {
-					this.aData = [];
-					this.aData.push({
-						bin: sap.ui.getCore().bin,
-						status: sap.ui.getCore.phyInvenStatus
-					});
+					that.aData = [];
+
+					that.odataService.read("/BinMaterialSet?$filter=BinNumber eq '" + sap.ui.getCore().bin + "'and StrLoc eq'" + sap.ui.getCore().stgloc +
+						"'and Plant eq'" + sap.ui.getCore().plnt + "'", null, null, false,
+						function (response) {
+
+							for (var i = 0; i < response.results.length; i++) {
+								that.aData.push({
+									// Material: response.results[i].Material,
+									// MaterialDesc: response.results[i].MaterialDesc,
+									// BatchNo: response.results[i].BatchNo,
+									// Count: response.results[i].Count,
+									// UOM: response.results[i].UOM,
+									// Boxes: response.results[i].Boxes,
+									// PerBoxQty: response.results[i].PerBoxQty,
+									// PerPalQty: response.results[i].PerPalQty,
+									// Indicator: response.results[i].Indicator,
+									// Pallets: response.results[i].Pallets
+									bin: sap.ui.getCore().bin,
+									status: sap.ui.getCore.phyInvenStatus,
+									bat: response.results[i].BatchNo,
+									mat: response.results[i].Material
+
+								});
+							}
+
+						});
+
+					// this.aData = [];
+					// this.aData.push({
+					// 	bin: sap.ui.getCore().bin,
+					// 	status: sap.ui.getCore.phyInvenStatus
+					// });
 
 					var listData = that.getOwnerComponent().getModel("oListHU");
 					var test1 = listData.getProperty("/BinSet");
