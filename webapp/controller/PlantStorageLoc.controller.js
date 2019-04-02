@@ -66,6 +66,8 @@ sap.ui.define([
 							var temp = {};
 							temp.bin = response.results[i].BinNumber;
 							temp.status = response.results[i].Status;
+							temp.mat = response.results[i].Material;
+							temp.bat = response.results[i].Batch;
 							that.aData.push(temp);
 						}
 						// that.aData.push(temp);

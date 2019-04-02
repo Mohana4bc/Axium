@@ -612,9 +612,9 @@ sap.ui.define([
 						errorDetailsRFC = "All the HU 's are now scanned. Contact CSR for further postings";
 						MessageBox.error(errorDetailsRFC, {
 							title: "Error",
-							Action: "OK",
+							Action: "Close",
 							onClose: function (oAction) {
-								if (oAction === "OK") {
+								if (oAction === "CLOSE") {
 									var sHistory = History.getInstance();
 									var sPreviousHash = sHistory.getPreviousHash();
 									if (sPreviousHash !== undefined) {
