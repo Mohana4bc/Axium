@@ -59,6 +59,7 @@ sap.ui.define([
 			if (sap.ui.getCore().plnt === "" || sap.ui.getCore().stgloc === "") {
 				MessageBox.alert("Please select the mandatory fields");
 			} else {
+				that.aData = [];
 				that.odataService.read("/CountItemsSet?$filter=StrLoc eq '" + sap.ui.getCore().stgloc + "' and Plant eq '" + sap.ui.getCore().plnt +
 					"'", null, null, false,
 					function (response) {
