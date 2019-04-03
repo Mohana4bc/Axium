@@ -23,18 +23,19 @@ sap.ui.define([
 		onBeforeShow: function () {
 			var oRef = this;
 			if (sap.ui.getCore().indicator === "X") {
-				var count = this.getView().byId("count");
+				var count = oRef.getView().byId("count");
 				count.setVisible(false);
 			} else {
-				var count = this.getView().byId("count");
-				var box = this.getView().byId("box");
-				var pallet = this.getView().byId("pallet");
+				var count = oRef.getView().byId("count");
+				var box = oRef.getView().byId("box");
+				var pallet = oRef.getView().byId("pallet");
 				count.setEnabled(true);
-				box.setVisible(false);
-				pallet.setVisible(false);
+				count.setVisible(false);
+				box.setVisible(true);
+				pallet.setVisible(true);
 
 			}
-			oRef.onInit();
+			// oRef.onInit();
 
 		},
 
@@ -62,7 +63,7 @@ sap.ui.define([
 			var calculatedBox = parseFloat(sap.ui.getCore().box) * parseFloat(perBoxQty);
 
 			if (sap.ui.getCore().box !== "" && sap.ui.getCore().pallet !== "") {
-				sap.ui.getCore().totalQuantity = sap.ui.getCore().count + calculatedPallet + calculatedBox;
+				sap.ui.getCore().totalQuantity = parseFloat(sap.ui.getCore().count) + calculatedPallet + calculatedBox;
 				sap.ui.getCore().totalQuantity = sap.ui.getCore().totalQuantity;
 				// model.matDet[sap.ui.selectedIndex].Pallets = calculatedPallet;
 				// model.matDet[sap.ui.selectedIndex].Boxes = calculatedBox;
@@ -73,7 +74,7 @@ sap.ui.define([
 			}
 
 			if (sap.ui.getCore().box === "" && sap.ui.getCore().pallet !== "") {
-				sap.ui.getCore().totalQuantity = sap.ui.getCore().count + calculatedPallet;
+				sap.ui.getCore().totalQuantity = parseFloat(sap.ui.getCore().count) + calculatedPallet;
 				sap.ui.getCore().totalQuantity = sap.ui.getCore().totalQuantity;
 				// model.matDet[sap.ui.selectedIndex].Pallets = calculatedPallet;
 				// model.matDet[sap.ui.selectedIndex].Boxes = "0.000";
@@ -83,19 +84,18 @@ sap.ui.define([
 			}
 
 			if (sap.ui.getCore().box !== "" && sap.ui.getCore().pallet === "") {
-				sap.ui.getCore().totalQuantity = sap.ui.getCore().count + calculatedBox;
+				sap.ui.getCore().totalQuantity = parseFloat(sap.ui.getCore().count) + calculatedBox;
 				sap.ui.getCore().totalQuantity = sap.ui.getCore().totalQuantity;
 				// model.matDet[sap.ui.selectedIndex].Pallets = "0.000";
 				// model.matDet[sap.ui.selectedIndex].Boxes = calculatedBox;
 				model.matDet[sap.ui.selectedIndex].Pallets = sap.ui.getCore().pallet;
 				model.matDet[sap.ui.selectedIndex].Count = sap.ui.getCore().totalQuantity;
 				that.getView().getModel("PhysicalInventory").refresh(true);
-			} else {
-				if (sap.ui.getCore().box === "" && sap.ui.getCore().pallet === "") {
-					sap.ui.getCore().totalQuantity = sap.ui.getCore().count + parseFloat(count);
-					model.matDet[sap.ui.selectedIndex].Count = sap.ui.getCore().totalQuantity;
-					that.getView().getModel("PhysicalInventory").refresh(true);
-				}
+			}
+			if (sap.ui.getCore().box === "" && sap.ui.getCore().pallet === "") {
+				sap.ui.getCore().totalQuantity = parseFloat(sap.ui.getCore().count) + parseFloat(count);
+				model.matDet[sap.ui.selectedIndex].Count = sap.ui.getCore().totalQuantity;
+				that.getView().getModel("PhysicalInventory").refresh(true);
 			}
 
 			var data = {};

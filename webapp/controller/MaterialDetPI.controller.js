@@ -179,7 +179,7 @@ sap.ui.define([
 
 					var listData = that.getOwnerComponent().getModel("oListHU");
 					var test1 = listData.getProperty("/BinSet");
-					test1.push.apply(test1, this.aData);
+					test1.push.apply(test1, that.aData);
 					listData.setProperty("/BinSet", test1);
 					that.getOwnerComponent().getModel("oListHU").refresh(true);
 					var sRouter = sap.ui.core.UIComponent.getRouterFor(that);
