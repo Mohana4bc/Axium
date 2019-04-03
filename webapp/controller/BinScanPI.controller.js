@@ -78,6 +78,7 @@ sap.ui.define([
 								$.each(result.BinSet, function (index, item) {
 									if (item.bin === sap.ui.getCore().bin) {
 										binStatusFlag = true;
+										return false;
 									} else {
 										binStatusFlag = false;
 									}
