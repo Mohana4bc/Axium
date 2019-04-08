@@ -54,6 +54,7 @@ sap.ui.define([
 			this.setModel(new sap.ui.model.json.JSONModel(), "Count");
 			this.setModel(new sap.ui.model.json.JSONModel(), "PlantStorage");
 			this.setModel(new sap.ui.model.json.JSONModel(), "InvenHUBin");
+			this.setModel(new sap.ui.model.json.JSONModel(), "BinHUMatModel");
 
 		}
 	});

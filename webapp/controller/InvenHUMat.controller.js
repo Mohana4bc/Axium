@@ -256,7 +256,7 @@ sap.ui.define([
 				var oModel = new sap.ui.model.json.JSONModel();
 
 				oModel.setData({
-					HUBinSet: oRef.aData
+					BinHUMatSet: oRef.aData
 				});
 				oRef.getOwnerComponent().setModel(oModel, "InvenHUBin");
 				oRef.getView().byId("idHUNum").setValue("");

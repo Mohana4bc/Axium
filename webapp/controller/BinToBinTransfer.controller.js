@@ -94,7 +94,7 @@ sap.ui.define([
 								textDirection: sap.ui.core.TextDirection.Inherit
 							});
 						});
-				}, 1000)
+				}, 1000);
 			} else {
 				storageBinFlag = true;
 				return storageBinFlag;
@@ -107,12 +107,21 @@ sap.ui.define([
 			var warehouseNumber = this.getView().byId("warehouseId").getSelectedItem().getAdditionalText();
 			var sourceStorage = this.getView().byId("sourceStorage").getValue();
 			var sourceBin = this.getView().byId("sourceBin").getValue();
+			var whBintoBinFlag = false;
+			if (warehouseNumber === "A01") {
+				whBintoBinFlag = true;
+			} else {
+				if (warehouseNumber === "A02") {
+					whBintoBinFlag = false;
+				}
+			}
 			if (warehouseNumber !== "" && sourceStorage !== "" && sourceBin !== "") {
 				var oRouter = this.getOwnerComponent().getRouter();
-				oRouter.navTo("HUandMatScan", {
+				oRouter.navTo("HUorMatScan", {
 					warehouseNumber: warehouseNumber,
 					sourceStorage: sourceStorage,
-					sourceBin: sourceBin
+					sourceBin: sourceBin,
+					whBintoBinFlag: whBintoBinFlag
 				});
 				oRef.setEmpty();
 			} else {
