@@ -34,7 +34,7 @@ sap.ui.define([
 				oRef.getView().byId("BatchNumber").setVisible(false);
 				oRef.getView().byId("Quantity").setVisible(false);
 				oRef.getView().byId("idMatAdd").setVisible(false);
-				oRef.getView().byId("destinationStorage").setEnabled(false);
+				oRef.getView().byId("destinationStorage").setEnabled(true);
 
 			} else {
 				if (oRef.whBintoBinFlag === "false") {
@@ -322,27 +322,50 @@ sap.ui.define([
 			var oRef = this;
 			var HuNumber = HUNumber;
 			var flag;
-			// setTimeout(function () {
-			oRef.odataService.read("/ScannedHU?ExternalHU='" + HuNumber + "'",
-				null, null, false,
-				function (oData, oResponse) {
-					var message = oData.Message;
-					if (message === "Valid HU") {
-						flag = "X";
-					} else {
-						flag = "";
+			var aData = oRef.getOwnerComponent().getModel("BinHUMatModel");
+			if (aData !== undefined) {
+				var aData = oRef.getOwnerComponent().getModel("BinHUMatModel").getData();
+				var extFlag = true;
+				var duplicateHU = false;
+				$.each(aData.BinHUMatSet, function (index, item) {
+
+					if (item.HU === HUNumber) {
+						extFlag = false;
+						duplicateHU = true;
 					}
-				},
-				function (oResponse) {
-					sap.m.MessageBox.alert("Failed to validate HU Number", {
-						title: "Information",
-						onClose: null,
-						styleClass: "",
-						initialFocus: null,
-						textDirection: sap.ui.core.TextDirection.Inherit
-					});
 				});
-			return flag;
+			}
+
+			if (duplicateHU === true) {
+				oRef.getView().byId("scanHUNumber").setValue("");
+				sap.m.MessageBox.alert("HU Number is already scanned", {
+					title: "Information"
+				});
+			} else {
+				if (duplicateHU === false) {
+					oRef.odataService.read("/ScannedHU?ExternalHU='" + HuNumber + "'",
+						null, null, false,
+						function (oData, oResponse) {
+							var message = oData.Message;
+							if (message === "Valid HU") {
+								flag = "X";
+							} else {
+								flag = "";
+							}
+						},
+						function (oResponse) {
+							sap.m.MessageBox.alert("Failed to validate HU Number", {
+								title: "Information",
+								onClose: null,
+								styleClass: "",
+								initialFocus: null,
+								textDirection: sap.ui.core.TextDirection.Inherit
+							});
+						});
+					return flag;
+				}
+			}
+
 			// }, 1000);
 
 		},
@@ -580,7 +603,7 @@ sap.ui.define([
 			} else {
 				if (SourceBin !== "" && ExternalHU !== undefined && DestinationBin !== "" && Material !== "" && RequirementQnty !== "" && BatchNo !==
 					undefined && WareHouseNumber !== "" && SourceStrTyp !== "" && DestinationStrTyp !== "") {
-					if (BatchNo != "") {
+					if (BatchNo !== "") {
 						batchValidate = oRef.batchValidation(BatchNo);
 					} else {
 						batchValidate = "X";
@@ -608,7 +631,7 @@ sap.ui.define([
 									text: message
 								}),
 								beginButton: new Button({
-									text: 'OK',
+									text: "OK",
 									press: function () {
 										oRef.setEmpty();
 										dialog.close();
@@ -690,11 +713,11 @@ sap.ui.define([
 			oRef.getView().byId("Quantity").setEnabled(false);
 			oRef.getView().byId("UOM").setVisible(false);
 			// oRef.getView().byId("destinationStorage").setValue("");
-			// oRef.getView().byId("destinationStorage").clearSelection(true);
-			// oRef.getView().byId("destinationStorage").setEnabled(false);
+			oRef.getView().byId("destinationStorage").clearSelection(true);
+			oRef.getView().byId("destinationStorage").setValue("");
 			// oRef.getView().byId("DestinationBin").setValue("");
 			/*oRef.getView().byId("DestinationBin").clearSelection(true);*/
-			// oRef.getView().byId("DestinationBin").setEnabled(false);
+			oRef.getView().byId("DestinationBin").setValue("");
 		},
 		onPressBack: function () {
 			var oRef = this;
