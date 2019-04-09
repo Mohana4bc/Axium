@@ -125,6 +125,7 @@ sap.ui.define([
 			this.odataService.create("/CountHeaderSet", data, null, function (odata, response) {
 				console.log(response);
 				sap.ui.getCore().Status = "COUNTED";
+				sap.ui.getCore().onSuccessfullSaveIntoZtable = true;
 				that.getView().getModel("PhysicalInventory").refresh(true);
 				MessageBox.success("Data Successfully Saved", {
 					title: "Success",

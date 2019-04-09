@@ -47,6 +47,7 @@ sap.ui.define([
 					this.onBeforeShow(evt);
 				}, this)
 			});
+			sap.ui.getCore().onSuccessfullSaveIntoZtable = false;
 
 		},
 
@@ -142,7 +143,7 @@ sap.ui.define([
 			});
 
 			if (flag === true) {
-				if (sap.ui.getCore().binList === false) {
+				if (sap.ui.getCore().binList === false && sap.ui.getCore().onSuccessfullSaveIntoZtable === true) {
 					that.aData = [];
 
 					that.odataService.read("/BinMaterialSet?$filter=BinNumber eq '" + sap.ui.getCore().bin + "'and StrLoc eq'" + sap.ui.getCore().stgloc +
@@ -210,54 +211,54 @@ sap.ui.define([
 			// that.getOwnerComponent().setModel(oModel, "oListHU");
 			// that.getOwnerComponent().getModel("oListHU").refresh(true);
 
-			// if (sap.ui.getCore().binList === false) {
-			// 	that.aData = [];
+			if (sap.ui.getCore().binList === false && sap.ui.getCore().onSuccessfullSaveIntoZtable === true) {
+				that.aData = [];
 
-			// 	that.odataService.read("/BinMaterialSet?$filter=BinNumber eq '" + sap.ui.getCore().bin + "'and StrLoc eq'" + sap.ui.getCore().stgloc +
-			// 		"'and Plant eq'" + sap.ui.getCore().plnt + "'", null, null, false,
-			// 		function (response) {
+				that.odataService.read("/BinMaterialSet?$filter=BinNumber eq '" + sap.ui.getCore().bin + "'and StrLoc eq'" + sap.ui.getCore().stgloc +
+					"'and Plant eq'" + sap.ui.getCore().plnt + "'", null, null, false,
+					function (response) {
 
-			// 			for (var i = 0; i < response.results.length; i++) {
-			// 				that.aData.push({
-			// 					// Material: response.results[i].Material,
-			// 					// MaterialDesc: response.results[i].MaterialDesc,
-			// 					// BatchNo: response.results[i].BatchNo,
-			// 					// Count: response.results[i].Count,
-			// 					// UOM: response.results[i].UOM,
-			// 					// Boxes: response.results[i].Boxes,
-			// 					// PerBoxQty: response.results[i].PerBoxQty,
-			// 					// PerPalQty: response.results[i].PerPalQty,
-			// 					// Indicator: response.results[i].Indicator,
-			// 					// Pallets: response.results[i].Pallets
-			// 					bin: sap.ui.getCore().bin,
-			// 					status: sap.ui.getCore.phyInvenStatus,
-			// 					bat: response.results[i].BatchNo,
-			// 					mat: response.results[i].Material
+						for (var i = 0; i < response.results.length; i++) {
+							that.aData.push({
+								// Material: response.results[i].Material,
+								// MaterialDesc: response.results[i].MaterialDesc,
+								// BatchNo: response.results[i].BatchNo,
+								// Count: response.results[i].Count,
+								// UOM: response.results[i].UOM,
+								// Boxes: response.results[i].Boxes,
+								// PerBoxQty: response.results[i].PerBoxQty,
+								// PerPalQty: response.results[i].PerPalQty,
+								// Indicator: response.results[i].Indicator,
+								// Pallets: response.results[i].Pallets
+								bin: sap.ui.getCore().bin,
+								status: sap.ui.getCore.phyInvenStatus,
+								bat: response.results[i].BatchNo,
+								mat: response.results[i].Material
 
-			// 				});
-			// 			}
+							});
+						}
 
-			// 		});
+					});
 
-			// 	// this.aData = [];
-			// 	// this.aData.push({
-			// 	// 	bin: sap.ui.getCore().bin,
-			// 	// 	status: sap.ui.getCore.phyInvenStatus
-			// 	// });
+				// this.aData = [];
+				// this.aData.push({
+				// 	bin: sap.ui.getCore().bin,
+				// 	status: sap.ui.getCore.phyInvenStatus
+				// });
 
-			// 	var listData = that.getOwnerComponent().getModel("oListHU");
-			// 	var test1 = listData.getProperty("/BinSet");
-			// 	test1.push.apply(test1, that.aData);
-			// 	listData.setProperty("/BinSet", test1);
-			// 	that.getOwnerComponent().getModel("oListHU").refresh(true);
-			// 	var sRouter = sap.ui.core.UIComponent.getRouterFor(that);
-			// 	sRouter.navTo("BinScanPI", true);
-			// } else {
-			// 	var sRouter = sap.ui.core.UIComponent.getRouterFor(that);
-			// 	sRouter.navTo("BinScanPI", true);
+				var listData = that.getOwnerComponent().getModel("oListHU");
+				var test1 = listData.getProperty("/BinSet");
+				test1.push.apply(test1, that.aData);
+				listData.setProperty("/BinSet", test1);
+				that.getOwnerComponent().getModel("oListHU").refresh(true);
+				var sRouter = sap.ui.core.UIComponent.getRouterFor(that);
+				sRouter.navTo("BinScanPI", true);
+			} else {
+				var sRouter = sap.ui.core.UIComponent.getRouterFor(that);
+				sRouter.navTo("BinScanPI", true);
 
-			// }
-			that.onNext();
+			}
+			// that.onNext();
 
 		}
 
