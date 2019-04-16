@@ -59,6 +59,7 @@ sap.ui.define([
 		onBinScan: function () {
 			var oRef = this;
 			sap.ui.getCore().binList = false;
+			sap.ui.getCore.phyInvenStatus = "COUNTED";
 			var bin = oRef.getView().byId("bin").getValue();
 			var dummyFlag = true;
 			if (bin.length >= 5) {

@@ -53,6 +53,7 @@ sap.ui.define([
 
 		onBeforeShow: function () {
 			var oRef = this;
+			// sap.ui.getCore().onSuccessfullSaveIntoZtable = false;
 			// var data = [];
 			// oRef.odataService.read("/BinMaterialSet?$filter=BinNumber eq '" + sap.ui.getCore().bin + "'and StrLoc eq'" + sap.ui.getCore().stgloc +
 			// 	"'and Plant eq'" + sap.ui.getCore().plnt + "'", null, null, false,
@@ -183,6 +184,7 @@ sap.ui.define([
 					test1.push.apply(test1, that.aData);
 					listData.setProperty("/BinSet", test1);
 					that.getOwnerComponent().getModel("oListHU").refresh(true);
+					sap.ui.getCore().onSuccessfullSaveIntoZtable = false;
 					var sRouter = sap.ui.core.UIComponent.getRouterFor(that);
 					sRouter.navTo("BinScanPI", true);
 				} else {
@@ -251,6 +253,7 @@ sap.ui.define([
 				test1.push.apply(test1, that.aData);
 				listData.setProperty("/BinSet", test1);
 				that.getOwnerComponent().getModel("oListHU").refresh(true);
+				sap.ui.getCore().onSuccessfullSaveIntoZtable = false;
 				var sRouter = sap.ui.core.UIComponent.getRouterFor(that);
 				sRouter.navTo("BinScanPI", true);
 			} else {

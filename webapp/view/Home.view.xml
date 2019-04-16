@@ -18,8 +18,8 @@
 						<!--	press="onReturn" icon="sap-icon://bar-code"/>-->
 						<Button text="Raw Material Receipt" class="sapMBtnContent" iconDensityAware="false" visible="true" enabled="true" width="325px"
 							iconFirst="true" type="Emphasized" press="onRMPutAway" icon="sap-icon://bar-code"/>
-						<Button text="Bin To Bin Transfer" class="sapMBtnContent" iconDensityAware="false" visible="true" enabled="true" width="325px"
-							iconFirst="true" type="Emphasized" press="onPressBinToBin" icon="sap-icon://bar-code"/>
+						<!--<Button text="Bin To Bin Transfer" class="sapMBtnContent" iconDensityAware="false" visible="true" enabled="true" width="325px"-->
+						<!--	iconFirst="true" type="Emphasized" press="onPressBinToBin" icon="sap-icon://bar-code"/>-->
 						<Button text="Finished Goods Put Away" class="sapMBtnContent" iconDensityAware="false" visible="true" enabled="true" width="325px"
 							iconFirst="true" type="Emphasized" press="onPressFG" icon="sap-icon://bar-code"/>
 						<Button text="IM Stock Overview" iconDensityAware="false" visible="true" enabled="true" width="325px" iconFirst="true" type="Emphasized"
