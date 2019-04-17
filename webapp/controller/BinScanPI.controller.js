@@ -191,7 +191,20 @@ sap.ui.define([
 			var data = {};
 			var that = this;
 			var myModel = that.getView().getModel("oListHU").getData();
+			// var binStatusSubmitted = false;
 			// that.getView().getModel("oListHU").getData().BinSet.length
+
+			// var result = that.oList.getModel("oListHU").getData();
+			// $.each(result.BinSet, function (index, item) {
+			// 	if (item.status === "SUBMITTED") {
+			// 		binStatusSubmitted = true;
+			// 		return false;
+			// 	} else {
+			// 		binStatusSubmitted = false;
+			// 	}
+
+			// });
+			// if (binStatusSubmitted === false) {
 			if (that.getView().getModel("oListHU").getData().BinSet.length <= 0) {
 				MessageBox.error("Bin Numberl list is empty to submit");
 			} else {
@@ -228,56 +241,65 @@ sap.ui.define([
 						// var strMsg = {};
 						// strMsg.strAry = [];
 						var sMsg = [];
-						$.each(response.data.NavInvHeadInvItem.results, function (index, item) {
-							if (response.data.NavInvHeadInvItem.results.length === 1) {
-								msg = response.data.NavInvHeadInvItem.results[index].Matnr;
-								bin = response.data.NavInvHeadInvItem.results[index].BinNumber;
-								msg1 = "Physical Inventory " + msg + " for Bin number " + bin + "\n";
-								sMsg.push(msg1);
-							}
-							// if (index != response.data.NavInvHeadInvItem.results.length - 1) 
-							else {
-								msg = response.data.NavInvHeadInvItem.results[index].Matnr;
-								bin = response.data.NavInvHeadInvItem.results[index].BinNumber;
-								msg1 = "Physical Inventory " + msg + " for Bin number " + bin + "\n";
-								sMsg.push(msg1);
-							}
-
-						});
-						var msgLen = sMsg.length;
-						var actualMsg = "";
-						for (var i = 0; i < msgLen; i++) {
-							actualMsg = actualMsg + sMsg[i].slice(0, 250);
-						}
-						MessageBox.success(actualMsg, {
-							title: "Success",
-							Action: "OK",
-							onClose: function (oAction) {
-								if (oAction === sap.m.MessageBox.Action.OK) {
-									// oRef.getView().byId("idList").destroyItems();
-									// var sHistory = History.getInstance();
-									// var sPreviousHash = sHistory.getPreviousHash();
-									// if (sPreviousHash !== undefined) {
-									// 	window.history.go(-1);
-									// }
-									var aData = that.getView().getModel("oListHU").getData();
-									that.aData = [];
-									that.getView().getModel("oListHU").setData(that.aData);
-									that.getView().getModel("oListHU").refresh(true);
-									var sRouter = sap.ui.core.UIComponent.getRouterFor(that);
-									sRouter.navTo("PlantStorageLoc", true);
+						if (response.data.NavInvHeadInvItem === null) {
+							MessageBox.error("Bin/s Already Submitted");
+						} else {
+							$.each(response.data.NavInvHeadInvItem.results, function (index, item) {
+								if (response.data.NavInvHeadInvItem.results.length === 1) {
+									msg = response.data.NavInvHeadInvItem.results[index].Matnr;
+									bin = response.data.NavInvHeadInvItem.results[index].BinNumber;
+									msg1 = "Physical Inventory " + msg + " for Bin number " + bin + "\n";
+									sMsg.push(msg1);
 								}
-							}.bind(this),
-							styleClass: "",
-							initialFocus: null,
-							textDirection: sap.ui.core.TextDirection.Inherit
-						});
+								// if (index != response.data.NavInvHeadInvItem.results.length - 1) 
+								else {
+									msg = response.data.NavInvHeadInvItem.results[index].Matnr;
+									bin = response.data.NavInvHeadInvItem.results[index].BinNumber;
+									msg1 = "Physical Inventory " + msg + " for Bin number " + bin + "\n";
+									sMsg.push(msg1);
+								}
+
+							});
+							var msgLen = sMsg.length;
+							var actualMsg = "";
+							for (var i = 0; i < msgLen; i++) {
+								actualMsg = actualMsg + sMsg[i].slice(0, 250);
+							}
+							MessageBox.success(actualMsg, {
+								title: "Success",
+								Action: "OK",
+								onClose: function (oAction) {
+									if (oAction === sap.m.MessageBox.Action.OK) {
+										// oRef.getView().byId("idList").destroyItems();
+										// var sHistory = History.getInstance();
+										// var sPreviousHash = sHistory.getPreviousHash();
+										// if (sPreviousHash !== undefined) {
+										// 	window.history.go(-1);
+										// }
+										var aData = that.getView().getModel("oListHU").getData();
+										that.aData = [];
+										that.getView().getModel("oListHU").setData(that.aData);
+										that.getView().getModel("oListHU").refresh(true);
+										var sRouter = sap.ui.core.UIComponent.getRouterFor(that);
+										sRouter.navTo("PlantStorageLoc", true);
+									}
+								}.bind(this),
+								styleClass: "",
+								initialFocus: null,
+								textDirection: sap.ui.core.TextDirection.Inherit
+							});
+						}
+
 					},
 					function (odata, response) {
 						MessageBox.error("Data not saved");
 					}
 				);
 			}
+			// } 
+			// else {
+			// 	MessageBox.error("Bin's with SUBMITTED status are not allowed to submit,");
+			// }
 		}
 
 	});

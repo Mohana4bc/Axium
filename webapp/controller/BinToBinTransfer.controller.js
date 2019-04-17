@@ -10,7 +10,7 @@ sap.ui.define([
 
 	return Controller.extend("com.axium.Axium.controller.BinToBinTransfer", {
 
-		onInit: function () {
+			onInit: function () {
 			var oRef = this;
 			jQuery.sap.require("sap.m.MessageBox"); //since message box is a static class so we need to execute this first.
 			this.odataService = new sap.ui.model.odata.ODataModel("/sap/opu/odata/sap/ZWM_GW_RFSCREENS_SRV/", true);
@@ -107,21 +107,12 @@ sap.ui.define([
 			var warehouseNumber = this.getView().byId("warehouseId").getSelectedItem().getAdditionalText();
 			var sourceStorage = this.getView().byId("sourceStorage").getValue();
 			var sourceBin = this.getView().byId("sourceBin").getValue();
-			var whBintoBinFlag = false;
-			if (warehouseNumber === "A01") {
-				whBintoBinFlag = true;
-			} else {
-				if (warehouseNumber === "A02") {
-					whBintoBinFlag = false;
-				}
-			}
 			if (warehouseNumber !== "" && sourceStorage !== "" && sourceBin !== "") {
 				var oRouter = this.getOwnerComponent().getRouter();
-				oRouter.navTo("HUorMatScan", {
+				oRouter.navTo("HUandMatScan", {
 					warehouseNumber: warehouseNumber,
 					sourceStorage: sourceStorage,
-					sourceBin: sourceBin,
-					whBintoBinFlag: whBintoBinFlag
+					sourceBin: sourceBin
 				});
 				oRef.setEmpty();
 			} else {
