@@ -51,7 +51,7 @@
 									<ObjectAttribute title="Material" text="{BinHUMatModel>Material}"/>
 									<ObjectAttribute title="Material Description" text="{BinHUMatModel>MaterialDesc}"/>
 									<ObjectAttribute title="Batch Number" text="{BinHUMatModel>BatchNo}"/>
-									<ObjectAttribute title="Scanned Quantity" text="{BinHUMatModel>ScannedQnty}"/>
+									<ObjectAttribute title="Quantity" text="{BinHUMatModel>ScannedQnty}"/>
 								</attributes>
 							</ObjectListItem>
 						</items>
