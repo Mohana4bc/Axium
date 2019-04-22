@@ -375,6 +375,7 @@ sap.ui.define([
 				materialScan,
 				materialDesc, UOM;
 			var material = oRef.getView().byId("matNumber").getSelectedItem().getAdditionalText();
+			sap.ui.getCore().globalMaterialNumber = material;
 			oRef.material = material;
 			var flag = oRef.valiateMaterial(material);
 			if (flag === "") {
@@ -470,15 +471,16 @@ sap.ui.define([
 		},
 		onAddMaterial: function () {
 			var oRef = this;
-			var material = oRef.getView().byId("matNumber").getValue();
+			var materialDesc = oRef.getView().byId("matNumber").getValue();
+			// var material = oRef.getView().byId("matNumber").getSelectedItem().getAdditionalText();
 			// var materialDesc = oRef.getView().byId("materialDesc").getValue();
 			var BatchNo = oRef.getView().byId("BatchNumber").getValue();
 			var scannedQty = oRef.getView().byId("Quantity").getValue();
 
 			oRef.aData.push({
 				HU: "",
-				Material: material,
-				MaterialDesc: "",
+				Material: sap.ui.getCore().globalMaterialNumber,
+				MaterialDesc: materialDesc,
 				BatchNo: BatchNo,
 				ScannedQnty: scannedQty
 			});
