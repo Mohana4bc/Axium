@@ -37,11 +37,11 @@
 								</layoutData>
 							</Input>
 							<Button id="idMatAdd" text="Add Material" type="Emphasized" press="onAddMaterial"></Button>
+							<Label text="Destination Storage Bin" required="true" class="sapUiSmallMarginTop"></Label>
+							<SearchField id="DestinationBin" showSearchButton="false" placeholder="Enter Destination Bin" liveChange="validateBin"></SearchField>
 							<Label text="Destination Storage Type" class="sapUiSmallMarginTop"></Label>
 							<ComboBox id="destinationStorage" showSecondaryValues="true" filterSecondaryValues="true" placeholder="Enter Destination Storage"
 								enabled="false"></ComboBox>
-							<Label text="Destination Storage Bin" required="true" class="sapUiSmallMarginTop"></Label>
-							<SearchField id="DestinationBin" showSearchButton="false" placeholder="Enter Destination Bin" liveChange="validateBin"></SearchField>
 						</f:content>
 					</f:SimpleForm>
 					<List items="{BinHUMatModel>/BinHUMatSet}" headerText="Materials" mode="MultiSelect" id="idList">

@@ -104,23 +104,24 @@ sap.ui.define([
 						var binSelected = oRef.getView().byId("DestinationBin").getValue();
 						var oBinModel = oRef.getOwnerComponent().getModel("Bins");
 						var modelData = oBinModel.getData();
-						for (var i = 0; i < modelData.binSet.length; i++) {
-							if (modelData.binSet[i].StorageBin === binSelected) {
-								present = 'X';
-							}
-						}
-						if (present === "") {
-							sap.m.MessageBox.alert("Please Select a valid Bin", {
-								title: "Information",
-								onClose: null,
-								styleClass: "",
-								initialFocus: null,
-								textDirection: sap.ui.core.TextDirection.Inherit
-							});
-							oRef.getView().byId("DestinationBin").setValue("");
-						} else {
-							sap.ui.getCore().TypeafterBin = "false";
-						}
+						// for (var i = 0; i < modelData.binSet.length; i++) {
+						// 	if (modelData.binSet[i].StorageBin === binSelected) {
+						// 		present = 'X';
+						// 	}
+						// }
+						// if (present === "") {
+						// 	sap.m.MessageBox.alert("Please Select a valid Bin", {
+						// 		title: "Information",
+						// 		onClose: null,
+						// 		styleClass: "",
+						// 		initialFocus: null,
+						// 		textDirection: sap.ui.core.TextDirection.Inherit
+						// 	});
+						// 	oRef.getView().byId("DestinationBin").setValue("");
+						// } 
+						// else {
+						sap.ui.getCore().TypeafterBin = "false";
+						// }
 					} else {
 						if (destinationBin !== "") {
 							oRef.odataService.read("/AutoStorageTypeSet?$filter=WareHouseNumber eq '" + oRef.warehouseNumber + "' and BinNumber eq '" +
@@ -483,9 +484,7 @@ sap.ui.define([
 			var BatchNo = oRef.getView().byId("BatchNumber").getValue();
 			var scannedQty = oRef.getView().byId("Quantity").getValue();
 
-			var myBatchValidation = oRef.batchValidation(BatchNo);
-
-			if (myBatchValidation === "X") {
+			if (BatchNo === "") {
 				oRef.aData.push({
 					HU: "",
 					Material: sap.ui.getCore().globalMaterialNumber,
@@ -504,14 +503,36 @@ sap.ui.define([
 				oRef.getView().byId("BatchNumber").setValue("");
 				oRef.getView().byId("Quantity").setValue("");
 			} else {
-				sap.m.MessageBox.alert("Batch Number is Not Valid", {
-					title: "Information",
-					onClose: null,
-					styleClass: "",
-					initialFocus: null,
-					textDirection: sap.ui.core.TextDirection.Inherit
-				});
-				oRef.getView().byId("BatchNumber").setValue("");
+				var myBatchValidation = oRef.batchValidation(BatchNo);
+
+				if (myBatchValidation === "X") {
+					oRef.aData.push({
+						HU: "",
+						Material: sap.ui.getCore().globalMaterialNumber,
+						MaterialDesc: materialDesc,
+						BatchNo: BatchNo,
+						ScannedQnty: scannedQty
+					});
+					var oModel = new sap.ui.model.json.JSONModel();
+
+					oModel.setData({
+						BinHUMatSet: oRef.aData
+					});
+					oRef.getOwnerComponent().setModel(oModel, "BinHUMatModel");
+					oRef.getView().byId("matNumber").setValue("");
+					oRef.getView().byId("materialDesc").setValue("");
+					oRef.getView().byId("BatchNumber").setValue("");
+					oRef.getView().byId("Quantity").setValue("");
+				} else {
+					sap.m.MessageBox.alert("Batch Number is Not Valid", {
+						title: "Information",
+						onClose: null,
+						styleClass: "",
+						initialFocus: null,
+						textDirection: sap.ui.core.TextDirection.Inherit
+					});
+					oRef.getView().byId("BatchNumber").setValue("");
+				}
 			}
 
 		},
@@ -612,7 +633,7 @@ sap.ui.define([
 			if (UOM === undefined) {
 				UOM = "";
 			}
-			if (SourceBin === DestinationBin) {
+			if (sap.ui.getCore().bintobinTransferSourceBin === DestinationBin) {
 				sap.m.MessageBox.alert("Source and Destination Bin cannot be same", {
 					title: "Information",
 					onClose: null,
@@ -667,7 +688,8 @@ sap.ui.define([
 				oRef.odataService.create("/BinToBinHSet", data, null, function (oData, oResponse) {
 					var Sresponse = JSON.parse(oResponse.body);
 					var TONum = Sresponse.d.Material;
-					var message = "Successfully Transfered from " + sap.ui.getCore().bintobinTransferSourceBin + " Bin To " + DestinationBin + " Bin";
+					var message = "Successfully Transfered from " + sap.ui.getCore().bintobinTransferSourceBin + " Bin To " + DestinationBin +
+						" Bin";
 					var dialog = new Dialog({
 						title: "Success",
 						type: "Message",
@@ -677,6 +699,9 @@ sap.ui.define([
 						beginButton: new Button({
 							text: "OK",
 							press: function () {
+								var aData = oRef.getView().getModel("BinHUMatModel").getData();
+								oRef.aData = [];
+								oRef.getView().getModel("BinHUMatModel").setData(oRef.aData);
 								oRef.setEmpty();
 								dialog.close();
 								var oRouter = oRef.getOwnerComponent().getRouter();
