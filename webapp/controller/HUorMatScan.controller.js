@@ -715,9 +715,10 @@ sap.ui.define([
 					dialog.open();
 				}, function (oResponse) {
 					var Sresponse = JSON.parse(oResponse.response.body);
-					var message = Sresponse.error.message.value;
+					// var message = Sresponse.error.message.value;
+					var message = Sresponse.error.innererror.errordetails[0].message;
 					sap.m.MessageBox.alert(message, {
-						title: "Information",
+						title: "Error",
 						onClose: null,
 						styleClass: "",
 						initialFocus: null,
