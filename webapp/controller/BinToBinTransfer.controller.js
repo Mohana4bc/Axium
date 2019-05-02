@@ -108,11 +108,13 @@ sap.ui.define([
 			var sourceStorage = this.getView().byId("sourceStorage").getValue();
 			var sourceBin = this.getView().byId("sourceBin").getValue();
 			var whBintoBinFlag = false;
-			if (warehouseNumber === "A01") {
+			if (warehouseNumber === "A01" || warehouseNumber === "A04") {
 				whBintoBinFlag = true;
+				sap.ui.getCore().huBinTransfer = "X";
 			} else {
-				if (warehouseNumber === "A02") {
+				if (warehouseNumber === "A02" || warehouseNumber === "A05") {
 					whBintoBinFlag = false;
+					sap.ui.getCore().huBinTransfer = "";
 				}
 			}
 			if (warehouseNumber !== "" && sourceStorage !== "" && sourceBin !== "") {

@@ -200,6 +200,7 @@ sap.ui.define([
 										var materialDesc = oData.results[0].MaterialDesc;
 										var BatchNo = oData.results[0].BatchNo;
 										var scannedQty = oData.results[0].ScannedQnty;
+										// sap.ui.getCore().huBinTransfer = "X";
 
 										// oRef.getView().byId("idBatchNum").setValue
 										// idQty
@@ -278,6 +279,7 @@ sap.ui.define([
 										var materialDesc = oData.results[0].MaterialDesc;
 										var BatchNo = oData.results[0].BatchNo;
 										var scannedQty = oData.results[0].ScannedQnty;
+										// sap.ui.getCore().huBinTransfer = "X";
 
 										// oRef.getView().byId("idBatchNum").setValue
 										// idQty
@@ -483,6 +485,7 @@ sap.ui.define([
 			// var materialDesc = oRef.getView().byId("materialDesc").getValue();
 			var BatchNo = oRef.getView().byId("BatchNumber").getValue();
 			var scannedQty = oRef.getView().byId("Quantity").getValue();
+			// sap.ui.getCore().huBinTransfer = "";
 
 			if (BatchNo === "") {
 				oRef.aData.push({
@@ -577,9 +580,10 @@ sap.ui.define([
 			oRef.destinationStorage = this.getView().byId("destinationStorage").getSelectedItem().getAdditionalText();
 			var HUno = oRef.getView().byId("scanHUNumber").getValue();
 			var matNo = oRef.getView().byId("matNumber").getValue();
-			if (HUno !== undefined && HUno !== "") {
-				flagHu = 'X';
-			}
+			// if (HUno !== undefined && HUno !== "") {
+			// 	flagHu = 'X';
+			// }
+			flagHu = sap.ui.getCore().huBinTransfer;
 			oRef.odataService.read("/AvailableBinsFGRMSet?$filter=WareHouse eq '" + oRef.warehouseNumber + "' and Flag eq '" + flagHu +
 				"' and Material eq '" + matNo + "' and StorageTyp eq '" + oRef.destinationStorage + "'", null, null, false,
 				function (oData, oResponse) {

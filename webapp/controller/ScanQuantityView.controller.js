@@ -401,6 +401,7 @@ sap.ui.define([
 							if (tempVar.length >= 20) {
 								setTimeout(function () {
 									tempVar = tempVar.replace(/[^A-Z0-9]+/ig, "");
+									tempVar = tempVar.replace(/^0+/, '');
 									oRef.getView().byId("id1").setValue(tempVar);
 									var tempMat = oRef.getView().byId("id2");
 									var aData = oRef.getView().getModel("oListHU");
@@ -473,6 +474,8 @@ sap.ui.define([
 							if (tempVar.length >= 18) {
 								// tempVar = tempVar.replace(/^0+/, '');
 								setTimeout(function () {
+									tempVar = tempVar.replace(/[^A-Z0-9]+/ig, "");
+									tempVar = tempVar.replace(/^0+/, '');
 									oRef.getView().byId("id1").setValue(tempVar);
 									var tempMat = oRef.getView().byId("id2");
 									var aData = oRef.getView().getModel("oListHU");

@@ -123,6 +123,7 @@ sap.ui.define([
 
 						if (extFlag) {
 							// this.odataService.read("/ScannedHU?ExternalHU='" + tempVar + "'", {
+							// /ScannedHU?ExternalHU='" + huNumber + "'&Indicator='" + indicator + "'
 							oRef.odataService.read("/ScannedHU?ExternalHU='" + tempVar + "'", {
 
 								success: cSuccess,
@@ -440,7 +441,7 @@ sap.ui.define([
 							// oRouter.navTo("ScanHU", true);
 
 						}
-					}, 1000);
+					}, 1500);
 				} else {
 					fgPutAwayFlag = false;
 					return fgPutAwayFlag;

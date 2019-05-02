@@ -11,7 +11,7 @@ sap.ui.define([
 	"use strict";
 
 	return Controller.extend("com.axium.Axium.controller.Material", {
-	onInit: function () {
+		onInit: function () {
 			this.odataService = new sap.ui.model.odata.ODataModel("/sap/opu/odata/sap/ZWM_GW_RFSCREENS_SRV/", true);
 			this.flagSubmit = ""; //used to check if submit button is pressed or not it is set and clear in onsubmit and checked in onPressBack
 
@@ -193,7 +193,8 @@ sap.ui.define([
 			var count = 0;
 			var x = oRef.getOwnerComponent().getModel("Materials").getData();
 			oResult.PoNumber = x.PoNumber;
-			oResult.DeliveryNote = oRef.deliveryNote;
+			// oResult.DeliveryNote = oRef.deliveryNote;
+			oResult.DeliveryNote = oRef.getView().byId("deliveryNote").getValue();
 			oResult.NavPoheaderPoItems = [];
 			var oList = this.getView().byId("Materials");
 			var arr = oList.getSelectedContextPaths();

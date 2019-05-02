@@ -105,7 +105,9 @@ sap.ui.define([
 				if (huNumber.length >= 20) {
 					setTimeout(function () {
 						huNumber = huNumber.replace(/[^A-Z0-9]+/ig, "");
+						huNumber = huNumber.replace(/^0+/, '');
 						oRef.getView().byId("idHUNum").setValue(huNumber);
+						var indicator = "X";
 						var aData = oRef.getOwnerComponent().getModel("InvenHUBin");
 						if (aData !== undefined) {
 							var aData = oRef.getOwnerComponent().getModel("InvenHUBin").getData();
@@ -121,9 +123,12 @@ sap.ui.define([
 								}
 							});
 						}
+						// /ScannedHU?ExternalHU ="00000000002000000055" and Indicator ="X"
+						// /ScannedHU?ExternalHU='" +hunumber+"'&Indicator='"+indicator+"' 
+
 						if (extFlag) {
 
-							oRef.odataService.read("/ScannedHU?ExternalHU='" + huNumber + "'", {
+							oRef.odataService.read("/ReconHUScanned?ExternalHU='" + huNumber + "'", {
 								success: cSuccess,
 								failed: cFailed
 							});
@@ -166,7 +171,9 @@ sap.ui.define([
 				if (huNumber.length >= 18) {
 					setTimeout(function () {
 						huNumber = huNumber.replace(/[^A-Z0-9]+/ig, "");
+						huNumber = huNumber.replace(/^0+/, '');
 						oRef.getView().byId("idHUNum").setValue(huNumber);
+						var indicator = "X";
 						var aData = oRef.getView().getModel("InvenHUBin");
 						if (aData !== undefined) {
 							var aData = oRef.getOwnerComponent().getModel("InvenHUBin").getData();
@@ -182,9 +189,10 @@ sap.ui.define([
 								}
 							});
 						}
+						// /HUQtyDetailsSet?$filter=ExternalHU eq '" + fnNumber + "' and Material eq '" + tempMat + "'"
 						if (extFlag) {
 
-							oRef.odataService.read("/ScannedHU?ExternalHU='" + huNumber + "'", {
+							oRef.odataService.read("/ReconHUScanned?ExternalHU='" + huNumber + "'", {
 								success: cSuccess,
 								failed: cFailed
 							});
@@ -238,7 +246,7 @@ sap.ui.define([
 
 			function cSuccess(data) {
 				var huBatch = data.results[0].BatchNo;
-				var hu = data.results[0].ExternalHU;
+				var hu = data.results[0].HU;
 				var ScannedQty = data.results[0].ScannedQnty;
 				var Material = data.results[0].Material;
 				var MatDesc = data.results[0].MaterialDesc;
@@ -256,7 +264,7 @@ sap.ui.define([
 				var oModel = new sap.ui.model.json.JSONModel();
 
 				oModel.setData({
-					BinHUMatSet: oRef.aData
+					HUBinSet: oRef.aData
 				});
 				oRef.getOwnerComponent().setModel(oModel, "InvenHUBin");
 				oRef.getView().byId("idHUNum").setValue("");
