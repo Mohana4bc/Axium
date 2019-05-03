@@ -347,7 +347,9 @@ sap.ui.define([
 				var binNo = that.getView().byId("fgPutAwayBinId").getValue();
 				var fgPutAwayFlag = true;
 				// setTimeout(function () {
-				if (binNo.length >= 5) {
+				// if ((binNo.length >= 5) || (binNo.length >= 6) || (binNo.length >= 7) || (binNo.length >=
+				// 		8) || (binNo.length >= 9) || (binNo.length >= 10)) {
+				if (binNo.length <= 10) {
 					setTimeout(function () {
 						if (sPreviousHash !== undefined) {
 

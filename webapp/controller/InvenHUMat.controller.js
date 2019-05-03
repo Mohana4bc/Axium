@@ -352,7 +352,9 @@ sap.ui.define([
 			var oInvenbinFlag = false;
 			var tempVar = oRef.getView().byId("binId").getValue();
 			oRef.getView().byId("binId").setValue(tempVar);
-			if (tempVar.length >= 5) {
+			// if ((tempVar.length >= 5) || (tempVar.length >= 6) || (tempVar.length >= 7) || (tempVar.length >=
+			// 		8) || (tempVar.length >= 9) || (tempVar.length >= 10)) {
+			if (tempVar.length <= 10) {
 				setTimeout(function () {
 					oRef.getView().byId("binId").setValue(tempVar);
 					console.log(tempVar);

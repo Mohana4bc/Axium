@@ -86,6 +86,7 @@ sap.ui.define([
 			// 			}));
 			// 	}
 			// });
+			sap.ui.getCore().matNum = "";
 			this.getView().addEventDelegate({
 				onBeforeShow: jQuery.proxy(function (evt) {
 					this.onBeforeShow(evt);
@@ -111,7 +112,7 @@ sap.ui.define([
 
 			oMat.clearSelection();
 			// oStoragetype.clearSelection();
-			oStoragebin.clearSelection();
+			// oStoragebin.clearSelection();
 			oWH.clearSelection();
 		},
 
@@ -263,32 +264,146 @@ sap.ui.define([
 
 		selectStorageBin: function () {
 			var warehouseno = this.getView().byId("warehouseWarehouseScreenId").getSelectedItem().getText();
-			var storagetypenumber = "";
-			sap.ui.getCore().matNum = "";
-			var that = this;
-			setTimeout(function () {
-				that.odataService.read("/StorageBinsSet?$filter=WareHouseNumber eq '" + warehouseno + "' and StorageTyp eq '" +
-					storagetypenumber +
-					"' and Material eq '" + sap.ui.getCore().matNum + "'", null, null, false,
-					function (response) {
-						if (that.getView().byId("storageBinWarehouseScreenId") !== undefined) {
-							that.getView().byId("storageBinWarehouseScreenId").destroyItems();
-						}
-						for (var i = 0; i < response.results.length; i++) {
-							that.getView().byId("storageBinWarehouseScreenId").addItem(
-								new sap.ui.core.ListItem({
-									text: response.results[i].StorageBin,
-									key: response.results[i].StorageBin
-								}));
-						}
-					});
-			}, 1000);
+			// var storagetypenumber = "";
+			// sap.ui.getCore().matNum = "";
+			// var that = this;
+			// setTimeout(function () {
+			// 	that.odataService.read("/StorageBinsSet?$filter=WareHouseNumber eq '" + warehouseno + "' and StorageTyp eq '" +
+			// 		storagetypenumber +
+			// 		"' and Material eq '" + sap.ui.getCore().matNum + "'", null, null, false,
+			// 		function (response) {
+			// 			if (that.getView().byId("storageBinWarehouseScreenId") !== undefined) {
+			// 				that.getView().byId("storageBinWarehouseScreenId").destroyItems();
+			// 			}
+			// 			for (var i = 0; i < response.results.length; i++) {
+			// 				that.getView().byId("storageBinWarehouseScreenId").addItem(
+			// 					new sap.ui.core.ListItem({
+			// 						text: response.results[i].StorageBin,
+			// 						key: response.results[i].StorageBin
+			// 					}));
+			// 			}
+			// 		});
+			// }, 1000);
 		},
 		SelectStorageType: function () {
-			var warehouseNumber = this.getView().byId("warehouseWarehouseScreenId").getValue();
-			var storageBin = this.getView().byId("storageBinWarehouseScreenId").getSelectedItem().getText();
-
+			// var warehouseNumber = this.getView().byId("warehouseWarehouseScreenId").getValue();
+			// var storageBin = this.getView().byId("storageBinWarehouseScreenId").getSelectedItem().getText();
 			var that = this;
+			var wmBinStockbinNo = that.getView().byId("storageBinWarehouseScreenId").getValue();
+			var wmBinStockBinFlag = true;
+			var sHistory = History.getInstance();
+			var sPreviousHash = sHistory.getPreviousHash();
+			// var that = this;
+			// setTimeout(function () {
+			// if ((wmBinStockbinNo.length >= 5) || (wmBinStockbinNo.length >= 6) || (wmBinStockbinNo.length >= 7) || (wmBinStockbinNo.length >=
+			// 		8) || (wmBinStockbinNo.length >= 9) || (wmBinStockbinNo.length >= 10)) {
+			if (wmBinStockbinNo.length <= 10) {
+				setTimeout(function () {
+					if (sPreviousHash !== undefined) {
+
+						// window.history.go(-1);
+						// var oModelData = that.getView().getModel("oHUSelect").getData();
+						that.odataService.read("/ScannedBinNumber?BinNumber='" + wmBinStockbinNo + "'", null, null, false, function (response) {
+							// console.log(response);
+
+							if (wmBinStockbinNo === "") {
+								// 		var sRouter = sap.ui.core.UIComponent.getRouterFor(that);
+								// sRouter.navTo("ScanHU",true);
+
+							} else {
+								if (response.Message === "valid Bin") {
+									that.binSelectStorageType(wmBinStockbinNo);
+									// that.odataService.read("/AvailableBinsFGRMSet?$filter=WareHouse eq '" + oWH +
+									// 	"' and Flag eq 'X' and Material eq '" + sap.ui.getCore().MatNum + "'",
+									// 	null, null, false,
+									// 	function (response) {
+									// 		console.log(response);
+									// 		that.result.items.push(response);
+									// 		that.getView().getModel("oAvailableBins").setData(response);
+									// 		var temp = that.getView().getModel("oAvailableBins").getData();
+									// 		for (var z = 0; z < temp.results.length; z++) {
+									// 			if (binNo === temp.results[z].StorageBin) {
+									// 				sap.ui.getCore().flag = true;
+									// 				// sap.ui.getCore().FGPutAwaySubmit = true;
+									// 				return sap.ui.getCore().flag;
+									// 				// window.history.go(-1);
+									// 				// MessageBox.error("Please select bins from availble bins only");
+									// 			}
+
+									// 		}
+									// 		if (sap.ui.getCore().flag === false) {
+									// 			MessageBox.error("Please select bins from available bins only", {
+									// 				title: "Error",
+									// 				Action: "CLOSE",
+									// 				onClose: function (oAction) {
+
+									// 					if (oAction === sap.m.MessageBox.Action.CLOSE) {
+									// 						that.getView().byId("id2").setValue("");
+									// 					}
+
+									// 				}.bind(that),
+
+									// 				styleClass: "",
+									// 				initialFocus: null,
+									// 				textDirection: sap.ui.core.TextDirection.Inherit
+									// 			});
+									// 			// MessageBox.Information("Please select bins from availble bins only");
+									// 		}
+
+									// 	});
+
+									// var aData = that.getView().getModel("oListHU");
+
+									// for (var i = aData.oData.HUSet.length - 1; i >= 0; i--) {
+									// 	if (aData.oData.HUSet[i].ExternalHU === sap.ui.getCore().EXHU) {
+
+									// 		// aData.oData.HUSet[i].binNo = binNo;
+									// 		that.getView().getModel("oListHU").refresh(true);
+									// 	}
+									// }
+
+								}
+								// if (sap.ui.getCore().flag === true) {
+								// 	// window.history.go(-1);
+								// }
+
+							}
+
+							if (response.Message === "Invalid Bin") {
+								MessageBox.error(response.Message, {
+									title: "Error",
+									onClose: null,
+									styleClass: "",
+									initialFocus: null,
+									textDirection: sap.ui.core.TextDirection.Inherit
+								});
+								that.getView().byId("storageBinWarehouseScreenId").setValue("");
+
+							}
+
+						});
+
+						// window.history.go(-1);
+
+					} else {
+
+						var sRouter = sap.ui.core.UIComponent.getRouterFor(this);
+						sRouter.navTo("WarehouseScreen", true);
+						// oRouter.navTo("ScanHU", true);
+
+					}
+				}, 1500);
+			} else {
+				wmBinStockBinFlag = false;
+				return wmBinStockBinFlag;
+			}
+
+			// that.SelectMaterial();
+		},
+		binSelectStorageType: function (wmBinStockbinNo) {
+			var that = this;
+			var warehouseNumber = that.getView().byId("warehouseWarehouseScreenId").getValue();
+			var storageBin = wmBinStockbinNo;
 			setTimeout(function () {
 				that.odataService.read("/AutoStorageTypeSet?$filter=BinNumber eq '" + storageBin + "' and WareHouseNumber eq '" +
 					warehouseNumber +
@@ -330,7 +445,6 @@ sap.ui.define([
 						// }
 					});
 			}, 1000);
-			// that.SelectMaterial();
 		},
 		SelectMaterial: function () {
 			sap.ui.getCore().matNum = this.getView().byId("materialWarehouseScreenId").getSelectedItem().getAdditionalText();

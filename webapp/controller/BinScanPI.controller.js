@@ -62,7 +62,9 @@ sap.ui.define([
 			sap.ui.getCore.phyInvenStatus = "COUNTED";
 			var bin = oRef.getView().byId("bin").getValue();
 			var dummyFlag = true;
-			if (bin.length >= 5) {
+			// if ((bin.length >= 5) || (bin.length >= 6) || (bin.length >= 7) || (bin.length >=
+			// 		8) || (bin.length >= 9) || (bin.length >= 10)) {
+			if (bin.length <= 10) {
 				setTimeout(function () {
 					sap.ui.getCore().bin = bin;
 

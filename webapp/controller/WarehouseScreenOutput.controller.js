@@ -19,6 +19,15 @@ sap.ui.define([
 
 			this.getView().getModel("WarehouseScreenOutputModel");
 			this.getView().setModel("WarehouseScreenOutputModel");
+			this.getView().addEventDelegate({
+				onBeforeShow: jQuery.proxy(function (evt) {
+					this.onBeforeShow(evt);
+				}, this)
+			});
+		},
+		onBeforeShow: function () {
+			this.getView().getModel("WarehouseScreenOutputModel");
+			this.getView().setModel("WarehouseScreenOutputModel");
 		},
 
 		/**

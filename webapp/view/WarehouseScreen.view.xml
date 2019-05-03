@@ -50,8 +50,9 @@
 							<ComboBox id="warehouseWarehouseScreenId" filterSecondaryValues="true" showSecondaryValues="true" placeholder="Select Warehouse Number"
 								selectionChange="selectStorageBin"></ComboBox>
 							<Label text="Storage Bin" class="sapUiSmallMarginTop"></Label>
-							<ComboBox id="storageBinWarehouseScreenId" filterSecondaryValues="true" showSecondaryValues="true" selectionChange="SelectStorageType"
-								placeholder="Select Storage Bin"></ComboBox>
+							<Input id="storageBinWarehouseScreenId" enabled="true" placeholder="Please Scan Bin Number" liveChange="SelectStorageType"></Input>
+							<!--<ComboBox id="storageBinWarehouseScreenId" filterSecondaryValues="true" showSecondaryValues="true" selectionChange="SelectStorageType"-->
+							<!--	placeholder="Select Storage Bin"></ComboBox>-->
 							<Label text="Storage Type" class="sapUiSmallMarginTop"></Label>
 							<Input value="" id="storageTypeWarehouseScreenId" enabled="false"></Input>
 							<!--<ComboBox id="storageTypeWarehouseScreenId" filterSecondaryValues="true" showSecondaryValues="true" placeholder="Select Storage Type"></ComboBox>-->

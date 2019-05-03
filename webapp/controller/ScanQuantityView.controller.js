@@ -116,7 +116,9 @@ sap.ui.define([
 			var aData = oRef.getView().getModel("oListHU");
 			oRef.getView().getModel("oListHU").refresh(true);
 
-			if (tempVar.length >= 5) {
+			// if ((tempVar.length >= 5) || (tempVar.length >= 6) || (tempVar.length >= 7) || (tempVar.length >=
+			// 		8) || (tempVar.length >= 9) || (tempVar.length >= 10)) {
+			if (tempVar.length <= 10) {
 				setTimeout(function () {
 
 					if (aData != undefined) {
