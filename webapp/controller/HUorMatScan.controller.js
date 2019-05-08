@@ -99,7 +99,7 @@ sap.ui.define([
 			var destinationBinFlag = false;
 			// if ((destinationBin.length >= 5) || (destinationBin.length >= 6) || (destinationBin.length >= 7) || (destinationBin.length >=
 			// 		8) || (destinationBin.length >= 9) || (destinationBin.length >= 10)) {
-			if (destinationBin.length <= 10) {
+				if (destinationBin.length <= 10) {
 				setTimeout(function () {
 					if (storageType !== "") {
 						var present = "";

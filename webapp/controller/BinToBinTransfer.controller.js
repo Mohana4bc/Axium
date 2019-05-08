@@ -75,7 +75,7 @@ sap.ui.define([
 			var warehouseNumber = this.getView().byId("warehouseId").getSelectedItem().getAdditionalText();
 			// if ((storageBin.length >= 5) || (storageBin.length >= 6) || (storageBin.length >= 7) || (storageBin.length >=
 			// 		8) || (storageBin.length >= 9) || (storageBin.length >= 10)) {
-			if(storageBin.length <= 10){
+			if (storageBin.length <= 10) {
 				setTimeout(function () {
 					oRef.odataService.read("/AutoStorageTypeSet?$filter=WareHouseNumber eq '" + warehouseNumber + "' and BinNumber eq '" +
 						storageBin +
