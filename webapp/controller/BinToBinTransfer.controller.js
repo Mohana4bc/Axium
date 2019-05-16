@@ -68,40 +68,92 @@ sap.ui.define([
 
 				},
 		*/
-		AutoStorageType: function () {
+		AutoStorageType: function (oevent) {
 			var oRef = this;
 			var storageBin = oRef.getView().byId("sourceBin").getValue();
 			var storageBinFlag = false;
 			var warehouseNumber = this.getView().byId("warehouseId").getSelectedItem().getAdditionalText();
 			// if ((storageBin.length >= 5) || (storageBin.length >= 6) || (storageBin.length >= 7) || (storageBin.length >=
 			// 		8) || (storageBin.length >= 9) || (storageBin.length >= 10)) {
-			if (storageBin.length <= 10) {
-				setTimeout(function () {
-					oRef.odataService.read("/AutoStorageTypeSet?$filter=WareHouseNumber eq '" + warehouseNumber + "' and BinNumber eq '" +
-						storageBin +
-						"'", null, null, false,
-						function (oData, oResponse) {
-							var sourceStorageType;
-							for (var i = 0; i < oData.results.length; i++) {
-								sourceStorageType = oData.results[i].StorageType;
-							}
-							oRef.getView().byId("sourceStorage").setValue(sourceStorageType);
-						},
-						function (oResponse) {
-							sap.m.MessageBox.alert("Failed to Load the storage type of scanned Bin", {
-								title: "Information",
-								onClose: null,
-								styleClass: "",
-								initialFocus: null,
-								textDirection: sap.ui.core.TextDirection.Inherit
-							});
-						});
-				}, 1000);
-			} else {
-				storageBinFlag = true;
-				return storageBinFlag;
-			}
+			var storageBin = oevent.getParameter("value");
 
+			var length = storageBin.length;
+			switch (length) {
+			case 5:
+				setTimeout(oRef.scanSourceStorageBinValidate(storageBin, warehouseNumber), 1500);
+				break;
+			case 6:
+				setTimeout(oRef.scanSourceStorageBinValidate(storageBin, warehouseNumber), 1500);
+				break;
+			case 7:
+				setTimeout(oRef.scanSourceStorageBinValidate(storageBin, warehouseNumber), 1500);
+				break;
+			case 8:
+				setTimeout(oRef.scanSourceStorageBinValidate(storageBin, warehouseNumber), 1500);
+				break;
+			case 9:
+				setTimeout(oRef.scanSourceStorageBinValidate(storageBin, warehouseNumber), 1500);
+				break;
+			case 10:
+				setTimeout(oRef.scanSourceStorageBinValidate(storageBin, warehouseNumber), 1500);
+				break;
+			default:
+				break;
+
+			}
+			// if (storageBin.length <= 10) {
+			// 	setTimeout(function () {
+			// 		oRef.odataService.read("/AutoStorageTypeSet?$filter=WareHouseNumber eq '" + warehouseNumber + "' and BinNumber eq '" +
+			// 			storageBin +
+			// 			"'", null, null, false,
+			// 			function (oData, oResponse) {
+			// 				var sourceStorageType;
+			// 				for (var i = 0; i < oData.results.length; i++) {
+			// 					sourceStorageType = oData.results[i].StorageType;
+			// 				}
+			// 				oRef.getView().byId("sourceStorage").setValue(sourceStorageType);
+			// 			},
+			// 			function (oResponse) {
+			// 				sap.m.MessageBox.alert("Failed to Load the storage type of scanned Bin", {
+			// 					title: "Information",
+			// 					onClose: null,
+			// 					styleClass: "",
+			// 					initialFocus: null,
+			// 					textDirection: sap.ui.core.TextDirection.Inherit
+			// 				});
+			// 			});
+			// 	}, 1000);
+			// } else {
+			// 	storageBinFlag = true;
+			// 	return storageBinFlag;
+			// }
+
+		},
+		scanSourceStorageBinValidate: function (srcstrBin, warehouseNum) {
+			var oRef = this;
+			var storageBin = srcstrBin;
+			var warehouseNumber = warehouseNum;
+			setTimeout(function () {
+				oRef.odataService.read("/AutoStorageTypeSet?$filter=WareHouseNumber eq '" + warehouseNumber + "' and BinNumber eq '" +
+					storageBin +
+					"'", null, null, false,
+					function (oData, oResponse) {
+						var sourceStorageType;
+						for (var i = 0; i < oData.results.length; i++) {
+							sourceStorageType = oData.results[i].StorageType;
+						}
+						oRef.getView().byId("sourceStorage").setValue(sourceStorageType);
+					},
+					function (oResponse) {
+						sap.m.MessageBox.alert("Failed to Load the storage type of scanned Bin", {
+							title: "Information",
+							onClose: null,
+							styleClass: "",
+							initialFocus: null,
+							textDirection: sap.ui.core.TextDirection.Inherit
+						});
+					});
+			}, 1000);
 		},
 
 		onNext: function () {

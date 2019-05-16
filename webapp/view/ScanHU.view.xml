@@ -8,7 +8,7 @@
 					<Bar>
 						<contentRight>
 							<Label design="Bold" text="Bin Number" required="true" class="sapUiSmallMarginTop"></Label>
-							<Input id="fgPutAwayBinId" enabled="true" placeholder="Please Scan Bin Number" liveChange="onBinScan"></Input>
+							<Input id="fgPutAwayBinId" enabled="true" placeholder="Please Scan Bin Number" submit="onBinScan"></Input>
 						</contentRight>
 						<contentMiddle>
 							<Label text="FG Put Away"></Label>

@@ -111,74 +111,156 @@ sap.ui.define([
 			var oRef = this;
 			var binFlag = false;
 
-			var tempVar = oRef.getView().byId("idBin").getValue();
+			// var tempVar = oRef.getView().byId("idBin").getValue();
+			var tempVar = oEvent.getParameter("value");
+			var length = tempVar.length;
 			oRef.getView().byId("idBin").setValue(tempVar);
 			var aData = oRef.getView().getModel("oListHU");
 			oRef.getView().getModel("oListHU").refresh(true);
 
-			// if ((tempVar.length >= 5) || (tempVar.length >= 6) || (tempVar.length >= 7) || (tempVar.length >=
-			// 		8) || (tempVar.length >= 9) || (tempVar.length >= 10)) {
-			if (tempVar.length <= 10) {
-				setTimeout(function () {
+			switch (length) {
+			case 5:
+				setTimeout(oRef.fgpickNewBinVaidation(tempVar), 1500);
+				break;
+			case 6:
+				setTimeout(oRef.fgpickNewBinVaidation(tempVar), 1500);
+				break;
+			case 7:
+				setTimeout(oRef.fgpickNewBinVaidation(tempVar), 1500);
+				break;
+			case 8:
+				setTimeout(oRef.fgpickNewBinVaidation(tempVar), 1500);
+				break;
+			case 9:
+				setTimeout(oRef.fgpickNewBinVaidation(tempVar), 1500);
+				break;
+			case 10:
+				setTimeout(oRef.fgpickNewBinVaidation(tempVar), 1500);
+				break;
+			default:
+				break;
 
-					if (aData != undefined) {
-						// var aData = oRef.getOwnerComponent().getModel("oListHU").getData();
-						var extFlag = true;
-
-						$.each(aData.HUSet, function (index, item) {
-
-							if (item.BinNumber === tempVar) {
-								extFlag = false;
-								oRef.getView().byId("idBin").setValue("");
-								sap.m.MessageBox.alert("Bin Number is already scanned", {
-									title: "Information"
-								});
-							}
-						});
-						// this.getView().byId("id1").setValue("");
-					}
-					if (extFlag) {
-
-						oRef.odataService.read("/ScannedBinNumber?BinNumber='" + tempVar + "'", {
-
-							success: cSuccess,
-							failed: cFailed
-						});
-					}
-
-					function cSuccess(data) {
-
-						if (data.Message === "valid Bin") {
-							oRef.validateBin();
-							setTimeout(function () {
-								var oInput = oRef.getView().byId("id1");
-								oInput.focus();
-							}, 1000);
-
-						} else if (tempVar === "") {
-							MessageBox.error("Please Scan Valid Bin Number");
-						} else {
-							MessageBox.error("Invalid Bin");
-							oRef.getView().byId("idBin").setValue("");
-						}
-
-					}
-
-					function cFailed() {
-						MessageBox.error("Bin Number Scan failed");
-
-					}
-				}, 1000);
-
-			} else {
-				// setTimeout(function () {
-				// 	MessageBox.error("Please Scan Valid Bin Number");
-				// 	oRef.getView().byId("idBin").setValue("");
-				// }, 1500);
-				binFlag = true;
-				return binFlag;
 			}
 
+			// if ((tempVar.length >= 5) || (tempVar.length >= 6) || (tempVar.length >= 7) || (tempVar.length >=
+			// 		8) || (tempVar.length >= 9) || (tempVar.length >= 10)) {
+			// if (tempVar.length <= 10) {
+			// 	setTimeout(function () {
+
+			// 		if (aData != undefined) {
+			// 			// var aData = oRef.getOwnerComponent().getModel("oListHU").getData();
+			// 			var extFlag = true;
+
+			// 			$.each(aData.HUSet, function (index, item) {
+
+			// 				if (item.BinNumber === tempVar) {
+			// 					extFlag = false;
+			// 					oRef.getView().byId("idBin").setValue("");
+			// 					sap.m.MessageBox.alert("Bin Number is already scanned", {
+			// 						title: "Information"
+			// 					});
+			// 				}
+			// 			});
+			// 			// this.getView().byId("id1").setValue("");
+			// 		}
+			// 		if (extFlag) {
+
+			// 			oRef.odataService.read("/ScannedBinNumber?BinNumber='" + tempVar + "'", {
+
+			// 				success: cSuccess,
+			// 				failed: cFailed
+			// 			});
+			// 		}
+
+			// 		function cSuccess(data) {
+
+			// 			if (data.Message === "valid Bin") {
+			// 				oRef.validateBin();
+			// 				setTimeout(function () {
+			// 					var oInput = oRef.getView().byId("id1");
+			// 					oInput.focus();
+			// 				}, 1000);
+
+			// 			} else if (tempVar === "") {
+			// 				MessageBox.error("Please Scan Valid Bin Number");
+			// 			} else {
+			// 				MessageBox.error("Invalid Bin");
+			// 				oRef.getView().byId("idBin").setValue("");
+			// 			}
+
+			// 		}
+
+			// 		function cFailed() {
+			// 			MessageBox.error("Bin Number Scan failed");
+
+			// 		}
+			// 	}, 1000);
+
+			// } else {
+			// 	// setTimeout(function () {
+			// 	// 	MessageBox.error("Please Scan Valid Bin Number");
+			// 	// 	oRef.getView().byId("idBin").setValue("");
+			// 	// }, 1500);
+			// 	binFlag = true;
+			// 	return binFlag;
+			// }
+
+		},
+		fgpickNewBinVaidation: function (tempvar) {
+			var oRef = this;
+			var tempVar = tempvar;
+			oRef.getView().byId("idBin").setValue(tempVar);
+			var aData = oRef.getView().getModel("oListHU");
+			oRef.getView().getModel("oListHU").refresh(true);
+			setTimeout(function () {
+				if (aData != undefined) {
+					// var aData = oRef.getOwnerComponent().getModel("oListHU").getData();
+					var extFlag = true;
+
+					$.each(aData.HUSet, function (index, item) {
+
+						if (item.BinNumber === tempVar) {
+							extFlag = false;
+							oRef.getView().byId("idBin").setValue("");
+							sap.m.MessageBox.alert("Bin Number is already scanned", {
+								title: "Information"
+							});
+						}
+					});
+					// this.getView().byId("id1").setValue("");
+				}
+				if (extFlag) {
+
+					oRef.odataService.read("/ScannedBinNumber?BinNumber='" + tempVar + "'", {
+
+						success: cSuccess,
+						failed: cFailed
+					});
+				}
+
+				function cSuccess(data) {
+
+					if (data.Message === "valid Bin") {
+						oRef.validateBin();
+						setTimeout(function () {
+							var oInput = oRef.getView().byId("id1");
+							oInput.focus();
+						}, 1000);
+
+					} else if (tempVar === "") {
+						MessageBox.error("Please Scan Valid Bin Number");
+					} else {
+						MessageBox.error("Invalid Bin");
+						oRef.getView().byId("idBin").setValue("");
+					}
+
+				}
+
+				function cFailed() {
+					MessageBox.error("Bin Number Scan failed");
+
+				}
+			}, 1000);
 		},
 		onPressAvailableBins: function (oEvent) {
 			var that = this;

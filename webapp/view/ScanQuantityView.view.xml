@@ -78,7 +78,7 @@
 							<!--	<RadioButton text="YES" id="idScanBin" select="binEnabled"></RadioButton>-->
 							<!--</RadioButtonGroup>-->
 							<Label design="Bold" text="Bin Number" required="true" class="sapUiSmallMarginTop"></Label>
-							<SearchField id="idBin" placeholder="Scan Bin Number" liveChange="handleBinNumber" showSearchButton="false"></SearchField>
+							<Input id="idBin" placeholder="Scan Bin Number" liveChange="handleBinNumber"></Input>
 							<Button text="Available Bins" id="idAvailableBins" type="Emphasized" press="onPressAvailableBins"></Button>
 							<Label design="Bold" text="Scan HU of Same Batch ">
 								<layoutData>

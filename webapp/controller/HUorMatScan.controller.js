@@ -92,68 +92,147 @@ sap.ui.define([
 					}
 				});
 		},
-		validateBin: function () {
+		validateBin: function (oevent) {
 			var oRef = this;
 			var storageType = oRef.getView().byId("destinationStorage").getValue();
 			var destinationBin = oRef.getView().byId("DestinationBin").getValue();
 			var destinationBinFlag = false;
+			var destinationBin = oevent.getParameter("value");
+			var length = destinationBin.length;
+			switch (length) {
+			case 5:
+				setTimeout(oRef.scanDestinationStorageBinValidate(destinationBin), 1500);
+				break;
+			case 6:
+				setTimeout(oRef.scanDestinationStorageBinValidate(destinationBin), 1500);
+				break;
+			case 7:
+				setTimeout(oRef.scanDestinationStorageBinValidate(destinationBin), 1500);
+				break;
+			case 8:
+				setTimeout(oRef.scanDestinationStorageBinValidate(destinationBin), 1500);
+				break;
+			case 9:
+				setTimeout(oRef.scanDestinationStorageBinValidate(destinationBin), 1500);
+				break;
+			case 10:
+				setTimeout(oRef.scanDestinationStorageBinValidate(destinationBin), 1500);
+				break;
+			default:
+				break;
+
+			}
 			// if ((destinationBin.length >= 5) || (destinationBin.length >= 6) || (destinationBin.length >= 7) || (destinationBin.length >=
 			// 		8) || (destinationBin.length >= 9) || (destinationBin.length >= 10)) {
-				if (destinationBin.length <= 10) {
-				setTimeout(function () {
-					if (storageType !== "") {
-						var present = "";
-						var binSelected = oRef.getView().byId("DestinationBin").getValue();
-						var oBinModel = oRef.getOwnerComponent().getModel("Bins");
-						var modelData = oBinModel.getData();
-						// for (var i = 0; i < modelData.binSet.length; i++) {
-						// 	if (modelData.binSet[i].StorageBin === binSelected) {
-						// 		present = 'X';
-						// 	}
-						// }
-						// if (present === "") {
-						// 	sap.m.MessageBox.alert("Please Select a valid Bin", {
-						// 		title: "Information",
-						// 		onClose: null,
-						// 		styleClass: "",
-						// 		initialFocus: null,
-						// 		textDirection: sap.ui.core.TextDirection.Inherit
-						// 	});
-						// 	oRef.getView().byId("DestinationBin").setValue("");
-						// } 
-						// else {
-						sap.ui.getCore().TypeafterBin = "false";
-						// }
-					} else {
-						if (destinationBin !== "") {
-							oRef.odataService.read("/AutoStorageTypeSet?$filter=WareHouseNumber eq '" + oRef.warehouseNumber + "' and BinNumber eq '" +
-								destinationBin +
-								"'", null, null, false,
-								function (oData, oResponse) {
-									var destStorageType;
-									for (var j = 0; j < oData.results.length; j++) {
-										destStorageType = oData.results[j].StorageType;
-									}
-									oRef.getView().byId("destinationStorage").setValue(destStorageType);
-									sap.ui.getCore().TypeafterBin = "true";
-								},
-								function (oResponse) {
-									sap.m.MessageBox.alert("Failed to Load the storage type of scanned Bin", {
-										title: "Information",
-										onClose: null,
-										styleClass: "",
-										initialFocus: null,
-										textDirection: sap.ui.core.TextDirection.Inherit
-									});
-								});
-						}
-					}
-				}, 1000);
-			} else {
-				destinationBinFlag = true;
-				return destinationBinFlag;
-			}
+			// if (destinationBin.length <= 10) {
+			// 	setTimeout(function () {
+			// 		if (storageType !== "") {
+			// 			var present = "";
+			// 			var binSelected = oRef.getView().byId("DestinationBin").getValue();
+			// 			var oBinModel = oRef.getOwnerComponent().getModel("Bins");
+			// 			var modelData = oBinModel.getData();
+			// 			// for (var i = 0; i < modelData.binSet.length; i++) {
+			// 			// 	if (modelData.binSet[i].StorageBin === binSelected) {
+			// 			// 		present = 'X';
+			// 			// 	}
+			// 			// }
+			// 			// if (present === "") {
+			// 			// 	sap.m.MessageBox.alert("Please Select a valid Bin", {
+			// 			// 		title: "Information",
+			// 			// 		onClose: null,
+			// 			// 		styleClass: "",
+			// 			// 		initialFocus: null,
+			// 			// 		textDirection: sap.ui.core.TextDirection.Inherit
+			// 			// 	});
+			// 			// 	oRef.getView().byId("DestinationBin").setValue("");
+			// 			// } 
+			// 			// else {
+			// 			sap.ui.getCore().TypeafterBin = "false";
+			// 			// }
+			// 		} else {
+			// 			if (destinationBin !== "") {
+			// 				oRef.odataService.read("/AutoStorageTypeSet?$filter=WareHouseNumber eq '" + oRef.warehouseNumber + "' and BinNumber eq '" +
+			// 					destinationBin +
+			// 					"'", null, null, false,
+			// 					function (oData, oResponse) {
+			// 						var destStorageType;
+			// 						for (var j = 0; j < oData.results.length; j++) {
+			// 							destStorageType = oData.results[j].StorageType;
+			// 						}
+			// 						oRef.getView().byId("destinationStorage").setValue(destStorageType);
+			// 						sap.ui.getCore().TypeafterBin = "true";
+			// 					},
+			// 					function (oResponse) {
+			// 						sap.m.MessageBox.alert("Failed to Load the storage type of scanned Bin", {
+			// 							title: "Information",
+			// 							onClose: null,
+			// 							styleClass: "",
+			// 							initialFocus: null,
+			// 							textDirection: sap.ui.core.TextDirection.Inherit
+			// 						});
+			// 					});
+			// 			}
+			// 		}
+			// 	}, 1000);
+			// } else {
+			// 	destinationBinFlag = true;
+			// 	return destinationBinFlag;
+			// }
 
+		},
+		scanDestinationStorageBinValidate: function (destinationbin) {
+			var oRef = this;
+			var storageType = oRef.getView().byId("destinationStorage").getValue();
+			var destinationBin = destinationbin;
+			setTimeout(function () {
+				if (storageType !== "") {
+					var present = "";
+					var binSelected = oRef.getView().byId("DestinationBin").getValue();
+					var oBinModel = oRef.getOwnerComponent().getModel("Bins");
+					var modelData = oBinModel.getData();
+					// for (var i = 0; i < modelData.binSet.length; i++) {
+					// 	if (modelData.binSet[i].StorageBin === binSelected) {
+					// 		present = 'X';
+					// 	}
+					// }
+					// if (present === "") {
+					// 	sap.m.MessageBox.alert("Please Select a valid Bin", {
+					// 		title: "Information",
+					// 		onClose: null,
+					// 		styleClass: "",
+					// 		initialFocus: null,
+					// 		textDirection: sap.ui.core.TextDirection.Inherit
+					// 	});
+					// 	oRef.getView().byId("DestinationBin").setValue("");
+					// } 
+					// else {
+					sap.ui.getCore().TypeafterBin = "false";
+					// }
+				} else {
+					if (destinationBin !== "") {
+						oRef.odataService.read("/AutoStorageTypeSet?$filter=WareHouseNumber eq '" + oRef.warehouseNumber + "' and BinNumber eq '" +
+							destinationBin +
+							"'", null, null, false,
+							function (oData, oResponse) {
+								var destStorageType;
+								for (var j = 0; j < oData.results.length; j++) {
+									destStorageType = oData.results[j].StorageType;
+								}
+								oRef.getView().byId("destinationStorage").setValue(destStorageType);
+								sap.ui.getCore().TypeafterBin = "true";
+							},
+							function (oResponse) {
+								sap.m.MessageBox.alert("Failed to Load the storage type of scanned Bin", {
+									title: "Information",
+									onClose: null,
+									styleClass: "",
+									initialFocus: null,
+									textDirection: sap.ui.core.TextDirection.Inherit
+								});
+							});
+					}
+				}
+			}, 1000);
 		},
 		HuScan: function () {
 			var oRef = this;

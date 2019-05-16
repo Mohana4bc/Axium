@@ -56,91 +56,193 @@ sap.ui.define([
 		// 	oRef.getOwnerComponent().setModel(oModel, "oListHU");
 		// },
 
-		onBinScan: function () {
+		onBinScan: function (oevent) {
 			var oRef = this;
 			sap.ui.getCore().binList = false;
 			sap.ui.getCore.phyInvenStatus = "COUNTED";
 			var bin = oRef.getView().byId("bin").getValue();
+			// var bin = setTimeout(oevent.getParameter("value"),1000);
+			oRef.getView().byId("bin").setValue(bin);
+			var length = bin.length;
 			var dummyFlag = true;
-			// if ((bin.length >= 5) || (bin.length >= 6) || (bin.length >= 7) || (bin.length >=
-			// 		8) || (bin.length >= 9) || (bin.length >= 10)) {
-			if (bin.length <= 10) {
-				setTimeout(function () {
-					sap.ui.getCore().bin = bin;
 
-					oRef.odataService.read("/ScannedBinNumber?BinNumber='" + bin + "'", null,
-						null, false,
-						function (data) {
-							if (bin === "") {
-								MessageBox.error("Please Scan Bin");
-							} else if (data.Message === "valid Bin") {
-								var data = [];
-								oRef.aData = [];
-								var binStatusFlag = false;
-								var result = oRef.oList.getModel("oListHU").getData();
-								$.each(result.BinSet, function (index, item) {
-									if (item.bin === sap.ui.getCore().bin) {
-										binStatusFlag = true;
-										return false;
-									} else {
-										binStatusFlag = false;
-									}
+			switch (length) {
+			case 5:
+				setTimeout(oRef.physicalInventoryNewBinScan(bin), 1500);
+				break;
+			case 6:
+				setTimeout(oRef.physicalInventoryNewBinScan(bin), 1500);
+				break;
+			case 7:
+				setTimeout(oRef.physicalInventoryNewBinScan(bin), 1500);
+			case 8:
+				setTimeout(oRef.physicalInventoryNewBinScan(bin), 1500);
+				break;
+			case 9:
+				setTimeout(oRef.physicalInventoryNewBinScan(bin), 1500);
+				break;
+			case 10:
+				setTimeout(oRef.physicalInventoryNewBinScan(bin), 1500);
+				break;
+			default:
+				break;
 
-								});
-								if (binStatusFlag === false) {
-									oRef.odataService.read("/BinMaterialSet?$filter=BinNumber eq '" + sap.ui.getCore().bin + "'and StrLoc eq'" + sap.ui.getCore()
-										.stgloc +
-										"'and Plant eq'" + sap.ui.getCore().plnt + "'", null, null, false,
-										function (response) {
-
-											for (var i = 0; i < response.results.length; i++) {
-												data.push({
-													Material: response.results[i].Material,
-													MaterialDesc: response.results[i].MaterialDesc,
-													BatchNo: response.results[i].BatchNo,
-													Count: response.results[i].Count,
-													UOM: response.results[i].UOM,
-													Boxes: response.results[i].Boxes,
-													PerBoxQty: response.results[i].PerBoxQty,
-													PerPalQty: response.results[i].PerPalQty,
-													Indicator: response.results[i].Indicator,
-													Pallets: response.results[i].Pallets
-												});
-											}
-
-											var oModel = new sap.ui.model.json.JSONModel();
-											oModel.setData({
-												matDet: data
-											});
-											oRef.getOwnerComponent().setModel(oModel, "PhysicalInventory");
-
-										});
-									var sRouter = sap.ui.core.UIComponent.getRouterFor(oRef);
-									sRouter.navTo("MaterialDetPI", true);
-									sap.ui.getCore().bin = oRef.getView().byId("bin").getValue();
-								} else {
-									MessageBox.error("Bin Number Already Scanned,Please Check The List Below");
-								}
-
-							} else {
-								sap.m.MessageBox.alert(data.Message, {
-									title: "Information",
-									onClose: null,
-									styleClass: "",
-									initialFocus: null,
-									textDirection: sap.ui.core.TextDirection.Inherit
-								});
-
-							}
-
-						});
-					oRef.getView().byId("bin").setValue("");
-				}, 1000);
-			} else {
-				dummyFlag = false;
-				return dummyFlag;
 			}
 
+			// if ((bin.length >= 5) || (bin.length >= 6) || (bin.length >= 7) || (bin.length >=
+			// 		8) || (bin.length >= 9) || (bin.length >= 10)) {
+			// if (bin.length <= 10) {
+			// 	setTimeout(function () {
+			// 		sap.ui.getCore().bin = bin;
+
+			// 		oRef.odataService.read("/ScannedBinNumber?BinNumber='" + bin + "'", null,
+			// 			null, false,
+			// 			function (data) {
+			// 				if (bin === "") {
+			// 					MessageBox.error("Please Scan Bin");
+			// 				} else if (data.Message === "valid Bin") {
+			// 					var data = [];
+			// 					oRef.aData = [];
+			// 					var binStatusFlag = false;
+			// 					var result = oRef.oList.getModel("oListHU").getData();
+			// 					$.each(result.BinSet, function (index, item) {
+			// 						if (item.bin === sap.ui.getCore().bin) {
+			// 							binStatusFlag = true;
+			// 							return false;
+			// 						} else {
+			// 							binStatusFlag = false;
+			// 						}
+
+			// 					});
+			// 					if (binStatusFlag === false) {
+			// 						oRef.odataService.read("/BinMaterialSet?$filter=BinNumber eq '" + sap.ui.getCore().bin + "'and StrLoc eq'" + sap.ui.getCore()
+			// 							.stgloc +
+			// 							"'and Plant eq'" + sap.ui.getCore().plnt + "'", null, null, false,
+			// 							function (response) {
+
+			// 								for (var i = 0; i < response.results.length; i++) {
+			// 									data.push({
+			// 										Material: response.results[i].Material,
+			// 										MaterialDesc: response.results[i].MaterialDesc,
+			// 										BatchNo: response.results[i].BatchNo,
+			// 										Count: response.results[i].Count,
+			// 										UOM: response.results[i].UOM,
+			// 										Boxes: response.results[i].Boxes,
+			// 										PerBoxQty: response.results[i].PerBoxQty,
+			// 										PerPalQty: response.results[i].PerPalQty,
+			// 										Indicator: response.results[i].Indicator,
+			// 										Pallets: response.results[i].Pallets
+			// 									});
+			// 								}
+
+			// 								var oModel = new sap.ui.model.json.JSONModel();
+			// 								oModel.setData({
+			// 									matDet: data
+			// 								});
+			// 								oRef.getOwnerComponent().setModel(oModel, "PhysicalInventory");
+
+			// 							});
+			// 						var sRouter = sap.ui.core.UIComponent.getRouterFor(oRef);
+			// 						sRouter.navTo("MaterialDetPI", true);
+			// 						sap.ui.getCore().bin = oRef.getView().byId("bin").getValue();
+			// 					} else {
+			// 						MessageBox.error("Bin Number Already Scanned,Please Check The List Below");
+			// 					}
+
+			// 				} else {
+			// 					sap.m.MessageBox.alert(data.Message, {
+			// 						title: "Information",
+			// 						onClose: null,
+			// 						styleClass: "",
+			// 						initialFocus: null,
+			// 						textDirection: sap.ui.core.TextDirection.Inherit
+			// 					});
+
+			// 				}
+
+			// 			});
+			// 		oRef.getView().byId("bin").setValue("");
+			// 	}, 1000);
+			// } else {
+			// 	dummyFlag = false;
+			// 	return dummyFlag;
+			// }
+
+		},
+		physicalInventoryNewBinScan: function (phybin) {
+			var bin = phybin;
+			var oRef = this;
+			sap.ui.getCore().bin = bin;
+			setTimeout(function () {
+
+				oRef.odataService.read("/ScannedBinNumber?BinNumber='" + bin + "'", null,
+					null, false,
+					function (data) {
+						if (bin === "") {
+							MessageBox.error("Please Scan Bin");
+						} else if (data.Message === "valid Bin") {
+							var data = [];
+							oRef.aData = [];
+							var binStatusFlag = false;
+							var result = oRef.oList.getModel("oListHU").getData();
+							$.each(result.BinSet, function (index, item) {
+								if (item.bin === sap.ui.getCore().bin) {
+									binStatusFlag = true;
+									return false;
+								} else {
+									binStatusFlag = false;
+								}
+
+							});
+							if (binStatusFlag === false) {
+								oRef.odataService.read("/BinMaterialSet?$filter=BinNumber eq '" + sap.ui.getCore().bin + "'and StrLoc eq'" + sap.ui.getCore()
+									.stgloc +
+									"'and Plant eq'" + sap.ui.getCore().plnt + "'", null, null, false,
+									function (response) {
+
+										for (var i = 0; i < response.results.length; i++) {
+											data.push({
+												Material: response.results[i].Material,
+												MaterialDesc: response.results[i].MaterialDesc,
+												BatchNo: response.results[i].BatchNo,
+												Count: response.results[i].Count,
+												UOM: response.results[i].UOM,
+												Boxes: response.results[i].Boxes,
+												PerBoxQty: response.results[i].PerBoxQty,
+												PerPalQty: response.results[i].PerPalQty,
+												Indicator: response.results[i].Indicator,
+												Pallets: response.results[i].Pallets
+											});
+										}
+
+										var oModel = new sap.ui.model.json.JSONModel();
+										oModel.setData({
+											matDet: data
+										});
+										oRef.getOwnerComponent().setModel(oModel, "PhysicalInventory");
+
+									});
+								var sRouter = sap.ui.core.UIComponent.getRouterFor(oRef);
+								sRouter.navTo("MaterialDetPI", true);
+								sap.ui.getCore().bin = oRef.getView().byId("bin").getValue();
+							} else {
+								MessageBox.error("Bin Number Already Scanned,Please Check The List Below");
+							}
+
+						} else {
+							sap.m.MessageBox.alert(data.Message, {
+								title: "Information",
+								onClose: null,
+								styleClass: "",
+								initialFocus: null,
+								textDirection: sap.ui.core.TextDirection.Inherit
+							});
+
+						}
+
+					});
+				oRef.getView().byId("bin").setValue("");
+			}, 1000);
 		},
 		onBinPress: function (oEvent) {
 			var bin = oEvent.getSource().getIntro();

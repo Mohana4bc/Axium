@@ -331,7 +331,7 @@ sap.ui.define([
 			}
 
 		},
-		onBinScan: function () {
+		onBinScan: function (oevent) {
 			var that = this;
 			var oWH = that.getView().byId("fgWareHouseid").getValue();
 			var binNo = that.getView().byId("fgPutAwayBinId");
@@ -344,115 +344,188 @@ sap.ui.define([
 				var sPreviousHash = sHistory.getPreviousHash();
 				var HUnumber = that.getView().byId("id1").getValue();
 				// var data1 = that.getView().byId("idMat").getValue();
-				var binNo = that.getView().byId("fgPutAwayBinId").getValue();
+				// var binNo = that.getView().byId("fgPutAwayBinId").getValue();
+				var binNo = oevent.getParameter("value");
+				var length = binNo.length;
 				var fgPutAwayFlag = true;
+
+				switch (length) {
+				case 5:
+					setTimeout(that.scanHUBinValidate(binNo), 1500);
+					break;
+				case 6:
+					setTimeout(that.scanHUBinValidate(binNo), 1500);
+					break;
+				case 7:
+					setTimeout(that.scanHUBinValidate(binNo), 1500);
+					break;
+				case 8:
+					setTimeout(that.scanHUBinValidate(binNo), 1500);
+					break;
+				case 9:
+					setTimeout(that.scanHUBinValidate(binNo), 1500);
+					break;
+				case 10:
+					setTimeout(that.scanHUBinValidate(binNo), 1500);
+					break;
+				default:
+					break;
+
+				}
 				// setTimeout(function () {
 				// if ((binNo.length >= 5) || (binNo.length >= 6) || (binNo.length >= 7) || (binNo.length >=
 				// 		8) || (binNo.length >= 9) || (binNo.length >= 10)) {
-				if (binNo.length <= 10) {
-					setTimeout(function () {
-						if (sPreviousHash !== undefined) {
+				// if (binNo.length <= 10) {
+				// 	setTimeout(function () {
+				// 		if (sPreviousHash !== undefined) {
 
-							// window.history.go(-1);
-							// var oModelData = that.getView().getModel("oHUSelect").getData();
-							that.odataService.read("/ScannedBinNumber?BinNumber='" + binNo + "'", null, null, false, function (response) {
-								// console.log(response);
+				// 			// window.history.go(-1);
+				// 			// var oModelData = that.getView().getModel("oHUSelect").getData();
+				// 			that.odataService.read("/ScannedBinNumber?BinNumber='" + binNo + "'", null, null, false, function (response) {
+				// 				// console.log(response);
 
-								if (binNo === "") {
-									// 		var sRouter = sap.ui.core.UIComponent.getRouterFor(that);
-									// sRouter.navTo("ScanHU",true);
+				// 				if (binNo === "") {
+				// 					// 		var sRouter = sap.ui.core.UIComponent.getRouterFor(that);
+				// 					// sRouter.navTo("ScanHU",true);
 
-								} else {
-									if (response.Message === "valid Bin") {
-										// that.odataService.read("/AvailableBinsFGRMSet?$filter=WareHouse eq '" + oWH +
-										// 	"' and Flag eq 'X' and Material eq '" + sap.ui.getCore().MatNum + "'",
-										// 	null, null, false,
-										// 	function (response) {
-										// 		console.log(response);
-										// 		that.result.items.push(response);
-										// 		that.getView().getModel("oAvailableBins").setData(response);
-										// 		var temp = that.getView().getModel("oAvailableBins").getData();
-										// 		for (var z = 0; z < temp.results.length; z++) {
-										// 			if (binNo === temp.results[z].StorageBin) {
-										// 				sap.ui.getCore().flag = true;
-										// 				// sap.ui.getCore().FGPutAwaySubmit = true;
-										// 				return sap.ui.getCore().flag;
-										// 				// window.history.go(-1);
-										// 				// MessageBox.error("Please select bins from availble bins only");
-										// 			}
+				// 				} else {
+				// 					if (response.Message === "valid Bin") {
+				// 						// that.odataService.read("/AvailableBinsFGRMSet?$filter=WareHouse eq '" + oWH +
+				// 						// 	"' and Flag eq 'X' and Material eq '" + sap.ui.getCore().MatNum + "'",
+				// 						// 	null, null, false,
+				// 						// 	function (response) {
+				// 						// 		console.log(response);
+				// 						// 		that.result.items.push(response);
+				// 						// 		that.getView().getModel("oAvailableBins").setData(response);
+				// 						// 		var temp = that.getView().getModel("oAvailableBins").getData();
+				// 						// 		for (var z = 0; z < temp.results.length; z++) {
+				// 						// 			if (binNo === temp.results[z].StorageBin) {
+				// 						// 				sap.ui.getCore().flag = true;
+				// 						// 				// sap.ui.getCore().FGPutAwaySubmit = true;
+				// 						// 				return sap.ui.getCore().flag;
+				// 						// 				// window.history.go(-1);
+				// 						// 				// MessageBox.error("Please select bins from availble bins only");
+				// 						// 			}
 
-										// 		}
-										// 		if (sap.ui.getCore().flag === false) {
-										// 			MessageBox.error("Please select bins from available bins only", {
-										// 				title: "Error",
-										// 				Action: "CLOSE",
-										// 				onClose: function (oAction) {
+				// 						// 		}
+				// 						// 		if (sap.ui.getCore().flag === false) {
+				// 						// 			MessageBox.error("Please select bins from available bins only", {
+				// 						// 				title: "Error",
+				// 						// 				Action: "CLOSE",
+				// 						// 				onClose: function (oAction) {
 
-										// 					if (oAction === sap.m.MessageBox.Action.CLOSE) {
-										// 						that.getView().byId("id2").setValue("");
-										// 					}
+				// 						// 					if (oAction === sap.m.MessageBox.Action.CLOSE) {
+				// 						// 						that.getView().byId("id2").setValue("");
+				// 						// 					}
 
-										// 				}.bind(that),
+				// 						// 				}.bind(that),
 
-										// 				styleClass: "",
-										// 				initialFocus: null,
-										// 				textDirection: sap.ui.core.TextDirection.Inherit
-										// 			});
-										// 			// MessageBox.Information("Please select bins from availble bins only");
-										// 		}
+				// 						// 				styleClass: "",
+				// 						// 				initialFocus: null,
+				// 						// 				textDirection: sap.ui.core.TextDirection.Inherit
+				// 						// 			});
+				// 						// 			// MessageBox.Information("Please select bins from availble bins only");
+				// 						// 		}
 
-										// 	});
+				// 						// 	});
 
-										// var aData = that.getView().getModel("oListHU");
+				// 						// var aData = that.getView().getModel("oListHU");
 
-										// for (var i = aData.oData.HUSet.length - 1; i >= 0; i--) {
-										// 	if (aData.oData.HUSet[i].ExternalHU === sap.ui.getCore().EXHU) {
+				// 						// for (var i = aData.oData.HUSet.length - 1; i >= 0; i--) {
+				// 						// 	if (aData.oData.HUSet[i].ExternalHU === sap.ui.getCore().EXHU) {
 
-										// 		// aData.oData.HUSet[i].binNo = binNo;
-										// 		that.getView().getModel("oListHU").refresh(true);
-										// 	}
-										// }
+				// 						// 		// aData.oData.HUSet[i].binNo = binNo;
+				// 						// 		that.getView().getModel("oListHU").refresh(true);
+				// 						// 	}
+				// 						// }
 
-									}
-									// if (sap.ui.getCore().flag === true) {
-									// 	// window.history.go(-1);
-									// }
+				// 					}
+				// 					// if (sap.ui.getCore().flag === true) {
+				// 					// 	// window.history.go(-1);
+				// 					// }
 
-								}
+				// 				}
 
-								if (response.Message === "Invalid Bin") {
-									MessageBox.error(response.Message, {
-										title: "Error",
-										onClose: null,
-										styleClass: "",
-										initialFocus: null,
-										textDirection: sap.ui.core.TextDirection.Inherit
-									});
-									that.getView().byId("fgPutAwayBinId").setValue("");
+				// 				if (response.Message === "Invalid Bin") {
+				// 					MessageBox.error(response.Message, {
+				// 						title: "Error",
+				// 						onClose: null,
+				// 						styleClass: "",
+				// 						initialFocus: null,
+				// 						textDirection: sap.ui.core.TextDirection.Inherit
+				// 					});
+				// 					that.getView().byId("fgPutAwayBinId").setValue("");
 
-								}
+				// 				}
 
-							});
+				// 			});
 
-							// window.history.go(-1);
+				// 			// window.history.go(-1);
 
-						} else {
+				// 		} else {
 
-							var sRouter = sap.ui.core.UIComponent.getRouterFor(this);
-							sRouter.navTo("ScanHU", true);
-							// oRouter.navTo("ScanHU", true);
+				// 			var sRouter = sap.ui.core.UIComponent.getRouterFor(this);
+				// 			sRouter.navTo("ScanHU", true);
+				// 			// oRouter.navTo("ScanHU", true);
 
-						}
-					}, 1500);
-				} else {
-					fgPutAwayFlag = false;
-					return fgPutAwayFlag;
-				}
+				// 		}
+				// 	}, 1500);
+				// } else {
+				// 	fgPutAwayFlag = false;
+				// 	return fgPutAwayFlag;
+				// }
 
 			}
 
 		},
 
+		scanHUBinValidate: function (binNum) {
+			var that = this;
+			var sHistory = History.getInstance();
+			var sPreviousHash = sHistory.getPreviousHash();
+			var binNo = binNum;
+			setTimeout(function () {
+				if (sPreviousHash !== undefined) {
+
+					// window.history.go(-1);
+					// var oModelData = that.getView().getModel("oHUSelect").getData();
+					that.odataService.read("/ScannedBinNumber?BinNumber='" + binNo + "'", null, null, false, function (response) {
+						// console.log(response);
+
+						if (binNo === "") {
+							// 		var sRouter = sap.ui.core.UIComponent.getRouterFor(that);
+							// sRouter.navTo("ScanHU",true);
+
+						} else {
+							if (response.Message === "valid Bin") {
+
+							}
+
+						}
+
+						if (response.Message === "Invalid Bin") {
+							MessageBox.error(response.Message, {
+								title: "Error",
+								onClose: null,
+								styleClass: "",
+								initialFocus: null,
+								textDirection: sap.ui.core.TextDirection.Inherit
+							});
+							that.getView().byId("fgPutAwayBinId").setValue("");
+
+						}
+
+					});
+
+				} else {
+
+					var sRouter = sap.ui.core.UIComponent.getRouterFor(this);
+					sRouter.navTo("ScanHU", true);
+
+				}
+			}, 1500);
+
+		},
 		onSubmit: function (oEvent) {
 			var oRef = this;
 			var tempVar = oRef.getView().byId("id1").getValue();
